@@ -1,0 +1,44 @@
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px;
+}
+
+/* 2 dp */
+.filterChip,
+.clearChip {
+  display: flex;
+  overflow: hidden;
+  /* max-width: 256px; */
+  white-space: nowrap;
+  /* text-overflow: ellipsis; */
+  align-items: center;
+  flex-basis: content;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  padding: 0 12px;
+  margin: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filterChip:hover,
+.clearChip:hover {
+  /* font-weight: bold; */
+  color: #fff;
+  background-color: #a50034;
+}
+
+.clearChip {
+  font-weight: bold;
+  color: #a50034;
+}
+
+/* .clearChip:hover {
+  background-color: #4a4a4a;
+} */

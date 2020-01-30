@@ -1,0 +1,21 @@
+/* .banner .title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Open Sans";
+  font-size: 2.2rem;
+  color: #fff;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 60px;
+  text-shadow: 1.5px 1.5px 1.5px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  position: relative;
+} */
+
+.banner img {
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  z-index: 1;
+}

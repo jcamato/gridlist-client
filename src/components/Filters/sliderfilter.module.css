@@ -1,0 +1,68 @@
+.sliderFilter {
+  white-space: nowrap;
+  color: #fff;
+  background-color: #274046;
+  padding: 20px;
+  margin-bottom: 2px;
+  font-size: 14px;
+}
+
+.disableSelect {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.filterTitle {
+  font-weight: bold;
+  font-size: 1rem;
+  padding-bottom: 15px;
+}
+
+.sliderContainer {
+  padding: 0px 6px;
+}
+
+.valuesContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.values {
+  border-radius: 6px;
+  /* width: 52px;
+  height: 30px; */
+  cursor: text;
+  padding: 5px 10px;
+  background-color: #142828;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* RWieruch slider */
+.slider {
+  position: relative;
+  border-radius: 5px;
+  background: #142828;
+  height: 10px;
+}
+
+.thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  position: relative;
+  top: -5px;
+  background: #34b9e0;
+  cursor: pointer;
+}
