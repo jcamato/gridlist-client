@@ -3,7 +3,7 @@ import React from "react";
 // import List from "../components/List";
 // import Browsescroll from "./browsescroll";
 // import Browsefilters from "./browsefilters";
-import Browselift from "./browselift";
+// import Browselift from "./browselift";
 
 function Test() {
   let style = {
@@ -13,7 +13,7 @@ function Test() {
   return (
     <div className="App">
       <h1 style={style}>Test Components</h1>
-      <Browselift />
+      {/* <Browselift /> */}
     </div>
   );
 }

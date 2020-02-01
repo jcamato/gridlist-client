@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import _ from "lodash";
 
 // Constants
 import * as Constants from "../constants";
@@ -7,9 +8,9 @@ import * as Constants from "../constants";
 // Components
 import MovieCard from "../components/MovieCard/MovieCard";
 import SelectMenu from "../components/SelectMenu/SelectMenu";
-// import FilterChips from "../components/FilterChips/FilterChips";
-import CheckboxFilter from "../components/Filters/CheckboxFilter";
-// import SliderFilter from "../components/Filters/SliderFilter";
+import FilterChips from "../components/FilterChips/FilterChips";
+import CheckboxList from "../components/Filters/CheckboxList";
+import SliderRange from "../components/Filters/SliderRange";
 
 import useInfiniteScroll from "../components/useInfiniteScroll";
 
@@ -24,22 +25,75 @@ const Browse = () => {
 
   const [sort, setSort] = useState("popularity");
   const [sortDirection, setSortDirection] = useState("desc");
-  const [filters, setFilters] = useState("");
-
-  // const [releaseFilter, setReleaseFilter] = useState("");
-
-  // const test = () => {
-  //   const filter = `&primary_release_date.gte=${min}&primary_release_date.lte=${max}`;
-  // };
 
   const initialNextPage = 2;
   const [nextPage, setNextPage] = useState(initialNextPage);
 
+  const initialFilters = [
+    {
+      name: "Genre",
+      query: "&with_genres",
+      defaultValue: [],
+      currentValue: [],
+      prepareValueForQuery: value => {
+        return value;
+      }
+    },
+    {
+      name: "Release GTE",
+      query: "&primary_release_date.gte",
+      defaultValue: 1896,
+      currentValue: 1896,
+      prepareValueForQuery: value => {
+        return `${value}-01-01`;
+      }
+    },
+    {
+      name: "Release LTE",
+      query: "&primary_release_date.lte",
+      defaultValue: 2021,
+      currentValue: 2021,
+      prepareValueForQuery: value => {
+        return `${value}-12-31`;
+      }
+    },
+    {
+      name: "Runtime GTE",
+      query: "&with_runtime.gte",
+      defaultValue: 0,
+      currentValue: 0,
+      prepareValueForQuery: value => {
+        return value;
+      }
+    },
+    {
+      name: "Runtime LTE",
+      query: "&with_runtime.lte",
+      defaultValue: 240,
+      currentValue: 240,
+      prepareValueForQuery: value => {
+        return value;
+      }
+    },
+    {
+      name: "Cast & Crew",
+      query: "&with_people",
+      defaultValue: [],
+      currentValue: [],
+      prepareValueForQuery: value => {
+        return value;
+      }
+    }
+  ];
+
+  const [filters, setFilters] = useState(initialFilters);
+  let filterQuery = "";
+
   // For now use vote_count.gte until I can weigh the scores myself
-  const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filters}`;
-  const fetchLog = `&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filters}`;
+  // const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
 
   useEffect(() => {
+    makeFilterQuery();
     resetNextPage();
     getMovies();
   }, [sort, sortDirection, filters]);
@@ -49,14 +103,18 @@ const Browse = () => {
   };
 
   const getMovies = async () => {
+    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchLog = `&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    console.log(`fetchLog: ${fetchLog}`);
     const response = await fetch(fetchCall);
     const data = await response.json();
     setMovies(data.results);
-    console.log(`fetchLog: ${fetchLog}`);
     console.log(data.results);
   };
 
   const getMoreMovies = async () => {
+    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchLog = `&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     const nextFetchCall = `${fetchCall}&page=${nextPage}`;
     const nextFetchLog = `${fetchLog}&page=${nextPage}`;
     console.log(`nextFetchLog: ${nextFetchLog}`);
@@ -68,40 +126,74 @@ const Browse = () => {
     setNextPage(prevPage => prevPage + 1);
   };
 
+  const updateFilters = filterUpdateInfo => {
+    const newFilters = _.cloneDeep(filters);
+    const indexOfFilter = newFilters.findIndex(
+      f => f.name === filterUpdateInfo.name
+    );
+
+    if (indexOfFilter < 0) {
+      console.log("Tried to update filter that couldn't be found");
+      return;
+    }
+
+    _.set(
+      newFilters,
+      `[${indexOfFilter}].currentValue`,
+      filterUpdateInfo.newValue
+    );
+
+    setFilters(newFilters);
+  };
+
+  const clearFilters = () => {
+    setFilters(initialFilters);
+  };
+
+  const makeFilterQuery = () => {
+    console.log(filters);
+
+    const currentFilters = filters.filter(
+      // deep comparison
+      filter => !_.isEqual(filter.defaultValue, filter.currentValue)
+    );
+
+    filterQuery = currentFilters
+      .map(
+        filter =>
+          `${filter.query}=${filter.prepareValueForQuery(filter.currentValue)}`
+      )
+      .join("");
+  };
+
   const [isFetching, setIsFetching] = useInfiniteScroll(getMoreMovies);
 
   return (
     <div className="browseMain">
       <section className="filterMenu">
-        {/* <SliderFilter
+        <SliderRange
           title="Release"
-          min={1896}
-          max={2020}
           unit="Years"
-          qString="primary_release_date"
-          qMinExtra="-01-01"
-          qMaxExtra="-12-31"
-          sendFilter={newFilter => {
-            setFilters(newFilter);
-          }}
-        /> */}
-        <CheckboxFilter
-          onToggle={newFilter => {
-            setFilters(newFilter);
-          }}
+          lowerName="Release GTE"
+          upperName="Release LTE"
+          currentFilters={filters}
+          updateFilters={updateFilters}
         />
-        {/* <SliderFilter
+        <CheckboxList
+          title="Genre"
+          name="Genre"
+          content={Constants.genres}
+          currentFilters={filters}
+          updateFilters={updateFilters}
+        />
+        <SliderRange
           title="Runtime"
-          min={0}
-          max={240}
           unit="Minutes"
-          qString="with_runtime"
-          qMinExtra=""
-          qMaxExtra=""
-          sendFilter={newFilter => {
-            setFilters(newFilter);
-          }}
-        /> */}
+          lowerName="Runtime GTE"
+          upperName="Runtime LTE"
+          currentFilters={filters}
+          updateFilters={updateFilters}
+        />
         <div className="filterWidget"></div>
         <div className="filterWidget"></div>
         <div className="filterWidget"></div>
@@ -136,7 +228,11 @@ const Browse = () => {
         </div>
       </header>
       <main className="moviesContainer">
-        {/* <FilterChips /> */}
+        <FilterChips
+          currentFilters={filters}
+          updateFilters={updateFilters}
+          clearFilters={clearFilters}
+        />
         <div className="movieGrid">
           {movies.map(movie => {
             return (

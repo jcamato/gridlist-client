@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import style from "./sliderfilter.module.css";
+import style from "./sliderrange.module.css";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   }
 });
 
-const SliderFilter = props => {
+const SliderRange = props => {
   // MUI's implementation for this prop
   function valuetext(value) {
     return `${props.title} ${value} ${props.unit}`;
@@ -80,4 +80,4 @@ const SliderFilter = props => {
   );
 };
 
-export default SliderFilter;
+export default SliderRange;
