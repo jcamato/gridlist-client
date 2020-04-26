@@ -15,6 +15,7 @@
 .env
 /src/archive
 /src/constants/data
+/src/pages/games
 
 # other
 REACTREADME.md

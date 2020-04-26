@@ -41,7 +41,7 @@ const CheckboxList = props => {
   return (
     <div className={props.className}>
       <div className={style.checkboxlist}>
-        <div className={style.filtertitle}>Genre</div>
+        <div className={style.filtertitle}>{props.title}</div>
         <ul>
           <li>
             <div>

@@ -60,22 +60,29 @@ const MovieDetail = ({ match }) => {
             allowFullScreen
           ></iframe> */}
         </div>
-        <div className="infobar">
-          <div className="release_date">
-            <h4>Release Date:</h4>
-            <p>{movie.release_date}</p>
-          </div>
-          <div className="runtime">
-            <h4>Runtime:</h4>
-            <p>{movie.runtime} minutes</p>
-          </div>
-          <div className="budget">
-            <h4>Budget:</h4>
-            <p>${movie.budget}</p>
-          </div>
-          <div className="revenue">
-            <h4>Revenue:</h4>
-            <p>${movie.revenue}</p>
+        <div className="info">
+          <div className="infobar">
+            <div className="release_date">
+              <h4>Release Date:</h4>
+              <p>{movie.release_date}</p>
+            </div>
+            <div className="runtime">
+              <h4>Runtime:</h4>
+              <p>{movie.runtime} minutes</p>
+            </div>
+            <div className="budget">
+              <h4>Budget:</h4>
+              <p>${movie.budget}</p>
+            </div>
+            <div className="revenue">
+              <h4>Revenue:</h4>
+              <p>${movie.revenue}</p>
+            </div>
+            <div>Test 1 al;skjdf</div>
+            <div>Test 2 al;skjdf</div>
+            <div>Test 3 al;skjdf</div>
+            <div>Test 4 al;skjdf kasdkjfhks</div>
+            <div>Test 5 al;skjdf</div>
           </div>
         </div>
       </div>
