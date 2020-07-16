@@ -1,19 +1,11 @@
 import React, { Fragment } from "react";
 import style from "./authmodal.module.css";
 
-const RegisterModal = (props) => {
+const LoginModal = (props) => {
   return (
     <Fragment>
       <form className={[style.formContainer, "disableSelect"].join(" ")}>
-        <h2 className={style.title}>Create an account</h2>
-        <input
-          type="text"
-          name="username"
-          // value={username}
-          placeholder="username"
-          // onChange={(e) => onChange(e)}
-          className={style.input}
-        />
+        <h2 className={style.title}>Login to your account</h2>
         <input
           type="text"
           name="email"
@@ -36,4 +28,4 @@ const RegisterModal = (props) => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;

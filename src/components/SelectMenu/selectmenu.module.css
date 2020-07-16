@@ -49,11 +49,7 @@
   width: 200px;
   overflow: hidden;
   background-color: #fff;
-  z-index: 2;
-}
-
-.displayNone {
-  display: none;
+  z-index: 7;
 }
 
 .dropdown ul {

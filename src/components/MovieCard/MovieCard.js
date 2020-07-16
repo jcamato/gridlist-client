@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import style from "./moviecard.module.css";
+import useOutsideClick from "../useOutsideClick";
 
 // MovieCard + Hover Overlay
-const MovieCard = props => {
+const MovieCard = (props) => {
   const [display, setDisplay] = useState(false);
 
   const handleHover = () => {
     setDisplay(!display);
   };
+
+  const ref = useRef();
+
+  // FIX: sometimes an individual overlay stays shown. This is a temporary adjustment to reset it with an outside click.
+  useOutsideClick(ref, () => {
+    if (display) {
+      setDisplay(false);
+    }
+  });
 
   const overlayRef = React.createRef();
 
@@ -19,6 +29,7 @@ const MovieCard = props => {
   return (
     <div className={style.movie}>
       <div
+        ref={ref}
         className={style.movieCard}
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
@@ -28,7 +39,11 @@ const MovieCard = props => {
         {/* <p className="score">{score}</p> */}
       </div>
       {/* <div className={display ? style.overlay : style.null}>Test</div> */}
-      <div className={display ? style.overlay : style.null} ref={overlayRef}>
+      <div
+        title="Card overlay"
+        className={display ? style.overlay : "displayNone"}
+        ref={overlayRef}
+      >
         <div className={style.content}>
           <div className={style.header}>
             <h2 className={style.title}>{props.title}</h2>

@@ -7,11 +7,7 @@
   height: 300px;
 }
 
-.displayNone {
-  display: none;
-}
-
-.modal {
+/* .modal {
   display: flex;
   position: fixed;
   top: 0;
@@ -22,7 +18,7 @@
   background-color: rgb(0, 0, 0, 0.8);
   width: 100vw;
   height: 100vh;
-}
+} */
 
 .formContainer {
   display: flex;
@@ -33,7 +29,7 @@
   background: #fff;
   padding: 2rem;
   width: 24rem;
-  min-height: 21rem;
+  /* min-height: 21rem; */
 }
 
 .formContainer:hover {

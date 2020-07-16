@@ -27,10 +27,6 @@
   position: relative;
 }
 
-.null {
-  display: none;
-}
-
 .overlay {
   display: flex;
   position: absolute;

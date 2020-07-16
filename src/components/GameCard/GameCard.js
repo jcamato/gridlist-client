@@ -28,7 +28,7 @@ const GameCard = (props) => {
         {/* <p className="score">{score}</p> */}
       </div>
       {/* <div className={display ? style.overlay : style.null}>Test</div> */}
-      <div className={display ? style.overlay : style.null} ref={overlayRef}>
+      <div className={display ? style.overlay : "displayNone"} ref={overlayRef}>
         <div className={style.content}>
           <div className={style.header}>
             <h2 className={style.title}>{props.title}</h2>
