@@ -1,19 +1,24 @@
 import React from "react";
 
-// import List from "../components/List";
-// import Browsescroll from "./browsescroll";
-// import Browsefilters from "./browsefilters";
-// import Browselift from "./browselift";
+// import Browsegames from "./games/browse-games.js";
+import RegisterModal from "../components/Auth/RegisterModal";
 
 function Test() {
   let style = {
-    color: "#34b9e0"
+    backgroundColor: "lightgrey",
+    height: "100vh",
+  };
+
+  let h1style = {
+    color: "#34b9e0",
   };
 
   return (
     <div className="App">
-      <h1 style={style}>Test Components</h1>
-      {/* <Browselift /> */}
+      <div style={style}>
+        <h1 style={h1style}>Test Components</h1>
+        {/* <RegisterModal /> */}
+      </div>
     </div>
   );
 }

@@ -4,7 +4,7 @@
   grid-template-rows: 85px auto;
   grid-template-areas:
     "filters header header"
-    "filters movies ads";
+    "filters items ads";
 }
 
 .filterMenu {
@@ -34,8 +34,9 @@
   align-items: center;
 }
 
-.moviesContainer {
-  grid-area: movies;
+.moviesContainer,
+.gamesContainer {
+  grid-area: items;
   margin: 8px auto;
 }
 
@@ -60,8 +61,14 @@ the most sense to set the parent div style there. */
   margin: 0 10px;
 }
 
-.movieGrid {
+.movieGrid,
+.gameGrid {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.movieList {
+  display: flex;
+  flex-direction: column;
 }

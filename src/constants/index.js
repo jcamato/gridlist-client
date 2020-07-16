@@ -1,6 +1,10 @@
 // Images
 export const basePImageURL = "http://image.tmdb.org/t/p/w342";
 export const baseBDImageURL = "http://image.tmdb.org/t/p/w780";
+export const baseIGDBposterURL =
+  "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/";
+export const baseIGDBcoverURL =
+  "https://images.igdb.com/igdb/image/upload/t_720p/";
 
 // Select Menus
 export const sortOptions = [
@@ -8,12 +12,12 @@ export const sortOptions = [
   { value: "release_date", icon: "date_range", display: "Release Date" },
   { value: "popularity", icon: "whatshot", display: "Popularity" },
   { value: "original_title", icon: "sort_by_alpha", display: "Title" },
-  { value: "revenue", icon: "attach_money", display: "Revenue" }
+  { value: "revenue", icon: "attach_money", display: "Revenue" },
 ];
 
 export const sortDirectionOptions = [
   { value: "desc", icon: "keyboard_arrow_down", display: "Descending" },
-  { value: "asc", icon: "keyboard_arrow_up", display: "Ascending" }
+  { value: "asc", icon: "keyboard_arrow_up", display: "Ascending" },
 ];
 
 export const genres = [
@@ -35,5 +39,5 @@ export const genres = [
   { id: 10770, name: "TV Movie" },
   { id: 53, name: "Thriller" },
   { id: 10752, name: "War" },
-  { id: 37, name: "Western" }
+  { id: 37, name: "Western" },
 ];

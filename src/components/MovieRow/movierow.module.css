@@ -1,0 +1,29 @@
+.movies {
+  /* flex: 1; */
+}
+
+.movieRow {
+  display: flex;
+  background: white;
+  /* width: 100%; */
+  /* justify-content: space-between; */
+  align-items: center;
+  border: 1px solid lightskyblue;
+}
+
+.textLink {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.title {
+  /* font-weight: bold; */
+  /* line-height: 1.5rem; */
+  /* color: orangered; */
+}
+
+.score {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}

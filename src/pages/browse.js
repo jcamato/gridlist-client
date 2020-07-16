@@ -7,6 +7,7 @@ import * as Constants from "../constants";
 
 // Components
 import MovieCard from "../components/MovieCard/MovieCard";
+// import MovieRow from "../components/MovieRow/MovieRow";
 import SelectMenu from "../components/SelectMenu/SelectMenu";
 import FilterChips from "../components/FilterChips/FilterChips";
 import CheckboxList from "../components/Filters/CheckboxList";
@@ -35,55 +36,55 @@ const Browse = () => {
       query: "&with_genres",
       defaultValue: [],
       currentValue: [],
-      prepareValueForQuery: value => {
+      prepareValueForQuery: (value) => {
         return value;
-      }
+      },
     },
     {
       name: "Release GTE",
       query: "&primary_release_date.gte",
       defaultValue: 1896,
       currentValue: 1896,
-      prepareValueForQuery: value => {
+      prepareValueForQuery: (value) => {
         return `${value}-01-01`;
-      }
+      },
     },
     {
       name: "Release LTE",
       query: "&primary_release_date.lte",
       defaultValue: 2021,
       currentValue: 2021,
-      prepareValueForQuery: value => {
+      prepareValueForQuery: (value) => {
         return `${value}-12-31`;
-      }
+      },
     },
     {
       name: "Runtime GTE",
       query: "&with_runtime.gte",
       defaultValue: 0,
       currentValue: 0,
-      prepareValueForQuery: value => {
+      prepareValueForQuery: (value) => {
         return value;
-      }
+      },
     },
     {
       name: "Runtime LTE",
       query: "&with_runtime.lte",
       defaultValue: 240,
       currentValue: 240,
-      prepareValueForQuery: value => {
+      prepareValueForQuery: (value) => {
         return value;
-      }
+      },
     },
     {
       name: "Cast & Crew",
       query: "&with_people",
       defaultValue: [],
       currentValue: [],
-      prepareValueForQuery: value => {
+      prepareValueForQuery: (value) => {
         return value;
-      }
-    }
+      },
+    },
   ];
 
   const [filters, setFilters] = useState(initialFilters);
@@ -104,6 +105,7 @@ const Browse = () => {
 
   const getMovies = async () => {
     const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const serverCall = `http://localhost:5000/movies?&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     const fetchLog = `&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     console.log(`fetchLog: ${fetchLog}`);
     const response = await fetch(fetchCall);
@@ -121,15 +123,15 @@ const Browse = () => {
     const response = await fetch(nextFetchCall);
     const data = await response.json();
     console.log(data.results);
-    setMovies(prevMovies => [...prevMovies, ...data.results]);
+    setMovies((prevMovies) => [...prevMovies, ...data.results]);
     setIsFetching(false);
-    setNextPage(prevPage => prevPage + 1);
+    setNextPage((prevPage) => prevPage + 1);
   };
 
-  const updateFilters = filterUpdateInfo => {
+  const updateFilters = (filterUpdateInfo) => {
     const newFilters = _.cloneDeep(filters);
     const indexOfFilter = newFilters.findIndex(
-      f => f.name === filterUpdateInfo.name
+      (f) => f.name === filterUpdateInfo.name
     );
 
     if (indexOfFilter < 0) {
@@ -155,12 +157,12 @@ const Browse = () => {
 
     const currentFilters = filters.filter(
       // deep comparison
-      filter => !_.isEqual(filter.defaultValue, filter.currentValue)
+      (filter) => !_.isEqual(filter.defaultValue, filter.currentValue)
     );
 
     filterQuery = currentFilters
       .map(
-        filter =>
+        (filter) =>
           `${filter.query}=${filter.prepareValueForQuery(filter.currentValue)}`
       )
       .join("");
@@ -211,7 +213,7 @@ const Browse = () => {
             defaultDisplay="Popularity"
             defaultIcon="whatshot"
             content={Constants.sortOptions}
-            onSelect={newSort => {
+            onSelect={(newSort) => {
               setSort(newSort);
             }}
           />
@@ -221,7 +223,7 @@ const Browse = () => {
             defaultDisplay="Descending"
             defaultIcon="keyboard_arrow_down"
             content={Constants.sortDirectionOptions}
-            onSelect={newSortDirection => {
+            onSelect={(newSortDirection) => {
               setSortDirection(newSortDirection);
             }}
           />
@@ -233,8 +235,9 @@ const Browse = () => {
           updateFilters={updateFilters}
           clearFilters={clearFilters}
         />
+
         <div className="movieGrid">
-          {movies.map(movie => {
+          {movies.map((movie) => {
             return (
               <Link key={movie.id} to={`/movie/${movie.id}`}>
                 <MovieCard
@@ -252,6 +255,24 @@ const Browse = () => {
             );
           })}
         </div>
+
+        {/* <div className="movieList">
+          {movies.map((movie, index) => {
+            return (
+              <MovieRow
+                // Row props
+                key={movie.id}
+                id={movie.id}
+                // poster={Constants.basePImageURL + movie.poster_path}
+                title={movie.title}
+                score={movie.vote_average * 10}
+                year={movie.release_date.substr(0, 4)}
+                rank={index + 1}
+              />
+            );
+          })}
+        </div> */}
+
         {isFetching && "Fetching more movies..."}
       </main>
       <aside className="adContainer"></aside>
