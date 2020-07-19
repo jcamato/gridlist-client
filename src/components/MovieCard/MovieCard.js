@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import style from "./moviecard.module.css";
 import useOutsideClick from "../useOutsideClick";
+import { UserContext } from "../../UserContext";
 
 // MovieCard + Hover Overlay
 const MovieCard = (props) => {
+  const [auth] = useContext(UserContext);
   const [display, setDisplay] = useState(false);
 
   const handleHover = () => {
@@ -12,7 +14,9 @@ const MovieCard = (props) => {
 
   const ref = useRef();
 
-  // FIX: sometimes an individual overlay stays shown. This is a temporary adjustment to reset it with an outside click.
+  // FIX:
+  // - sometimes an individual overlay stays shown.This is a temporary adjustment to reset it with an outside click.
+  // - overlays spill off screen if on the right side
   useOutsideClick(ref, () => {
     if (display) {
       setDisplay(false);
@@ -29,14 +33,16 @@ const MovieCard = (props) => {
   return (
     <div className={style.movie}>
       <div
-        ref={ref}
         className={style.movieCard}
+        ref={ref}
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
       >
+        {display && auth && <div className={style.libraryButton}></div>}
         <img className={style.poster} src={props.poster} alt="" />
         {/* display data for current sort? */}
         {/* <p className="score">{score}</p> */}
+        {/* {auth && <p>auth true</p>} */}
       </div>
       {/* <div className={display ? style.overlay : style.null}>Test</div> */}
       <div

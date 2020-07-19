@@ -13,18 +13,28 @@
 }
 
 .movieCard:hover {
-  filter: brightness(85%);
+  filter: brightness(75%);
 }
 
 .movieCard .poster {
   margin: 0 auto;
   width: 11.3rem;
   object-fit: cover;
+  position: relative;
+  z-index: 2;
 }
 
 .movie {
   display: flex;
   position: relative;
+}
+
+.libraryButton {
+  height: 50px;
+  width: 50px;
+  background-color: greenyellow;
+  position: absolute;
+  z-index: 3;
 }
 
 .overlay {

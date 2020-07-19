@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import React, { Fragment, useState, useRef, useContext } from "react";
 import style from "./navbar.module.css";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -7,9 +7,12 @@ import Logo from "../../assets/img/logo.svg";
 import RegisterModal from "../Auth/RegisterModal";
 import LoginModal from "../Auth/LoginModal";
 import useOutsideClick from "../useOutsideClick";
+import { UserContext } from "../../UserContext";
 
 const Navbar = () => {
   const history = useHistory();
+
+  const [auth, setAuth] = useContext(UserContext);
 
   const [search, setSearch] = useState("");
 
@@ -54,31 +57,30 @@ const Navbar = () => {
     setLoginModalActive((prevActive) => !prevActive);
   };
 
-  const checkAuth = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/auth/verify", {
-        method: "GET",
-        headers: { jwt_token: localStorage.token },
-      });
+  // const checkAuth = async () => {
+  //   try {
+  //     const res = await fetch("http://localhost:5000/auth/verify", {
+  //       method: "GET",
+  //       headers: { jwt_token: localStorage.token },
+  //     });
 
-      const parseRes = await res.json();
+  //     const parseRes = await res.json();
 
-      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-    } catch (err) {
-      console.log("it is here");
-      console.error(err.message);
-    }
-  };
+  //     parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const setAuth = (boolean) => {
-    setIsAuthenticated(boolean);
-  };
+  // const setAuth = (boolean) => {
+  //   setIsAuthenticated(boolean);
+  // };
 
   const logout = async (e) => {
     e.preventDefault();
@@ -129,7 +131,7 @@ const Navbar = () => {
             <Link className={style.navlink} to="/test">
               <li>Test</li>
             </Link>
-            {!isAuthenticated && (
+            {!auth && (
               <Fragment>
                 <div className={style.navlink} onClick={toggleRegisterModal}>
                   <li>Sign Up</li>
@@ -139,7 +141,7 @@ const Navbar = () => {
                 </div>
               </Fragment>
             )}
-            {isAuthenticated && (
+            {auth && (
               <Fragment>
                 <div className={style.navlink}>
                   <li>Profile</li>

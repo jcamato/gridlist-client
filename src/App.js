@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { UserProvider } from "./UserContext";
 import { toast } from "react-toastify";
 
 // import logo from './logo.svg';
@@ -27,21 +28,23 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <Route path="/" exact component={Home} />
-          {/* <Route path="/browse" exact component={Browse} /> */}
-          <Route path="/movies" exact component={Browse} />
-          <Route path="/games" exact component={BrowseGames} />
-          <Route path="/movie/:id" component={MovieDetail} />
-          <Route path="/library" component={Library} />
+      <UserProvider>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            {/* <Route path="/browse" exact component={Browse} /> */}
+            <Route path="/movies" exact component={Browse} />
+            <Route path="/games" exact component={BrowseGames} />
+            <Route path="/movie/:id" component={MovieDetail} />
+            <Route path="/library" component={Library} />
 
-          <Route path="/test" component={Test} />
+            <Route path="/test" component={Test} />
 
-          <Route path="/search" component={SearchResults} />
-        </Switch>
-      </div>
+            <Route path="/search" component={SearchResults} />
+          </Switch>
+        </div>
+      </UserProvider>
     </Router>
   );
 }
