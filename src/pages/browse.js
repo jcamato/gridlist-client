@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
+// assets
+import null_movie from "../assets/img/null_movie.png";
+
 // Constants
 import * as Constants from "../constants";
 
@@ -91,7 +94,7 @@ const Browse = () => {
   let filterQuery = "";
 
   // For now use vote_count.gte until I can weigh the scores myself
-  // const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+  // const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
 
   useEffect(() => {
     makeFilterQuery();
@@ -103,10 +106,16 @@ const Browse = () => {
     setNextPage(initialNextPage);
   };
 
+  // FIX:
+  // - Refactor these two fetches into one function
+  // - Add progress indicator during fetch loads
+  // - Filters are not preserved across additional pages
+  // - Filters need to display the associated text
+  // - Coming back to page resets filters, sort, etc.
   const getMovies = async () => {
-    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    const serverCall = `http://localhost:5000/movies?&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    const fetchLog = `&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    // const serverCall = `http://localhost:5000/movies?&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     console.log(`fetchLog: ${fetchLog}`);
     const response = await fetch(fetchCall);
     const data = await response.json();
@@ -115,8 +124,8 @@ const Browse = () => {
   };
 
   const getMoreMovies = async () => {
-    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    const fetchLog = `&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     const nextFetchCall = `${fetchCall}&page=${nextPage}`;
     const nextFetchLog = `${fetchLog}&page=${nextPage}`;
     console.log(`nextFetchLog: ${nextFetchLog}`);
@@ -243,7 +252,12 @@ const Browse = () => {
                 <MovieCard
                   // Card props
                   key={movie.id}
-                  poster={Constants.basePImageURL + movie.poster_path}
+                  // poster={Constants.basePImageURL + movie.poster_path}
+                  poster={
+                    movie.poster_path
+                      ? Constants.basePImageURL + movie.poster_path
+                      : null_movie
+                  }
                   // Overlay props
                   title={movie.title}
                   score={movie.vote_average * 10}

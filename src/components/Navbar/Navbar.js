@@ -1,6 +1,7 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import style from "./navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 // import Logo from "../../assets/img/logo.png";
 import Logo from "../../assets/img/logo.svg";
 import RegisterModal from "../Auth/RegisterModal";
@@ -8,6 +9,24 @@ import LoginModal from "../Auth/LoginModal";
 import useOutsideClick from "../useOutsideClick";
 
 const Navbar = () => {
+  const history = useHistory();
+
+  const [search, setSearch] = useState("");
+
+  const updateSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const sendToSearch = (e) => {
+    e.preventDefault();
+    history.push({
+      pathname: "/search",
+      // search: "?query=abc",
+      state: { query: search },
+    });
+    setSearch("");
+  };
+
   const [registerModalActive, setRegisterModalActive] = useState(false);
   const [loginModalActive, setLoginModalActive] = useState(false);
 
@@ -17,17 +36,16 @@ const Navbar = () => {
   useOutsideClick(refRegister, () => {
     if (registerModalActive) {
       toggleRegisterModal();
-      // console.log("Outside click detected");
     }
   });
 
   useOutsideClick(refLogin, () => {
     if (loginModalActive) {
       toggleLoginModal();
-      // console.log("Outside click detected");
     }
   });
 
+  // FIX: Auth modals need to toggle on successful submission
   const toggleRegisterModal = () => {
     setRegisterModalActive((prevActive) => !prevActive);
   };
@@ -36,9 +54,46 @@ const Navbar = () => {
     setLoginModalActive((prevActive) => !prevActive);
   };
 
+  const checkAuth = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/auth/verify", {
+        method: "GET",
+        headers: { jwt_token: localStorage.token },
+      });
+
+      const parseRes = await res.json();
+
+      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+    } catch (err) {
+      console.log("it is here");
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const setAuth = (boolean) => {
+    setIsAuthenticated(boolean);
+  };
+
+  const logout = async (e) => {
+    e.preventDefault();
+    try {
+      localStorage.removeItem("token");
+      setAuth(false);
+      toast.success("Logged out successfully");
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return (
     <Fragment>
-      <div className={style.navbar}>
+      <div className={[style.navbar, "disableSelect"].join(" ")}>
         <div className={style.container}>
           <ul className={style.left}>
             <Link className={style.navlink} to="/">
@@ -55,20 +110,45 @@ const Navbar = () => {
             <Link className={style.navlink} to="/library">
               <li>Library</li>
             </Link>
-            <div className={style.navlink}>
-              <li>Search</li>
+            <div className={style.search}>
+              <form className={style.searchContainer} onSubmit={sendToSearch}>
+                <div className={style.searchBarLeft}>
+                  <i className="material-icons">search</i>
+                </div>
+                <input
+                  className={style.searchBarRight}
+                  placeholder="Search"
+                  type="text"
+                  value={search}
+                  onChange={updateSearch}
+                />
+              </form>
             </div>
           </ul>
           <ul className={style.right}>
             <Link className={style.navlink} to="/test">
               <li>Test</li>
             </Link>
-            <div className={style.navlink} onClick={toggleRegisterModal}>
-              <li>Sign Up</li>
-            </div>
-            <div className={style.navlink} onClick={toggleLoginModal}>
-              <li>Login</li>
-            </div>
+            {!isAuthenticated && (
+              <Fragment>
+                <div className={style.navlink} onClick={toggleRegisterModal}>
+                  <li>Sign Up</li>
+                </div>
+                <div className={style.navlink} onClick={toggleLoginModal}>
+                  <li>Login</li>
+                </div>
+              </Fragment>
+            )}
+            {isAuthenticated && (
+              <Fragment>
+                <div className={style.navlink}>
+                  <li>Profile</li>
+                </div>
+                <div className={style.navlink} onClick={logout}>
+                  <li>Logout</li>
+                </div>
+              </Fragment>
+            )}
           </ul>
         </div>
       </div>
@@ -76,17 +156,19 @@ const Navbar = () => {
       {registerModalActive && (
         <div className={style.modalBackground}>
           <div ref={refRegister}>
-            <RegisterModal />
+            <RegisterModal setAuth={setAuth} />
           </div>
         </div>
       )}
       {loginModalActive && (
         <div className={style.modalBackground}>
           <div ref={refLogin}>
-            <LoginModal />
+            <LoginModal setAuth={setAuth} />
           </div>
         </div>
       )}
+
+      {/* {query && <Link to={`/search`} query={query}></Link>} */}
     </Fragment>
   );
 };

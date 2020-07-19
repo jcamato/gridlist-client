@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { toast } from "react-toastify";
+
 // import logo from './logo.svg';
 
 // Components and Pages
@@ -11,11 +13,15 @@ import Browse from "./pages/browse";
 import BrowseGames from "./pages/games/browse-games";
 import MovieDetail from "./pages/moviedetail";
 import Library from "./pages/library";
+import SearchResults from "./pages/searchresults";
 
 import Test from "./pages/test";
 
 // Styles
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure();
 
 function App() {
   return (
@@ -32,6 +38,8 @@ function App() {
           <Route path="/library" component={Library} />
 
           <Route path="/test" component={Test} />
+
+          <Route path="/search" component={SearchResults} />
         </Switch>
       </div>
     </Router>
