@@ -1,4 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
+import { Link } from "react-router-dom";
 import style from "./moviecard.module.css";
 import useOutsideClick from "../useOutsideClick";
 import { UserContext } from "../../UserContext";
@@ -25,10 +26,35 @@ const MovieCard = (props) => {
 
   const overlayRef = React.createRef();
 
-  // if (display) {
-  //   const bounding = overlayRef.current.getBoundingClientRect();
-  //   console.log(bounding);
-  // }
+  const onClick = async (tmdb_id, library_category_id) => {
+    // e.preventDefault();
+    try {
+      const myHeaders = new Headers();
+
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("jwt_token", localStorage.token);
+
+      const body = { tmdb_id, library_category_id };
+      const response = await fetch(
+        "http://localhost:5000/profile/library/movie",
+        {
+          method: "POST",
+          headers: myHeaders,
+          body: JSON.stringify(body),
+        }
+      );
+
+      const parseResponse = await response.json();
+
+      console.log(parseResponse);
+
+      // setTodosChange(true);
+      // setDescription("");
+      // window.location = "/";
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   return (
     <div className={style.movie}>
@@ -38,8 +64,21 @@ const MovieCard = (props) => {
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
       >
-        {display && auth && <div className={style.libraryButton}></div>}
-        <img className={style.poster} src={props.poster} alt="" />
+        {display && auth && (
+          <div
+            onClick={() => onClick(props.tmdb_id, 1)}
+            className={style.libraryButton}
+          >
+            Want to Watch
+          </div>
+        )}
+        <Link
+          key={props.tmdb_id}
+          to={`/movie/${props.tmdb_id}`}
+          className={style.link}
+        >
+          <img className={style.poster} src={props.poster} alt="" />
+        </Link>
         {/* display data for current sort? */}
         {/* <p className="score">{score}</p> */}
         {/* {auth && <p>auth true</p>} */}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 // assets
 import null_movie from "../assets/img/null_movie.png";
@@ -43,23 +42,22 @@ const SearchResults = (props) => {
       <div className="movieGrid">
         {movies.map((movie) => {
           return (
-            <Link key={movie.id} to={`/movie/${movie.id}`}>
-              <MovieCard
-                // Card props
-                key={movie.id}
-                poster={
-                  movie.poster_path
-                    ? Constants.basePImageURL + movie.poster_path
-                    : null_movie
-                }
-                // Overlay props
-                title={movie.title}
-                score={movie.vote_average * 10}
-                year={movie.release_date && movie.release_date.substr(0, 4)}
-                description={movie.overview}
-                background={Constants.baseBDImageURL + movie.backdrop_path}
-              />
-            </Link>
+            <MovieCard
+              key={movie.id}
+              // Card props
+              tmdb_id={movie.id}
+              poster={
+                movie.poster_path
+                  ? Constants.basePImageURL + movie.poster_path
+                  : null_movie
+              }
+              // Overlay props
+              title={movie.title}
+              score={movie.vote_average * 10}
+              year={movie.release_date && movie.release_date.substr(0, 4)}
+              description={movie.overview}
+              background={Constants.baseBDImageURL + movie.backdrop_path}
+            />
           );
         })}
       </div>
