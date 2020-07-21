@@ -4,6 +4,22 @@ import style from "./moviecard.module.css";
 import useOutsideClick from "../useOutsideClick";
 import { UserContext } from "../../UserContext";
 
+import { withStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+
+const LightTooltip = withStyles((theme) => ({
+  arrow: {
+    color: theme.palette.common.white,
+  },
+  tooltip: {
+    fontFamily: "Open Sans",
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
+
 // MovieCard + Hover Overlay
 const MovieCard = (props) => {
   const [auth] = useContext(UserContext);
@@ -35,14 +51,11 @@ const MovieCard = (props) => {
       myHeaders.append("jwt_token", localStorage.token);
 
       const body = { tmdb_id, library_category_id };
-      const response = await fetch(
-        "http://localhost:5000/profile/library/movie",
-        {
-          method: "POST",
-          headers: myHeaders,
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch("http://localhost:5000/library/movie", {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify(body),
+      });
 
       const parseResponse = await response.json();
 
@@ -64,12 +77,32 @@ const MovieCard = (props) => {
         onMouseEnter={handleHover}
         onMouseLeave={handleHover}
       >
+        {/* <div
+              onClick={() => onClick(props.tmdb_id, 1)}
+              className={style.libraryButton}
+            >
+              Want to Watch
+            </div> */}
         {display && auth && (
-          <div
-            onClick={() => onClick(props.tmdb_id, 1)}
-            className={style.libraryButton}
-          >
-            Want to Watch
+          <div className={style.libActionContainer}>
+            <LightTooltip title="Want to Watch" placement="top" arrow>
+              <i
+                onClick={() => onClick(props.tmdb_id, 1)}
+                className="material-icons"
+              >
+                schedule
+              </i>
+            </LightTooltip>
+            {/* Include for TV and Games */}
+            {/* <LightTooltip title="Watching" placement="top" arrow>
+              <i className="material-icons">visibility</i>
+            </LightTooltip> */}
+            <LightTooltip title="Watched" placement="top" arrow>
+              <i className="material-icons">done</i>
+            </LightTooltip>
+            <LightTooltip title="Edit Library Entry" placement="top" arrow>
+              <i className="material-icons">more_horiz</i>
+            </LightTooltip>
           </div>
         )}
         <Link

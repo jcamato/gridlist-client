@@ -19,9 +19,9 @@ const Library = (props) => {
   const [movies, setMovies] = useState([]);
   const [movie, setMovie] = useState([]);
 
-  const getProfile = async () => {
+  const getLibrary = async () => {
     try {
-      const res = await fetch("http://localhost:5000/profile/library/movie", {
+      const res = await fetch("http://localhost:5000/library/movie", {
         method: "GET",
         headers: { jwt_token: localStorage.token },
       });
@@ -58,7 +58,7 @@ const Library = (props) => {
   };
 
   useEffect(() => {
-    getProfile();
+    getLibrary();
 
     // console.log(movies);
   }, []);

@@ -14,20 +14,20 @@
   overflow: hidden;
 }
 
-.movieCard:hover {
-  filter: brightness(75%);
-}
-
-.movieCard .link {
+.link {
   display: flex;
 }
 
-.movieCard .poster {
+.poster {
   margin: 0 auto;
   width: 11.3rem;
   object-fit: cover;
   position: relative;
   z-index: 2;
+}
+
+.poster:hover {
+  filter: brightness(75%);
 }
 
 .movie {
@@ -45,6 +45,35 @@
   position: absolute;
   z-index: 3;
   bottom: 0.8rem;
+}
+
+.libActionContainer {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-evenly;
+  width: calc(100% - 1rem);
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  border-radius: 5px;
+  color: #fff;
+  background-color: rgb(20, 40, 40, 0.9);
+  /* background-color: #fff; */
+  position: absolute;
+  z-index: 3;
+  bottom: 0.5rem;
+
+  cursor: default;
+}
+
+.libActionContainer i {
+  /* border: 0.5px solid red;
+  background: black; */
+  cursor: pointer;
+}
+
+.libActionContainer i:hover {
+  /* color: rgb(240, 240, 240); */
+  color: rgb(224, 224, 224);
 }
 
 .libraryButton:hover {
@@ -69,7 +98,7 @@
   overflow: hidden;
 }
 
-.overlay .content {
+.content {
   display: flex;
   position: absolute;
   flex-direction: column;
@@ -80,17 +109,17 @@
   color: #fff;
 }
 
-.overlay .title {
+.title {
   font-weight: bold;
   line-height: 1.8rem;
 }
 
-.overlay .header {
+.header {
   display: flex;
   justify-content: space-between;
 }
 
-.overlay .background {
+.background {
   position: absolute;
   opacity: 0.8;
   z-index: 1;

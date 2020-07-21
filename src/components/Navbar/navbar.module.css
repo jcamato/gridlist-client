@@ -10,7 +10,7 @@
   overflow: hidden;
 }
 
-.navbar .container {
+.container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: 0 auto;
@@ -26,7 +26,7 @@
   list-style: none;
 }
 
-.navbar .logoContainer {
+.logoContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,33 +38,33 @@
   object-fit: contain;
 }
 
-.navbar .left {
+.left {
   justify-self: flex-start;
 }
 
-.navbar .right {
+.right {
   justify-self: flex-end;
 }
 
-.navbar .navlink {
+.navlink {
   padding: 0 16px;
   text-decoration: none;
   color: white;
   cursor: pointer;
 }
 
-.navbar .navlink:hover {
+.navlink:hover {
   color: #4bc2ff;
 }
 
-.navbar .search {
+.search {
   padding: 0 16px;
   text-decoration: none;
   color: white;
   cursor: text;
 }
 
-.navbar .search:hover {
+.search:hover {
   color: #4bc2ff;
 }
 

@@ -1,7 +1,8 @@
 import React from "react";
 
 // import Browsegames from "./games/browse-games.js";
-import RegisterModal from "../components/Auth/RegisterModal";
+// import RegisterModal from "../components/Auth/RegisterModal";
+import LibraryEntryModal from "../components/Modals/LibraryEntry/LibraryEntryModal";
 
 function Test() {
   let style = {
@@ -17,7 +18,7 @@ function Test() {
     <div className="App">
       <div style={style}>
         <h1 style={h1style}>Test Components</h1>
-        {/* <RegisterModal /> */}
+        <LibraryEntryModal />
       </div>
     </div>
   );

@@ -4,8 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 // import Logo from "../../assets/img/logo.png";
 import Logo from "../../assets/img/logo.svg";
-import RegisterModal from "../Auth/RegisterModal";
-import LoginModal from "../Auth/LoginModal";
+import RegisterModal from "../Modals/Auth/RegisterModal";
+import LoginModal from "../Modals/Auth/LoginModal";
 import useOutsideClick from "../useOutsideClick";
 import { UserContext } from "../../UserContext";
 

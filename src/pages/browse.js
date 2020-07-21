@@ -288,7 +288,18 @@ const Browse = () => {
 
         {isFetching && "Fetching more movies..."}
       </main>
-      <aside className="adContainer"></aside>
+      <aside className="adContainer">
+        <div>
+          Movie data powered by{" "}
+          <a
+            href="https://www.themoviedb.org/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            TMDb
+          </a>
+        </div>
+      </aside>
     </div>
   );
 };
