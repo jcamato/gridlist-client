@@ -37,7 +37,9 @@ const SearchResults = (props) => {
 
   return (
     <div className="searchresultsMain">
-      <h3>{movies.length} movies found</h3>
+      <h3>
+        {movies.length} movies where the title includes "{query}"
+      </h3>
 
       <div className="movieGrid">
         {movies.map((movie) => {

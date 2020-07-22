@@ -13,8 +13,8 @@ import MovieCard from "../components/MovieCard/MovieCard";
 // import MovieRow from "../components/MovieRow/MovieRow";
 import SelectMenu from "../components/SelectMenu/SelectMenu";
 import FilterChips from "../components/FilterChips/FilterChips";
-import CheckboxList from "../components/Filters/CheckboxList";
-import SliderRange from "../components/Filters/SliderRange";
+import CheckboxList from "../components/Filter/CheckboxList";
+import SliderRange from "../components/Filter/SliderRange";
 
 import useInfiniteScroll from "../components/useInfiniteScroll";
 

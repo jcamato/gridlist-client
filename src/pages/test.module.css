@@ -1,0 +1,22 @@
+.testMain {
+  display: grid;
+  grid-template-columns: 224px 6fr 1fr;
+  grid-template-rows: 6rem 85px auto;
+  grid-template-areas:
+    "filters top top"
+    "filters header header"
+    "filters content ads";
+}
+
+.testTop {
+  grid-area: top;
+  margin: 1rem auto;
+}
+
+.testItem {
+  grid-area: filters;
+}
+
+.content {
+  grid-area: content;
+}
