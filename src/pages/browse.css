@@ -22,20 +22,19 @@
   align-items: center;
   background: #f5f5f5;
   border-bottom: 1px solid #bebebe;
-  padding-right: 208px;
+  padding-right: 175px;
 }
 
 .header h1 {
   padding: 32px;
 }
 
-.sortGroup {
+.selectGroup {
   display: flex;
   align-items: center;
 }
 
-.moviesContainer,
-.gamesContainer {
+.mainContent {
   grid-area: items;
   margin: 8px auto;
 }
@@ -51,24 +50,4 @@
   height: 100px;
   margin-bottom: 2px;
   padding: 10px;
-}
-
-/* These components use the generic dropdown.css, but I'm not sure what the best approach is
-for setting these component level styles. If they had a dedicated css file, it would make
-the most sense to set the parent div style there. */
-.SortMenu,
-.SortDirectionMenu {
-  margin: 0 10px;
-}
-
-.movieGrid,
-.gameGrid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.movieList {
-  display: flex;
-  flex-direction: column;
 }

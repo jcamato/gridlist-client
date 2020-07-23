@@ -1,0 +1,43 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  /* flex-wrap: wrap; */
+  /* justify-content: space-around; */
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr 1fr;
+  grid-template-rows: 3rem;
+  grid-template-areas: "rank title release score";
+  color: #fff;
+  background-color: #142828;
+  border-radius: 0.8rem 0.8rem 0 0;
+}
+
+.gridItem {
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  min-width: 0;
+}
+
+.rank {
+  grid-area: rank;
+  margin: 0 auto;
+}
+
+.title {
+  grid-area: title;
+}
+
+.release {
+  grid-area: release;
+  margin: 0 auto;
+}
+
+.score {
+  grid-area: score;
+  margin: 0 auto;
+}

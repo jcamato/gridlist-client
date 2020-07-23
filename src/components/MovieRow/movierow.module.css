@@ -1,29 +1,51 @@
-.movies {
-  /* flex: 1; */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr 1fr;
+  grid-template-rows: 1.8rem;
+  grid-template-areas: "rank title release score";
+  width: 60vw;
 }
 
-.movieRow {
+/* FIX: borders are additive. Outer edges appear 1px, while inner edges appear 2px */
+.gridItem {
   display: flex;
-  background: white;
-  /* width: 100%; */
-  /* justify-content: space-between; */
   align-items: center;
-  border: 1px solid lightskyblue;
+  padding: 0 5px;
+  border: 1px solid #274046;
+  min-width: 0;
 }
 
-.textLink {
+.rank {
+  grid-area: rank;
+  margin: 0 auto;
+}
+
+.link {
+  grid-area: title;
+  min-width: 0;
   color: inherit;
   text-decoration: inherit;
 }
 
 .title {
-  /* font-weight: bold; */
-  /* line-height: 1.5rem; */
-  /* color: orangered; */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.release {
+  grid-area: release;
+  margin: 0 auto;
 }
 
 .score {
+  grid-area: score;
   display: flex;
-  justify-content: center;
-  justify-items: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.icon {
+  font-size: 14px;
+  color: #ffc107;
 }

@@ -9,14 +9,16 @@ import null_movie from "../assets/img/null_movie.png";
 import * as Constants from "../constants";
 
 // Components
+import Grid from "../components/Grid/Grid";
+import List from "../components/List/List";
 import MovieCard from "../components/MovieCard/MovieCard";
-// import MovieRow from "../components/MovieRow/MovieRow";
+import MovieRow from "../components/MovieRow/MovieRow";
 import SelectMenu from "../components/SelectMenu/SelectMenu";
 import FilterChips from "../components/FilterChips/FilterChips";
 import CheckboxList from "../components/Filter/CheckboxList";
 import SliderRange from "../components/Filter/SliderRange";
 
-import useInfiniteScroll from "../components/useInfiniteScroll";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 // Styles
 import "./browse.css";
@@ -27,68 +29,14 @@ const Browse = () => {
 
   const [movies, setMovies] = useState([]);
 
+  const [view, setView] = useState("grid");
   const [sort, setSort] = useState("popularity");
   const [sortDirection, setSortDirection] = useState("desc");
 
   const initialNextPage = 2;
   const [nextPage, setNextPage] = useState(initialNextPage);
 
-  const initialFilters = [
-    {
-      name: "Genre",
-      query: "&with_genres",
-      defaultValue: [],
-      currentValue: [],
-      prepareValueForQuery: (value) => {
-        return value;
-      },
-    },
-    {
-      name: "Release GTE",
-      query: "&primary_release_date.gte",
-      defaultValue: 1896,
-      currentValue: 1896,
-      prepareValueForQuery: (value) => {
-        return `${value}-01-01`;
-      },
-    },
-    {
-      name: "Release LTE",
-      query: "&primary_release_date.lte",
-      defaultValue: 2021,
-      currentValue: 2021,
-      prepareValueForQuery: (value) => {
-        return `${value}-12-31`;
-      },
-    },
-    {
-      name: "Runtime GTE",
-      query: "&with_runtime.gte",
-      defaultValue: 0,
-      currentValue: 0,
-      prepareValueForQuery: (value) => {
-        return value;
-      },
-    },
-    {
-      name: "Runtime LTE",
-      query: "&with_runtime.lte",
-      defaultValue: 240,
-      currentValue: 240,
-      prepareValueForQuery: (value) => {
-        return value;
-      },
-    },
-    {
-      name: "Cast & Crew",
-      query: "&with_people",
-      defaultValue: [],
-      currentValue: [],
-      prepareValueForQuery: (value) => {
-        return value;
-      },
-    },
-  ];
+  const initialFilters = Constants.movieFilters;
 
   const [filters, setFilters] = useState(initialFilters);
   let filterQuery = "";
@@ -183,6 +131,14 @@ const Browse = () => {
     <div className="browseMain">
       <section className="filterMenu">
         <SliderRange
+          title="Score"
+          unit="Percent"
+          lowerName="Score GTE"
+          upperName="Score LTE"
+          currentFilters={filters}
+          updateFilters={updateFilters}
+        />
+        <SliderRange
           title="Release"
           unit="Years"
           lowerName="Release GTE"
@@ -205,20 +161,32 @@ const Browse = () => {
           currentFilters={filters}
           updateFilters={updateFilters}
         />
+        {/* <div className="filterWidget"></div>
         <div className="filterWidget"></div>
         <div className="filterWidget"></div>
         <div className="filterWidget"></div>
         <div className="filterWidget"></div>
-        <div className="filterWidget"></div>
-        <div className="filterWidget"></div>
+        <div className="filterWidget"></div> */}
       </section>
       <header className="header">
         <h1>Movies</h1>
-
-        <div className="sortGroup">
+        <div className="selectGroup">
+          <p>View:</p>
+          <SelectMenu
+            width="9rem"
+            defaultDisplay="Grid"
+            defaultIcon="view_module"
+            content={Constants.viewOptions}
+            onSelect={(newView) => {
+              if (newView === "list") {
+                getMoreMovies();
+              }
+              setView(newView);
+            }}
+          />
           <p>Sort:</p>
           <SelectMenu
-            className="SortMenu"
+            width="12.5rem"
             defaultDisplay="Popularity"
             defaultIcon="whatshot"
             content={Constants.sortOptions}
@@ -228,7 +196,7 @@ const Browse = () => {
           />
           <p>Direction:</p>
           <SelectMenu
-            className="SortDirectionMenu"
+            width="12.5rem"
             defaultDisplay="Descending"
             defaultIcon="keyboard_arrow_down"
             content={Constants.sortDirectionOptions}
@@ -238,53 +206,55 @@ const Browse = () => {
           />
         </div>
       </header>
-      <main className="moviesContainer">
+      <main className="mainContent">
         <FilterChips
           currentFilters={filters}
           updateFilters={updateFilters}
           clearFilters={clearFilters}
         />
 
-        <div className="movieGrid">
-          {movies.map((movie) => {
-            return (
-              <MovieCard
-                key={movie.id}
-                // Card props
-                tmdb_id={movie.id}
-                // poster={Constants.basePImageURL + movie.poster_path}
-                poster={
-                  movie.poster_path
-                    ? Constants.basePImageURL + movie.poster_path
-                    : null_movie
-                }
-                // Overlay props
-                title={movie.title}
-                score={movie.vote_average * 10}
-                year={movie.release_date.substr(0, 4)}
-                description={movie.overview}
-                background={Constants.baseBDImageURL + movie.backdrop_path}
-              />
-            );
-          })}
-        </div>
-
-        {/* <div className="movieList">
-          {movies.map((movie, index) => {
-            return (
-              <MovieRow
-                // Row props
-                key={movie.id}
-                id={movie.id}
-                // poster={Constants.basePImageURL + movie.poster_path}
-                title={movie.title}
-                score={movie.vote_average * 10}
-                year={movie.release_date.substr(0, 4)}
-                rank={index + 1}
-              />
-            );
-          })}
-        </div> */}
+        {view === "grid" ? (
+          <Grid>
+            {movies.map((movie) => {
+              return (
+                <MovieCard
+                  key={movie.id}
+                  // Card props
+                  tmdb_id={movie.id}
+                  // poster={Constants.basePImageURL + movie.poster_path}
+                  poster={
+                    movie.poster_path
+                      ? Constants.basePImageURL + movie.poster_path
+                      : null_movie
+                  }
+                  // Overlay props
+                  title={movie.title}
+                  score={movie.vote_average * 10}
+                  year={movie.release_date.substr(0, 4)}
+                  description={movie.overview}
+                  background={Constants.baseBDImageURL + movie.backdrop_path}
+                />
+              );
+            })}
+          </Grid>
+        ) : (
+          <List>
+            {movies.map((movie, index) => {
+              return (
+                <MovieRow
+                  key={movie.id}
+                  // Row props
+                  tmdb_id={movie.id}
+                  // poster={Constants.basePImageURL + movie.poster_path}
+                  title={movie.title}
+                  score={movie.vote_average * 10}
+                  year={movie.release_date.substr(0, 4)}
+                  rank={index + 1}
+                />
+              );
+            })}
+          </List>
+        )}
 
         {isFetching && "Fetching more movies..."}
       </main>

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { UserProvider } from "./UserContext";
+import { UserProvider } from "./contexts/UserContext";
 import { toast } from "react-toastify";
 
 // import logo from './logo.svg';
@@ -37,9 +37,9 @@ function App() {
             <Route path="/movies" exact component={Browse} />
             <Route path="/games" exact component={BrowseGames} />
             <Route path="/movie/:id" component={MovieDetail} />
-            <Route path="/library" component={Library} />
+            <Route path="/library" exact component={Library} />
 
-            <Route path="/test" component={Test} />
+            <Route path="/test" exact component={Test} />
 
             <Route path="/search" component={SearchResults} />
           </Switch>

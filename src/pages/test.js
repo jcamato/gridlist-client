@@ -4,6 +4,10 @@ import React from "react";
 // import RegisterModal from "../components/Auth/RegisterModal";
 // import LibraryEntryModal from "../components/Modal/LibraryEntry/LibraryEntryModal";
 import FilterContainer from "../components/FilterContainer/FilterContainer";
+// import SelectMenu from "../components/SelectMenu/SelectMenu";
+
+// Constants
+// import * as Constants from "../constants";
 
 // Styles
 import style from "./test.module.css";
@@ -17,7 +21,23 @@ function Test() {
       <div className={style.testItem}>
         <FilterContainer />
       </div>
-      <div className={style.content}></div>
+      <div className={style.content}>
+        {/* <SelectMenu
+          defaultDisplay="Grid"
+          defaultIcon="view_module"
+          content={Constants.viewOptions}
+        />
+        <SelectMenu
+          defaultDisplay="Popularity"
+          defaultIcon="whatshot"
+          content={Constants.sortOptions}
+        />
+        <SelectMenu
+          defaultDisplay="Descending"
+          defaultIcon="keyboard_arrow_down"
+          content={Constants.sortDirectionOptions}
+        /> */}
+      </div>
     </div>
   );
 }

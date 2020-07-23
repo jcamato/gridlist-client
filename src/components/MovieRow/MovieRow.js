@@ -4,20 +4,26 @@ import style from "./movierow.module.css";
 
 const MovieRow = (props) => {
   return (
-    <div className={style.movies}>
-      <div className={style.movieRow}>
-        <p className={style.rank}>{props.rank}</p>
+    <div className={style.row}>
+      <div className={style.gridItem}>
+        <div className={style.rank}>{props.rank}</div>
+      </div>
+      <div className={style.gridItem}>
         <Link
-          className={style.textLink}
-          key={props.id}
-          to={`/movie/${props.id}`}
+          className={style.link}
+          key={props.tmdb_id}
+          to={`/movie/${props.tmdb_id}`}
         >
-          <h4 className={style.title}>{props.title}</h4>
+          <div className={style.title}>{props.title}</div>
         </Link>
-        <p className={style.year}>{props.year}</p>
+      </div>
+      <div className={style.gridItem}>
+        <div className={style.release}>{props.year}</div>
+      </div>
+      <div className={style.gridItem}>
         <div className={style.score}>
-          <i className="material-icons">star</i>
-          <h3>{props.score}</h3>
+          <i className={["material-icons", style.icon].join(" ")}>star</i>
+          <div>{props.score}</div>
         </div>
       </div>
     </div>

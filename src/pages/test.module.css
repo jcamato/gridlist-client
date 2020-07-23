@@ -1,10 +1,9 @@
 .testMain {
   display: grid;
   grid-template-columns: 224px 6fr 1fr;
-  grid-template-rows: 6rem 85px auto;
+  grid-template-rows: 6rem auto;
   grid-template-areas:
     "filters top top"
-    "filters header header"
     "filters content ads";
 }
 
@@ -19,4 +18,5 @@
 
 .content {
   grid-area: content;
+  display: flex;
 }

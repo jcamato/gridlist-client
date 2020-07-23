@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 import Logo from "../../assets/img/logo.svg";
 import RegisterModal from "../Modal/Auth/RegisterModal";
 import LoginModal from "../Modal/Auth/LoginModal";
-import useOutsideClick from "../useOutsideClick";
-import { UserContext } from "../../UserContext";
+import useOutsideClick from "../../hooks/useOutsideClick";
+import { UserContext } from "../../contexts/UserContext";
 
 const Navbar = () => {
   const history = useHistory();

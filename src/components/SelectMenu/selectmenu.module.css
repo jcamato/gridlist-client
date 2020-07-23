@@ -1,14 +1,30 @@
+.small {
+  width: 8rem;
+}
+
+.medium {
+  width: 12.5rem;
+}
+
+.selectMenu {
+  margin: 0 10px;
+  /* display: flex;
+  flex-direction: column; */
+  /* font-size: 1rem; */
+}
+
 .button {
   display: flex;
   position: relative;
+  /* position: absolute; */
   align-items: center;
   justify-content: flex-start;
   border: 1px solid rgb(150, 150, 150);
   border-radius: 6px;
   cursor: pointer;
   padding: 0 12px;
-  width: 200px;
-  height: 50px;
+  /* width: 200px; */
+  height: 2.8rem;
   overflow: hidden;
   background-color: #fff;
 }
@@ -17,14 +33,6 @@
   display: flex;
   align-items: center;
   padding: 0 6px;
-}
-
-.disableSelect {
-  user-select: none; /* supported by Chrome and Opera */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .button:hover {
@@ -36,17 +44,20 @@
   align-items: center;
   justify-content: center; */
   position: absolute;
+  /* position: relative; */
   right: 8px;
 }
 
 .dropdown {
   display: flex;
   position: absolute;
+  /* position: relative; */
   justify-content: flex-start;
   border-radius: 6px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
     0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  width: 200px;
+  /* width: auto; */
+  /* width: 200px; */
   overflow: hidden;
   background-color: #fff;
   z-index: 7;
@@ -64,7 +75,7 @@
   cursor: pointer;
   padding: 8px 12px;
   /* line-height: 2; */
-  height: 50px;
+  height: 2.8rem;
 }
 
 .dropdown .selected {

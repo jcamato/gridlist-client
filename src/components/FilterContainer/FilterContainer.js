@@ -15,6 +15,23 @@ const FilterContainer = () => {
     { id: 8, filter: "test8" },
   ];
 
+  // let sliderProps = {
+  //   title: "Release",
+  //   unit: "Years",
+  //   lowerName: "Release GTE",
+  //   upperName: "Release LTE",
+  //   currentFilters: { filters },
+  //   updateFilters: { updateFilters }
+  // }
+
+  // let checkBoxProps = {
+  //   title:"Genre",
+  //   name:"Genre",
+  //   content:{ Constants.genres },
+  //   currentFilters:{ filters },
+  //   updateFilters:{ updateFilters },
+  // }
+
   return (
     <Fragment>
       {/* component here */}

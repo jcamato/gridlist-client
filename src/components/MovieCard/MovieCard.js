@@ -1,8 +1,8 @@
 import React, { useState, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import style from "./moviecard.module.css";
-import useOutsideClick from "../useOutsideClick";
-import { UserContext } from "../../UserContext";
+import useOutsideClick from "../../hooks/useOutsideClick";
+import { UserContext } from "../../contexts/UserContext";
 
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";

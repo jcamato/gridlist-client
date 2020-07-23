@@ -7,6 +7,11 @@ export const baseIGDBcoverURL =
   "https://images.igdb.com/igdb/image/upload/t_720p/";
 
 // Select Menus
+export const viewOptions = [
+  { value: "grid", icon: "view_module", display: "Grid" },
+  { value: "list", icon: "list", display: "List" },
+];
+
 export const sortOptions = [
   { value: "vote_average", icon: "star", display: "Score" },
   { value: "release_date", icon: "date_range", display: "Release Date" },
@@ -20,6 +25,7 @@ export const sortDirectionOptions = [
   { value: "asc", icon: "keyboard_arrow_up", display: "Ascending" },
 ];
 
+// FIX: fetch from GET /genre/movie/list every 24 hours from server
 export const genres = [
   { id: 28, name: "Action" },
   { id: 12, name: "Adventure" },
@@ -40,4 +46,80 @@ export const genres = [
   { id: 53, name: "Thriller" },
   { id: 10752, name: "War" },
   { id: 37, name: "Western" },
+];
+
+// Filters
+export const movieFilters = [
+  {
+    name: "Genre",
+    query: "&with_genres",
+    defaultValue: [],
+    currentValue: [],
+    prepareValueForQuery: (value) => {
+      return value;
+    },
+  },
+  {
+    name: "Score GTE",
+    query: "&vote_average.gte",
+    defaultValue: 0,
+    currentValue: 0,
+    prepareValueForQuery: (value) => {
+      return value / 10;
+    },
+  },
+  {
+    name: "Score LTE",
+    query: "&vote_average.lte",
+    defaultValue: 100,
+    currentValue: 100,
+    prepareValueForQuery: (value) => {
+      return value / 10;
+    },
+  },
+  {
+    name: "Release GTE",
+    query: "&primary_release_date.gte",
+    defaultValue: 1896,
+    currentValue: 1896,
+    prepareValueForQuery: (value) => {
+      return `${value}-01-01`;
+    },
+  },
+  {
+    name: "Release LTE",
+    query: "&primary_release_date.lte",
+    defaultValue: 2021,
+    currentValue: 2021,
+    prepareValueForQuery: (value) => {
+      return `${value}-12-31`;
+    },
+  },
+  {
+    name: "Runtime GTE",
+    query: "&with_runtime.gte",
+    defaultValue: 0,
+    currentValue: 0,
+    prepareValueForQuery: (value) => {
+      return value;
+    },
+  },
+  {
+    name: "Runtime LTE",
+    query: "&with_runtime.lte",
+    defaultValue: 240,
+    currentValue: 240,
+    prepareValueForQuery: (value) => {
+      return value;
+    },
+  },
+  {
+    name: "Cast & Crew",
+    query: "&with_people",
+    defaultValue: [],
+    currentValue: [],
+    prepareValueForQuery: (value) => {
+      return value;
+    },
+  },
 ];

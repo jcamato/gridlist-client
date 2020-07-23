@@ -1,3 +1,9 @@
+/* Removes autofill highlighting */
+input:-webkit-autofill {
+  box-shadow: 0 0 0 200px white inset;
+  -webkit-box-shadow: 0 0 0 200px white inset;
+}
+
 .formContainer {
   display: flex;
   flex-direction: column;

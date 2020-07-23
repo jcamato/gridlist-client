@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import style from "./selectmenu.module.css";
-import useOutsideClick from "../useOutsideClick";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 const SelectMenu = (props) => {
   const [active, setActive] = useState(false);
@@ -20,10 +20,12 @@ const SelectMenu = (props) => {
   };
 
   return (
-    <div className={props.className}>
+    // FIX: Instead of passing a width prop, make width dynamic depending on content that fills it
+    <div className={style.selectMenu}>
       <div
         onClick={toggleDropdown}
-        className={[style.button, style.disableSelect].join(" ")}
+        style={{ width: props.width }}
+        className={[style.button, "disableSelect"].join(" ")}
       >
         <div>
           <i className="material-icons">{icon}</i>
@@ -36,8 +38,12 @@ const SelectMenu = (props) => {
         </div>
       </div>
       {active && (
-        <div ref={ref} className={style.dropdown}>
-          <ul className={style.disableSelect}>
+        <div
+          ref={ref}
+          style={{ width: props.width }}
+          className={[style.dropdown, "disableSelect"].join(" ")}
+        >
+          <ul>
             {props.content.map((option) => {
               return (
                 <li
