@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
 import _ from "lodash";
 
 // assets
@@ -18,6 +17,7 @@ import FilterChips from "../components/FilterChips/FilterChips";
 import CheckboxList from "../components/Filter/CheckboxList";
 import SliderRange from "../components/Filter/SliderRange";
 
+// Hooks
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 // Styles
@@ -56,7 +56,7 @@ const Browse = () => {
 
   // FIX:
   // - Refactor these two fetches into one function
-  // - Add progress indicator during fetch loads
+  // - Add progress indicator at bottom during fetch loads
   // - Filters are not preserved across additional pages
   // - Filters need to display the associated text
   // - Coming back to page resets filters, sort, etc.
@@ -64,6 +64,7 @@ const Browse = () => {
     const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     // const serverCall = `http://localhost:5000/movies?&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    console.log(`filterQuery: ${filterQuery}`);
     console.log(`fetchLog: ${fetchLog}`);
     const response = await fetch(fetchCall);
     const data = await response.json();
@@ -74,6 +75,7 @@ const Browse = () => {
   const getMoreMovies = async () => {
     const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
     const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    console.log(`filterQuery: ${filterQuery}`);
     const nextFetchCall = `${fetchCall}&page=${nextPage}`;
     const nextFetchLog = `${fetchLog}&page=${nextPage}`;
     console.log(`nextFetchLog: ${nextFetchLog}`);
@@ -129,7 +131,7 @@ const Browse = () => {
 
   return (
     <div className="browseMain">
-      <section className="filterMenu">
+      <section className="filterContainer">
         <SliderRange
           title="Score"
           unit="Percent"
@@ -259,7 +261,7 @@ const Browse = () => {
         {isFetching && "Fetching more movies..."}
       </main>
       <aside className="adContainer">
-        <div>
+        {/* <div>
           Movie data powered by{" "}
           <a
             href="https://www.themoviedb.org/"
@@ -268,7 +270,7 @@ const Browse = () => {
           >
             TMDb
           </a>
-        </div>
+        </div> */}
       </aside>
     </div>
   );

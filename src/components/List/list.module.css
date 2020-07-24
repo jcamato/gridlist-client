@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   margin: 10px;
-  /* flex-wrap: wrap; */
-  /* justify-content: space-around; */
+  border: 1px solid #274046;
+  border-radius: 0.8rem 0.8rem 0 0;
+  overflow: hidden;
 }
 
 .header {
@@ -13,7 +14,7 @@
   grid-template-areas: "rank title release score";
   color: #fff;
   background-color: #142828;
-  border-radius: 0.8rem 0.8rem 0 0;
+  /* border-radius: 0.8rem 0.8rem 0 0; */
 }
 
 .gridItem {

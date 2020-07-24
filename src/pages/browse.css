@@ -7,9 +7,8 @@
     "filters items ads";
 }
 
-.filterMenu {
+.filterContainer {
   grid-area: filters;
-  /* background-color: #274046; */
   background-color: #142828;
   display: flex;
   flex-direction: column;

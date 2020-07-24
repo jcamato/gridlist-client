@@ -6,7 +6,6 @@
   width: 60vw;
 }
 
-/* FIX: borders are additive. Outer edges appear 1px, while inner edges appear 2px */
 .gridItem {
   display: flex;
   align-items: center;

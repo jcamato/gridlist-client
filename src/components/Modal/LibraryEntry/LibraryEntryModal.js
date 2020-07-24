@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import style from "./libraryentrymodal.module.css";
+import useLockBodyScroll from "../../../hooks/useLockBodyScroll";
 
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -18,6 +19,8 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 const LibraryEntryModal = () => {
+  useLockBodyScroll();
+
   return (
     <Fragment>
       <form

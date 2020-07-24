@@ -48,7 +48,9 @@ const Navbar = () => {
     }
   });
 
-  // FIX: Auth modals need to toggle on successful submission
+  // FIX:
+  // - Auth modals need to toggle on successful submission
+  // - Auth modals need alternative notification and error handling because I don't like toastify
   const toggleRegisterModal = () => {
     setRegisterModalActive((prevActive) => !prevActive);
   };
@@ -56,31 +58,6 @@ const Navbar = () => {
   const toggleLoginModal = () => {
     setLoginModalActive((prevActive) => !prevActive);
   };
-
-  // const checkAuth = async () => {
-  //   try {
-  //     const res = await fetch("http://localhost:5000/auth/verify", {
-  //       method: "GET",
-  //       headers: { jwt_token: localStorage.token },
-  //     });
-
-  //     const parseRes = await res.json();
-
-  //     parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   checkAuth();
-  // }, []);
-
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // const setAuth = (boolean) => {
-  //   setIsAuthenticated(boolean);
-  // };
 
   const logout = async (e) => {
     e.preventDefault();
@@ -95,8 +72,8 @@ const Navbar = () => {
 
   return (
     <Fragment>
-      <div className={[style.navbar, "disableSelect"].join(" ")}>
-        <div className={style.container}>
+      <header className={[style.navbar, "disableSelect"].join(" ")}>
+        <nav className={style.container}>
           <ul className={style.left}>
             <Link className={style.navlink} to="/">
               <li className={style.logoContainer}>
@@ -152,9 +129,9 @@ const Navbar = () => {
               </Fragment>
             )}
           </ul>
-        </div>
-      </div>
-      {/* FIX: when modal is open, user is able to go forward/back pages, as well as scroll */}
+        </nav>
+      </header>
+      {/* FIX: when modal is open, user is able to navigate back/forward pages */}
       {registerModalActive && (
         <div className={style.modalBackground}>
           <div ref={refRegister}>

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import style from "./movierow.module.css";
 
+// FIX: when resizing page, sometimes grid items don't fill container border
 const MovieRow = (props) => {
   return (
     <div className={style.row}>

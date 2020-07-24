@@ -32,7 +32,7 @@ const MovieCard = (props) => {
   const ref = useRef();
 
   // FIX:
-  // - sometimes an individual overlay stays shown.This is a temporary adjustment to reset it with an outside click.
+  // - sometimes an individual overlay stays shown. This is a temporary adjustment to reset it with an outside click.
   // - overlays spill off screen if on the right side
   useOutsideClick(ref, () => {
     if (display) {

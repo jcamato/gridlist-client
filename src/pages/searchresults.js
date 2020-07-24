@@ -7,6 +7,7 @@ import null_movie from "../assets/img/null_movie.png";
 import * as Constants from "../constants";
 
 // Components
+import Grid from "../components/Grid/Grid";
 import MovieCard from "../components/MovieCard/MovieCard";
 
 // Styles
@@ -41,7 +42,7 @@ const SearchResults = (props) => {
         {movies.length} movies where the title includes "{query}"
       </h3>
 
-      <div className="movieGrid">
+      <Grid>
         {movies.map((movie) => {
           return (
             <MovieCard
@@ -62,7 +63,7 @@ const SearchResults = (props) => {
             />
           );
         })}
-      </div>
+      </Grid>
     </div>
   );
 };

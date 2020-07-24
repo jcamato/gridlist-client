@@ -1,9 +1,12 @@
 import React, { Fragment, useState } from "react";
 import style from "./authmodal.module.css";
 
+import useLockBodyScroll from "../../../hooks/useLockBodyScroll";
 import { toast } from "react-toastify";
 
 const RegisterModal = ({ setAuth }) => {
+  useLockBodyScroll();
+
   const [inputs, setInputs] = useState({
     email: "",
     password: "",

@@ -30,7 +30,7 @@ const SliderRange = (props) => {
     (f) => f.name === props.upperName
   ).currentValue;
 
-  // FIX: Lift state up to fix slider not updating with chips
+  // FIX: Lift state up to fix slider not updating with chips?
   const [bounds, setBounds] = useState([min, max]);
 
   const handleChange = (event, newValue) => {
