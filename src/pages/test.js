@@ -18,7 +18,7 @@ function Test() {
       <div className={style.testTop}>
         <h1>Test Components</h1>
       </div>
-      <div className={style.testItem}>{/* <FilterContainer /> */}</div>
+
       <div className={style.content}>
         {/* <SelectMenu
           defaultDisplay="Grid"

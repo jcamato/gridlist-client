@@ -17,6 +17,7 @@ import BrowseGames from "./pages/games/browse-games";
 import MovieDetail from "./pages/moviedetail";
 import Library from "./pages/library";
 import SearchResults from "./pages/searchresults";
+import About from "./pages/about";
 
 import Test from "./pages/test";
 
@@ -43,6 +44,8 @@ function App() {
             <Route path="/test" exact component={Test} />
 
             <Route path="/search" component={SearchResults} />
+
+            <Route path="/about" component={About} />
           </Switch>
           {/* <Footer /> */}
         </div>

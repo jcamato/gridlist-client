@@ -3,8 +3,8 @@
   grid-template-columns: 224px 6fr 1fr;
   grid-template-rows: 6rem auto;
   grid-template-areas:
-    "filters top top"
-    "filters content ads";
+    "top top top"
+    "content content content";
 }
 
 .testTop {
@@ -12,9 +12,9 @@
   margin: 1rem auto;
 }
 
-.testItem {
+/* .testItem {
   grid-area: filters;
-}
+} */
 
 .content {
   grid-area: content;

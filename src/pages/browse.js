@@ -42,7 +42,7 @@ const Browse = () => {
   let filterQuery = "";
 
   // For now use vote_count.gte until I can weigh the scores myself
-  // const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+  // const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
 
   useEffect(() => {
     makeFilterQuery();
@@ -61,9 +61,9 @@ const Browse = () => {
   // - Filters need to display the associated text
   // - Coming back to page resets filters, sort, etc.
   const getMovies = async () => {
-    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    // const serverCall = `http://localhost:5000/movies?&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    // const serverCall = `http://localhost:5000/movies?&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
     console.log(`filterQuery: ${filterQuery}`);
     console.log(`fetchLog: ${fetchLog}`);
     const response = await fetch(fetchCall);
@@ -73,8 +73,8 @@ const Browse = () => {
   };
 
   const getMoreMovies = async () => {
-    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=200&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
+    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
     console.log(`filterQuery: ${filterQuery}`);
     const nextFetchCall = `${fetchCall}&page=${nextPage}`;
     const nextFetchLog = `${fetchLog}&page=${nextPage}`;

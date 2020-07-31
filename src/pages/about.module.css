@@ -1,0 +1,43 @@
+.aboutMain {
+  display: flex;
+  position: relative;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* display: grid;
+  grid-template-columns: 20rem 1fr;
+  grid-template-areas: "side content"; */
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.sideNav {
+  width: 32vw;
+  /* padding-left: calc((100% - 1000px) / 2); */
+
+  /* grid-area: side;
+  width: 20rem;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0; */
+  color: white;
+  background-color: #274046;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 2rem;
+}
+
+.sideNav ul {
+  list-style: none;
+}
+
+.sideNav li {
+  padding-bottom: 6px;
+}
+
+.content {
+  grid-area: content;
+  /* width: 60%; */
+  /* position: relative; */
+  /* background-color: #142828; */
+}

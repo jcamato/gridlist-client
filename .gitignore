@@ -14,8 +14,7 @@
 # development
 .env
 /src/archive
-/src/notes
-/src/constants/data
+/src/development
 /src/pages/games
 
 # other

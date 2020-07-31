@@ -18,6 +18,7 @@ const SearchResults = (props) => {
   const APP_KEY = process.env.REACT_APP_TMDB_KEY;
 
   const [movies, setMovies] = useState([]);
+  const [results, setResults] = useState(undefined);
 
   const query = props.location.state.query;
 
@@ -27,6 +28,9 @@ const SearchResults = (props) => {
     const response = await fetch(fetchCall);
     const data = await response.json();
     setMovies(data.results);
+    setResults(data.total_results);
+
+    console.log(data);
     console.log(data.results);
     console.log(data.results.length);
   };
@@ -39,7 +43,7 @@ const SearchResults = (props) => {
   return (
     <div className="searchresultsMain">
       <h3>
-        {movies.length} movies where the title includes "{query}"
+        {results && `${results} movies where the title includes "${query}"`}
       </h3>
 
       <Grid>
