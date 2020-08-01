@@ -2,29 +2,29 @@ import React from "react";
 import style from "./filterchips.module.css";
 import _ from "lodash";
 
-const FilterChips = props => {
+const FilterChips = (props) => {
   const currentFilters = props.currentFilters.filter(
     // deep comparison
-    filter => !_.isEqual(filter.defaultValue, filter.currentValue)
+    (filter) => !_.isEqual(filter.defaultValue, filter.currentValue)
   );
 
   const isFiltered = currentFilters.length === 0;
 
-  const makeFilterChip = filter => {
-    // take currentFilters and create formatted string
-  };
+  // const makeFilterChip = filter => {
+  //   // take currentFilters and create formatted string
+  // };
 
-  const handleClick = filter => {
+  const handleClick = (filter) => {
     props.updateFilters({
       name: filter.name,
-      newValue: filter.defaultValue
+      newValue: filter.defaultValue,
     });
   };
 
   return (
     <div className={props.className}>
       <div className={style.filterChips}>
-        {currentFilters.map(filter => {
+        {currentFilters.map((filter) => {
           return (
             <div
               key={filter.name}

@@ -25,6 +25,13 @@ export const sortDirectionOptions = [
   { value: "asc", icon: "keyboard_arrow_up", display: "Ascending" },
 ];
 
+// Category Menus
+export const movieCategoryOptions = [
+  { value: 0, text: "all", icon: "select_all", display: "All" },
+  { value: 1, text: "want", icon: "schedule", display: "Want to Watch" },
+  { value: 3, text: "done", icon: "done", display: "Watched" },
+];
+
 // FIX: fetch from GET /genre/movie/list every 24 hours from server
 export const genres = [
   { id: 28, name: "Action" },

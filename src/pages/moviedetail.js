@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // assets
 import null_avatar from "../assets/img/null_avatar.png";
+import null_movie from "../assets/img/null_movie.png";
 
 // Components
 import MemberCard from "../components/MemberCard/MemberCard";
@@ -11,9 +12,6 @@ import MemberCard from "../components/MemberCard/MemberCard";
 import "./moviedetail.css";
 
 const MovieDetail = ({ match }) => {
-  // TMDB
-  const APP_KEY = process.env.REACT_APP_TMDB_KEY;
-
   const basePImageURL = "http://image.tmdb.org/t/p/w500";
   const baseBDImageURL = "http://image.tmdb.org/t/p/original";
 
@@ -27,26 +25,47 @@ const MovieDetail = ({ match }) => {
   }, []);
 
   const getMovie = async () => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${match.params.id}?api_key=${APP_KEY}&append_to_response=credits,videos`
-    );
-    const movie = await response.json();
-    setMovie(movie);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/movie/${match.params.id}`,
+        {
+          method: "GET",
+        }
+      );
 
-    console.log(movie);
-    // console.log(movie.videos);
-    // console.log(movie.videos.results[0]);
-    // console.log(baseBDImageURL + movie.backdrop_path);
-    // console.log(youtubeURL + movie.videos.results[0].key);
-    // genres = _.get(movie.genres, []);
-    // console.log(movie.release_date.substr(0, 4));
-    // console.log(movie.credits.cast);
-    // console.log(movie.credits.crew);
-    // console.log(movie.genres[0].name);
+      const movie = await response.json();
 
-    // get only trailer, then teasers for videos, sorted that way and then by order
-    console.log(movie.videos.results);
+      console.log(movie);
+      setMovie(movie);
+
+      console.log("fetched from Database");
+    } catch (err) {
+      console.error(err.message);
+    }
   };
+
+  // const getMovie = async () => {
+  //   const response = await fetch(
+  //     `https://api.themoviedb.org/3/movie/${match.params.id}?api_key=${APP_KEY}&append_to_response=credits,videos`
+  //   );
+  //   const movie = await response.json();
+  //   setMovie(movie);
+
+  //   console.log("fetched from API");
+  //   console.log(movie);
+  //   // console.log(movie.videos);
+  //   // console.log(movie.videos.results[0]);
+  //   // console.log(baseBDImageURL + movie.backdrop_path);
+  //   // console.log(youtubeURL + movie.videos.results[0].key);
+  //   // genres = _.get(movie.genres, []);
+  //   // console.log(movie.release_date.substr(0, 4));
+  //   // console.log(movie.credits.cast);
+  //   // console.log(movie.credits.crew);
+  //   // console.log(movie.genres[0].name);
+
+  //   // get only trailer, then teasers for videos, sorted that way and then by order
+  //   console.log(movie.results);
+  // };
 
   return (
     <div className="moviedetailMain">
@@ -60,9 +79,7 @@ const MovieDetail = ({ match }) => {
       <div className="titleContainer">
         <div className="title">
           <h1>{movie.title}</h1>
-          {/* <h3>{movie.release_date}</h3> */}
           <h3>{movie.release_date && movie.release_date.substr(0, 4)}</h3>
-          {/* <h3>{movie.release_date.substr(0, 4)}</h3> */}
         </div>
       </div>
       <div className="scoreContainer">
@@ -76,7 +93,9 @@ const MovieDetail = ({ match }) => {
         <div className="stick">
           <img
             className="poster"
-            src={basePImageURL + movie.poster_path}
+            src={
+              movie.poster_path ? basePImageURL + movie.poster_path : null_movie
+            }
             alt=""
           />
           <div className="sideNav">
@@ -102,11 +121,12 @@ const MovieDetail = ({ match }) => {
         <div className="video">
           <iframe
             title={movie.title}
-            src={
-              movie.videos &&
-              movie.videos.results &&
-              youtubeURL + movie.videos.results[0].key
-            }
+            src={movie.results && youtubeURL + movie.results[0].key}
+            // src={
+            //   movie.videos &&
+            //   movie.videos.results &&
+            //   youtubeURL + movie.videos.results[0].key
+            // }
             frameBorder="0"
             allowFullScreen
           />
@@ -114,9 +134,11 @@ const MovieDetail = ({ match }) => {
         <div className="cast">
           <h1>Cast</h1>
           <div className="memberGrid">
-            {movie.credits &&
-              movie.credits.cast &&
-              movie.credits.cast.map((member) => {
+            {/* {movie.credits &&
+          movie.credits.cast &&
+          movie.credits.cast.map((member) => { */}
+            {movie.cast_list &&
+              movie.cast_list.map((member) => {
                 return (
                   <MemberCard
                     key={member.credit_id}
@@ -135,9 +157,11 @@ const MovieDetail = ({ match }) => {
         <div className="crew">
           <h1>Crew</h1>
           <div className="memberGrid">
-            {movie.credits &&
-              movie.credits.crew &&
-              movie.credits.crew.map((member) => {
+            {/* {movie.credits &&
+          movie.credits.crew &&
+          movie.credits.crew.map((member) => { */}
+            {movie.crew &&
+              movie.crew.map((member) => {
                 return (
                   <MemberCard
                     key={member.credit_id}

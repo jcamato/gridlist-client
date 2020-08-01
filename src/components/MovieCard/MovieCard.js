@@ -42,6 +42,8 @@ const MovieCard = (props) => {
 
   const overlayRef = React.createRef();
 
+  // FIX: Need to allow user to switch between Want to Watch and Watched. Currently it errors out because it's already in library
+  // and this is a post
   const onClick = async (tmdb_id, library_category_id) => {
     // e.preventDefault();
     try {
@@ -98,7 +100,12 @@ const MovieCard = (props) => {
               <i className="material-icons">visibility</i>
             </LightTooltip> */}
             <LightTooltip title="Watched" placement="top" arrow>
-              <i className="material-icons">done</i>
+              <i
+                onClick={() => onClick(props.tmdb_id, 3)}
+                className="material-icons"
+              >
+                done
+              </i>
             </LightTooltip>
             <LightTooltip title="Edit Library Entry" placement="top" arrow>
               <i className="material-icons">more_horiz</i>
