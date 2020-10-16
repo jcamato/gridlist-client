@@ -119,6 +119,8 @@ const Browse = () => {
       (filter) => !_.isEqual(filter.defaultValue, filter.currentValue)
     );
 
+    console.log(currentFilters);
+
     filterQuery = currentFilters
       .map(
         (filter) =>

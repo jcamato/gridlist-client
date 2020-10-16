@@ -2,7 +2,7 @@ import React from "react";
 
 // import Browsegames from "./games/browse-games.js";
 // import RegisterModal from "../components/Auth/RegisterModal";
-// import LibraryEntryModal from "../components/Modal/LibraryEntry/LibraryEntryModal";
+import LibraryEntryModal from "../components/Modal/LibraryEntry/LibraryEntryModal";
 // import FilterContainer from "../components/FilterContainer/FilterContainer";
 // import SelectMenu from "../components/SelectMenu/SelectMenu";
 
@@ -35,6 +35,7 @@ function Test() {
           defaultIcon="keyboard_arrow_down"
           content={Constants.sortDirectionOptions}
         /> */}
+        <LibraryEntryModal />
       </div>
     </div>
   );

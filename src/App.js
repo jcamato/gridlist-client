@@ -21,6 +21,8 @@ import About from "./pages/about";
 
 import Test from "./pages/test";
 
+import NotFound from "./pages/notfound";
+
 // Styles
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -46,6 +48,8 @@ function App() {
             <Route path="/search" component={SearchResults} />
 
             <Route path="/about" component={About} />
+
+            <Route component={NotFound} />
           </Switch>
           {/* <Footer /> */}
         </div>

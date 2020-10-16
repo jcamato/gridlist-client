@@ -134,6 +134,18 @@
   padding: 12px 0;
 }
 
+.sideNav .hashLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+#overview,
+#media,
+#cast,
+#crew {
+  padding-top: 20px;
+}
+
 .sideNav h3 {
   cursor: pointer;
   padding: 12px 0 0 0;
@@ -141,8 +153,8 @@
 }
 
 .sideNav h3:hover {
-  /* color: #4bc2ff; */
-  color: #4c6069;
+  color: #4bc2ff;
+  /* color: #4c6069; */
 }
 
 .detailHeader {
