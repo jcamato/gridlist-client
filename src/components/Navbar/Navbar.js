@@ -105,8 +105,11 @@ const Navbar = () => {
             </div>
           </ul>
           <ul className={style.right}>
-            <Link className={style.navlink} to="/test">
-              <li>Test</li>
+            <Link className={style.navlink} to="/test1">
+              <li>Test1</li>
+            </Link>
+            <Link className={style.navlink} to="/test2">
+              <li>Test2</li>
             </Link>
             {!auth && (
               <Fragment>

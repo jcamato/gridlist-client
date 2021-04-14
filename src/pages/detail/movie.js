@@ -2,19 +2,19 @@ import React, { Fragment, useEffect, useState } from "react";
 // import _ from "lodash";
 
 // assets
-import null_avatar from "../assets/img/null_avatar.png";
-import null_movie from "../assets/img/null_movie.png";
+import null_avatar from "../../assets/img/null_avatar.png";
+import null_movie from "../../assets/img/null_movie.png";
 
 // Components
 import { HashLink } from "react-router-hash-link";
 // import HashLinkObserver from "react-hash-link";
-import MemberCard from "../components/MemberCard/MemberCard";
-import Footer from "../components/Footer/Footer";
+import MemberCard from "../../components/MemberCard/MemberCard";
+import Footer from "../../components/Footer/Footer";
 
 // Styles
-import "./moviedetail.css";
+import "./detailmovie.css";
 
-const MovieDetail = ({ match }) => {
+const DetailMovie = ({ match }) => {
   const basePImageURL = "http://image.tmdb.org/t/p/w500";
   const baseBDImageURL = "http://image.tmdb.org/t/p/original";
 
@@ -57,7 +57,7 @@ const MovieDetail = ({ match }) => {
 
   return (
     <Fragment>
-      <div className="moviedetailMain">
+      <div className="detailmovieMain">
         <div className="bg">
           <img
             className="backdrop"
@@ -255,4 +255,4 @@ const MovieDetail = ({ match }) => {
   );
 };
 
-export default MovieDetail;
+export default DetailMovie;

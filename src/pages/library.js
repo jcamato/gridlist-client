@@ -18,7 +18,7 @@ import _ from "lodash";
 
 // Styles
 import style from "./library.module.css";
-import "./browse.css";
+import "./browse/browse.css";
 
 const Library = (props) => {
   const [allMovies, setAllMovies] = useState([]);

@@ -2,28 +2,28 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 
 // assets
-import null_movie from "../assets/img/null_movie.png";
+import null_movie from "../../assets/img/null_movie.png";
 
 // Constants
-import * as Constants from "../constants";
+import * as Constants from "../../constants";
 
 // Components
-import Grid from "../components/Grid/Grid";
-import List from "../components/List/List";
-import MovieCard from "../components/MovieCard/MovieCard";
-import MovieRow from "../components/MovieRow/MovieRow";
-import SelectMenu from "../components/SelectMenu/SelectMenu";
-import FilterChips from "../components/FilterChips/FilterChips";
-import CheckboxList from "../components/Filter/CheckboxList";
-import SliderRange from "../components/Filter/SliderRange";
+import Grid from "../../components/Grid/Grid";
+import List from "../../components/List/List";
+import MovieCard from "../../components/MovieCard/MovieCard";
+import MovieRow from "../../components/MovieRow/MovieRow";
+import SelectMenu from "../../components/SelectMenu/SelectMenu";
+import FilterChips from "../../components/FilterChips/FilterChips";
+import CheckboxList from "../../components/Filter/CheckboxList";
+import SliderRange from "../../components/Filter/SliderRange";
 
 // Hooks
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 // Styles
 import "./browse.css";
 
-const Browse = () => {
+const BrowseMovies = () => {
   // TMDB
   const APP_KEY = process.env.REACT_APP_TMDB_KEY;
 
@@ -278,4 +278,4 @@ const Browse = () => {
   );
 };
 
-export default Browse;
+export default BrowseMovies;

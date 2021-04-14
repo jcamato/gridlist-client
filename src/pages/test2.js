@@ -12,7 +12,7 @@ import LibraryEntryModal from "../components/Modal/LibraryEntry/LibraryEntryModa
 // Styles
 import style from "./test.module.css";
 
-function Test() {
+function Test2() {
   return (
     <div className={style.testMain}>
       <div className={style.testTop}>
@@ -41,4 +41,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default Test2;

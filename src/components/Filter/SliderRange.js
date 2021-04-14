@@ -39,7 +39,7 @@ const SliderRange = (props) => {
   };
 
   const handleCommittedChange = (event, newValue) => {
-    console.log(bounds);
+    // console.log(bounds);
     // console.log(valuetext(newValue));
 
     // send back to update filter if one of the bounds changes

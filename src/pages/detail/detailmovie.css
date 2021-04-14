@@ -1,4 +1,4 @@
-/* .moviedetailMain {
+/* .detailmovieMain {
   display: grid;
   grid-template-columns: 1fr 200px;
   grid-template-rows: 40rem auto;
@@ -6,7 +6,7 @@
     "main info";
 } */
 
-.moviedetailMain {
+.detailmovieMain {
   display: grid;
   grid-template-columns: 250px 1fr 300px;
   grid-template-rows: 25vh 25vh 8vh 1fr;

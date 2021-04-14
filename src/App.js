@@ -12,14 +12,16 @@ import ScrollToTop from "./components/ScrollToTop";
 
 // Pages
 import Home from "./pages/home";
-import Browse from "./pages/browse";
-import BrowseGames from "./pages/games/browse-games";
-import MovieDetail from "./pages/moviedetail";
+import BrowseMovies from "./pages/browse/movies";
+import BrowseGames from "./pages/browse/games";
+import DetailMovie from "./pages/detail/movie";
+import DetailGame from "./pages/detail/game";
 import Library from "./pages/library";
 import SearchResults from "./pages/searchresults";
 import About from "./pages/about";
 
-import Test from "./pages/test";
+import Test1 from "./pages/test1";
+import Test2 from "./pages/test2";
 
 import NotFound from "./pages/notfound";
 
@@ -38,12 +40,14 @@ function App() {
           <Navbar />
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/movies" exact component={Browse} />
+            <Route path="/movies" exact component={BrowseMovies} />
             <Route path="/games" exact component={BrowseGames} />
-            <Route path="/movie/:id" component={MovieDetail} />
+            <Route path="/movie/:id" component={DetailMovie} />
+             <Route path="/game/:id" component={DetailGame} />
             <Route path="/library" exact component={Library} />
 
-            <Route path="/test" exact component={Test} />
+            <Route path="/test1" exact component={Test1} />
+            <Route path="/test2" exact component={Test2} />
 
             <Route path="/search" component={SearchResults} />
 

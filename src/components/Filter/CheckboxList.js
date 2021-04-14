@@ -32,7 +32,7 @@ const CheckboxList = (props) => {
         newValue: removeItem,
       });
     }
-    console.log(selectedItems);
+    // console.log(selectedItems);
   };
 
   // one source of truth
