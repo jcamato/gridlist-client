@@ -3,7 +3,10 @@ import style from "./footer.module.css";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/img/logo.svg";
 
-// FIX: figure out how to add footer to the bottom of pages without infinite scroll
+/* FIX:
+  -figure out how to add footer to the bottom of pages without infinite scroll
+  -add footer to bottom of content on pages. Currently it's layered over other content with position: fixed / sticky (subtract height of footer to all main content on pages with a footer?)
+*/
 const Footer = () => {
   return (
     <footer className={[style.footer, "disableSelect"].join(" ")}>

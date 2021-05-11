@@ -22,6 +22,7 @@ import About from "./pages/about";
 
 import Test1 from "./pages/test1";
 import Test2 from "./pages/test2";
+import Test3 from "./pages/test3";
 
 import NotFound from "./pages/notfound";
 
@@ -48,6 +49,7 @@ function App() {
 
             <Route path="/test1" exact component={Test1} />
             <Route path="/test2" exact component={Test2} />
+            <Route path="/test3" exact component={Test3} />
 
             <Route path="/search" component={SearchResults} />
 

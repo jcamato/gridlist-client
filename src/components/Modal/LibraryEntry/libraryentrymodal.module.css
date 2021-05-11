@@ -5,7 +5,7 @@
   border: 1px solid #dfe1e5;
   border-radius: 1rem;
   background: #fff;
-  padding: 2rem;
+  padding: 1.6rem;
   width: 24rem;
   /* min-height: 21rem; */
   /* position: fixed; */
@@ -16,11 +16,37 @@
   box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
 }
 
-.title {
+/* .title {
   margin: 0 0 2rem 0;
   width: 100%;
   text-align: center;
+} */
+
+.toprow {
+  display: grid;
+  grid-template-columns: 0.8fr 0.2fr;
+  /* margin: 0 auto; */
+  margin: 0 0 2rem 0;
 }
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 0 0.5rem 0;
+}
+
+.descriptor {
+}
+
+.field {
+  /* display: flex; */
+  background-color: lightgreen;
+  /* width: 100%; */
+}
+
+/* select:focus {
+  outline: none;
+} */
 
 /* Input date had font specified so need to overwrite */
 .formContainer input {
@@ -33,8 +59,28 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.delete {
+.close {
+  display: flex;
+  /* position: absolute; */
+  justify-content: flex-end;
+  align-items: center;
+  /* width: 100%; */
+}
+
+.close i,
+.delete i {
+  /* justify-self: flex-end; */
   cursor: pointer;
+  background-color: yellow;
+}
+
+.delete {
+  display: flex;
+  /* position: absolute; */
+  justify-content: flex-start;
+  align-items: center;
+  /* width: 100%; */
+  margin: 1.5rem 0 0 0;
 }
 
 .bar {

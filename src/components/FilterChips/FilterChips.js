@@ -33,7 +33,7 @@ const FilterChips = (props) => {
                 handleClick(filter);
               }}
             >
-              {filter.name}: {filter.currentValue}
+              {filter.name}: {filter.prepareValueForQuery(filter.currentValue)}
             </div>
           );
         })}

@@ -1,14 +1,15 @@
 import React from "react";
 import style from "./checkboxlist.module.css";
+import { toTitleCase } from "../../utils";
 
-const CheckboxList = (props) => {
+const CheckboxListNew = (props) => {
   const list = props.content;
   const defaultState = props.currentFilters.find((f) => f.name === props.name)
     .defaultValue;
   const selectedItems = props.currentFilters.find((f) => f.name === props.name)
     .currentValue;
 
-  console.log(props);
+  // console.log(props);
   // Clear genres when empty Any is selected
   const onAnyClickHandler = () => {
     props.updateFilters({
@@ -42,7 +43,7 @@ const CheckboxList = (props) => {
   return (
     <div className={[props.className, "disableSelect"].join(" ")}>
       <div className={style.checkboxlist}>
-        <div className={style.filtertitle}>{props.title}</div>
+        <div className={style.filtertitle}>{toTitleCase(props.name)}</div>
         <ul>
           <li>
             <div>
@@ -84,4 +85,4 @@ const CheckboxList = (props) => {
   );
 };
 
-export default CheckboxList;
+export default CheckboxListNew;

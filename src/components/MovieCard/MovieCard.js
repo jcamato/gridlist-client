@@ -3,22 +3,7 @@ import { Link } from "react-router-dom";
 import style from "./moviecard.module.css";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { UserContext } from "../../contexts/UserContext";
-
-import { withStyles } from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
-
-const LightTooltip = withStyles((theme) => ({
-  arrow: {
-    color: theme.palette.common.white,
-  },
-  tooltip: {
-    fontFamily: "Open Sans",
-    backgroundColor: theme.palette.common.white,
-    color: "rgba(0, 0, 0, 0.87)",
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-  },
-}))(Tooltip);
+import { LightTooltip } from "../External/material-ui";
 
 // MovieCard + Hover Overlay
 const MovieCard = (props) => {
