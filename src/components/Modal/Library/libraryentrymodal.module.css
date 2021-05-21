@@ -11,23 +11,15 @@
   /* position: fixed; */
 }
 
-.formContainer:hover {
-  border-color: rgba(223, 225, 229, 0);
-  box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
-}
-
-/* .title {
-  margin: 0 0 2rem 0;
-  width: 100%;
-  text-align: center;
-} */
-
 .toprow {
   display: grid;
   grid-template-columns: 0.8fr 0.2fr;
-  /* margin: 0 auto; */
   margin: 0 0 2rem 0;
 }
+
+/* .title {
+  font-size: 1rem;
+} */
 
 .row {
   display: grid;
@@ -40,23 +32,29 @@
 
 .field {
   /* display: flex; */
-  background-color: lightgreen;
-  /* width: 100%; */
+  /* background-color: lightgreen; */
 }
+
+/* .field select */
 
 /* select:focus {
   outline: none;
 } */
 
 /* Input date had font specified so need to overwrite */
-.formContainer input {
-  margin: 0 0 1rem 0;
-  height: 40px;
+.formContainer input,
+.formContainer select {
+  /* margin: 0 0 1rem 0; */
+  height: 2rem;
+  width: 100%;
   font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  border-radius: 0.5rem;
+  padding: 0 0 0 0.5rem;
+  border: 1px solid rgb(72, 72, 72);
 }
 
 .close {
@@ -71,7 +69,7 @@
 .delete i {
   /* justify-self: flex-end; */
   cursor: pointer;
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 .delete {
@@ -81,44 +79,6 @@
   align-items: center;
   /* width: 100%; */
   margin: 1.5rem 0 0 0;
-}
-
-.bar {
-  display: flex;
-}
-
-.searchBarLeft {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid lightgrey;
-  border-right: 0;
-  padding: 0 1rem;
-  height: 3rem;
-  width: 3rem;
-  border-radius: 5px 0 0 5px;
-  /* background-color: #274046; */
-  color: lightgrey;
-}
-
-.searchBarRight {
-  margin: 0 0 0.5rem 0;
-  outline: none;
-  border: 1px solid lightgrey;
-  border-left: 0;
-  border-radius: 0 5px 5px 0;
-  background-color: transparent;
-  padding: 0 1rem 0 0;
-  height: 3rem;
-  /* color: rgb(117, 117, 117); */
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 16px;
-  width: 100%;
-}
-
-.searchBarRight::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: lightgrey;
 }
 
 .input {
@@ -135,8 +95,8 @@
 
 .submitBtn {
   outline: none;
-  border: none;
-  border-radius: 5px;
+  border: none !important;
+  border-radius: 8px !important;
   background-color: #34b9e0;
   height: 3rem !important;
   color: #fff;

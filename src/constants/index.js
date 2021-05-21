@@ -5,7 +5,8 @@ export const baseIGDBposterURL =
   "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/";
 export const baseIGDBcoverURL =
   "https://images.igdb.com/igdb/image/upload/t_720p/";
-export const baseIGDBbackdropURL = "https://images.igdb.com/igdb/image/upload/t_1080p/";
+export const baseIGDBbackdropURL =
+  "https://images.igdb.com/igdb/image/upload/t_1080p/";
 
 export const youtubeURL = "https://www.youtube.com/embed/";
 

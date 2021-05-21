@@ -224,7 +224,7 @@ const BrowseMovies = () => {
                 <MovieCard
                   key={movie.id}
                   // Card props
-                  tmdb_id={movie.id}
+                  tmdb_movie_id={movie.id}
                   // poster={Constants.basePImageURL + movie.poster_path}
                   poster={
                     movie.poster_path
@@ -248,7 +248,7 @@ const BrowseMovies = () => {
                 <MovieRow
                   key={movie.id}
                   // Row props
-                  tmdb_id={movie.id}
+                  tmdb_movie_id={movie.id}
                   // poster={Constants.basePImageURL + movie.poster_path}
                   title={movie.title}
                   score={movie.vote_average * 10}

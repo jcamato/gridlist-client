@@ -52,7 +52,7 @@ const SearchResults = (props) => {
             <MovieCard
               key={movie.id}
               // Card props
-              tmdb_id={movie.id}
+              tmdb_movie_id={movie.id}
               poster={
                 movie.poster_path
                   ? Constants.basePImageURL + movie.poster_path

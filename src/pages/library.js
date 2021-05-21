@@ -123,14 +123,21 @@ const Library = (props) => {
             {displayedMovies.map((movie) => {
               return (
                 <MovieCard
-                  key={movie.tmdb_id}
+                  key={movie.tmdb_movie_id}
                   // Card props
-                  tmdb_id={movie.tmdb_id}
+                  tmdb_movie_id={movie.tmdb_movie_id}
+                  location="library"
                   poster={
                     movie.poster_path
                       ? Constants.basePImageURL + movie.poster_path
                       : null_movie
                   }
+                  // Library props
+                  libraryCategory={movie.library_category_id}
+                  libraryScore={movie.score}
+                  watchDate={movie.watch_date}
+                  watchCount={movie.watch_count}
+                  secret={movie.private}
                   // Overlay props
                   title={movie.title}
                   score={movie.vote_average * 10}

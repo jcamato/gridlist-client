@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 // Pages
 import Navbar from "./components/Navbar/Navbar";
 // import Footer from "./components/Footer/Footer";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTop from "./utils/ScrollToTop";
 
 // Pages
 import Home from "./pages/home";

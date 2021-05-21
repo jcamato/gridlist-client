@@ -71,13 +71,7 @@ const DetailMovie = ({ match }) => {
             <h3>{movie.release_date && movie.release_date.substr(0, 4)}</h3>
           </div>
         </div>
-        <div className="scoreContainer">
-          <div className="score">
-            <i className="material-icons">star</i>
-            {/* I was getting a log warning without a string here */}
-            <p>{String(movie.vote_average * 10)}</p>
-          </div>
-        </div>
+
         <div className="side">
           <div className="stick">
             <img

@@ -4,41 +4,39 @@ import { toTitleCase } from "../../utils";
 
 const CheckboxListNew = (props) => {
   const list = props.content;
-  const defaultState = props.currentFilters.find((f) => f.name === props.name)
-    .defaultValue;
-  const selectedItems = props.currentFilters.find((f) => f.name === props.name)
-    .currentValue;
+  const currentValue = props.currentFilters[props.name].currentValue;
+  const selectedItems = currentValue === null ? [] : currentValue;
 
-  // console.log(props);
+  // one source of truth
+  const isAny = selectedItems.length === 0;
+
   // Clear genres when empty Any is selected
   const onAnyClickHandler = () => {
     props.updateFilters({
       name: props.name,
-      newValue: defaultState,
+      newValue: null,
     });
   };
 
   const onClickHandler = (item) => {
     // if selectedItems doesn't have ID then add it
-    if (!selectedItems.some((el) => el === item.id)) {
-      const addItem = [...selectedItems, item.id];
+    if (!selectedItems.some((el) => el === item.name.toLowerCase())) {
+      const addItem = [...selectedItems, item.name.toLowerCase()];
       props.updateFilters({
         name: props.name,
         newValue: addItem,
       });
     } else {
       // remove id
-      const removeItem = selectedItems.filter((el) => el !== item.id);
+      const removeItem = selectedItems.filter(
+        (el) => el !== item.name.toLowerCase()
+      );
       props.updateFilters({
         name: props.name,
         newValue: removeItem,
       });
     }
-    // console.log(selectedItems);
   };
-
-  // one source of truth
-  const isAny = selectedItems.length === 0;
 
   return (
     <div className={[props.className, "disableSelect"].join(" ")}>
@@ -70,7 +68,7 @@ const CheckboxListNew = (props) => {
                       onClickHandler(item);
                     }}
                   >
-                    {selectedItems.some((el) => el === item.id)
+                    {selectedItems.some((el) => el === item.name.toLowerCase())
                       ? "check_box"
                       : "check_box_outline_blank"}
                   </i>

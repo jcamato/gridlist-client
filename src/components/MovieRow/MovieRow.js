@@ -12,8 +12,8 @@ const MovieRow = (props) => {
       <div className={style.gridItem}>
         <Link
           className={style.link}
-          key={props.tmdb_id}
-          to={`/movie/${props.tmdb_id}`}
+          key={props.tmdb_movie_id}
+          to={`/movie/${props.tmdb_movie_id}`}
         >
           <div className={style.title}>{props.title}</div>
         </Link>

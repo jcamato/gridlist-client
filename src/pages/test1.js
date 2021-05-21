@@ -11,8 +11,8 @@ import { default as queryString } from "query-string";
 import * as Constants from "../constants";
 
 // Components
-import SelectMenu from "../components/SelectMenu/SelectMenu";
-import FilterChips from "../components/FilterChips/FilterChips";
+// import SelectMenu from "../components/SelectMenu/SelectMenu";
+import FilterChipsNew from "../components/FilterChips/FilterChipsNew";
 import CheckboxListNew from "../components/Filter/CheckboxListNew";
 // import SliderRange from "../components/Filter/SliderRange";
 import SliderRangeNew from "../components/Filter/SliderRangeNew";
@@ -22,125 +22,101 @@ import "./browse/browse.css";
 
 // generateQueryString
 
-const queryDictionary = {
-  sort: {
-    defaultValue: "popularity",
-    currentValue: "popularity",
-    prepareValueForQuery: (value) => {
-      return value;
-    },
-    parseQuery: (value) => {
-      return value;
-    }
-  },
-  order: {
-    defaultValue: "desc",
-    currentValue: "desc",
-    prepareValueForQuery: (value) => {
-      return value;
-    },
-    parseQuery: (value) => {
-      return value;
-    }
-  },
-  genre: {
-    defaultValue: [],
-    currentValue: [],
-    prepareValueForQuery: (value) => {
-      return value;
-    },
-    parseQuery: (value) => {
-      return value.split(",");
-    }
-  },
+// Change this to listConfig to change view and sort as well?
+const filterConfig = {
+  // sort: {
+  //   defaultValue: "popularity",
+  //   currentValue: "popularity",
+  //   prepareValueForQuery: (value) => {
+  //     if (!value) return null;
+  //     return value;
+  //   },
+  //   parseQuery: (value) => {
+  //     return value;
+  //   },
+  // },
+  // order: {
+  //   defaultValue: "desc",
+  //   currentValue: "desc",
+  //   prepareValueForQuery: (value) => {
+  //     if (!value) return null;
+  //     return value;
+  //   },
+  //   parseQuery: (value) => {
+  //     return value;
+  //   },
+  // },
   score: {
-    defaultValue: [0, 100],
-    currentValue: [0, 100],
+    // range: [0, 100],
+    currentValue: null,
+    // prepareValueForQuery takes whatever our value data structure is and turns it into a URL-safe string
     prepareValueForQuery: (value) => {
-      return `${value[0]}..${value[1]}`;
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
     },
-    parseQuery: (value) => {
-      return value;
-    }
+    // i recommend renaming to parseValueFromQuery -> takes whatever was in the URL, and very safely tries to unwind to a value
+    parseQuery: (query) => {
+      /// make this common helper functione for get range from query
+      const querySplit = query.split("..");
+      //const splitIsValid = querySplit.length === 2
+      // isNumber check??
+      // add safety to parse Int
+      // alert(querySplit);
+      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]}`;
+    },
   },
   release: {
-    defaultValue: [1896, new Date().getFullYear()+1],
-    currentValue: [1896, new Date().getFullYear()+1],
+    currentValue: null,
     prepareValueForQuery: (value) => {
-      return `${value[0]}..${value[1]}`;
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
     },
-     parseQuery: (value) => {
-      return value;
-    }
+    parseQuery: (query) => {
+      const querySplit = query.split("..");
+      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]}`;
+    },
+  },
+  genre: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value.join(",");
+    },
+    parseQuery: (query) => {
+      // console.log("query split: ", query.split(","));
+      return query.split(",");
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return value.join(", ");
+    },
   },
   runtime: {
-    defaultValue: [0, 240],
-    currentValue: [0, 240],
+    currentValue: null,
     prepareValueForQuery: (value) => {
-      return `${value[0]}..${value[1]}`;;
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
     },
-     parseQuery: (value) => {
-      return value;
-    }
-  },
-}
-
-const queryBuilder = [
-  {
-    name: "genre",
-    query: "&genre",
-    defaultValue: [],
-    currentValue: [],
-    prepareValueForQuery: (value) => {
-      // return value.map(id => Constants.genres.find(i => i.id === id).name);
-      // console.log(`prepareValueForQuery(${value})`);
-      // console.log(value.map(id => Constants.genres.find(i => i.id === id).name));
-      return value;
+    parseQuery: (query) => {
+      const querySplit = query.split("..");
+      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
     },
-    parseQuery: (value) => {
-      return value.split(",");
-    }
-  },
-  {
-    name: "score",
-    query: "&score",
-    defaultValue: [0, 100],
-    currentValue: [0, 100],
-    prepareValueForQuery: (value) => {
-      return `${value[0]}..${value[1]}`;
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]}`;
     },
-    parseQuery: (value) => {
-      return value;
-    }
   },
-  {
-    name: "release",
-    query: "&release",
-    defaultValue: [1896, new Date().getFullYear()+1],
-    currentValue: [1896, new Date().getFullYear()+1],
-    prepareValueForQuery: (value) => {
-      return `${value[0]}..${value[1]}`;
-    },
-     parseQuery: (value) => {
-      return value;
-    }
-  },
-  {
-    name: "runtime",
-    query: "&runtime",
-    defaultValue: [0, 240],
-    currentValue: [0, 240],
-    prepareValueForQuery: (value) => {
-      return `${value[0]}..${value[1]}`;;
-    },
-     parseQuery: (value) => {
-      return value;
-    }
-  },
-];
+};
 
 const Test1 = () => {
-
   useEffect(() => {
     getCurrentQueryString();
     // console.log(match);
@@ -149,57 +125,57 @@ const Test1 = () => {
   let history = useHistory();
   let location = useLocation();
 
+  // TODO: This needs to use a new batchUpdate or something, instead of updateFiltering one by one as it parse thes
   const getCurrentQueryString = () => {
-    const queryParameters = queryString.parse(location.search);
-    console.log(queryParameters);
+    const currentQueryString = queryString.parse(location.search);
+    console.log("Query String: ", currentQueryString);
 
-    for (const parameterKey of Object.keys(queryParameters)) {
+    for (const parameterKey of Object.keys(currentQueryString)) {
       // console.log(parameterKey);
-      const matchingFilter = queryBuilder.find(i => i.name === parameterKey);
+
+      // const matchingFilter = Object.values(filterConfig).find(
+      //   (i) => i.name === parameterKey
+      // );
       updateFilters({
         name: parameterKey, // used to replace the value where filter returns the name
-        newValue: matchingFilter.parseQuery(queryParameters[parameterKey]),
-      })
+        newValue: filters[parameterKey].parseQuery(
+          currentQueryString[parameterKey]
+        ),
+      });
     }
-  }
+  };
 
   const handleHistory = (qs) => {
     history.push(`?${qs}`);
-  }
-
-  // const pushHistory = (route) => {
-  //     history.push(`${route}`);
-  // }
+  };
 
   // const [view, setView] = useState("grid");
-  const [sort, setSort] = useState("popularity");
-  const [sortDirection, setSortDirection] = useState("desc");
+  // const [sort, setSort] = useState("popularity");
+  // const [sortDirection, setSortDirection] = useState("desc");
 
-  const initialFilters = queryBuilder;
+  // const initialFilters = queryDictionary;
 
-  const [filters, setFilters] = useState(initialFilters);
-  let filterQuery = "";
+  const [filters, setFilters] = useState(filterConfig);
+  // let filterQuery = "";
 
   useEffect(() => {
-    makeFilterQuery();
-    handleHistory(filterQuery);
+    handleHistory(createQueryString());
     // console.log(location.search);
-  }, [sort, sortDirection, filters]);
+  }, [filters]);
 
+  // change this to instead update in bulk depending on if array is passed or not
   const updateFilters = (filterUpdateInfo) => {
+    console.log("filter updating", filterUpdateInfo);
     const newFilters = _.cloneDeep(filters);
-    const indexOfFilter = newFilters.findIndex(
-      (f) => f.name === filterUpdateInfo.name
-    );
 
-    if (indexOfFilter < 0) {
+    if (!Object.keys(newFilters).includes(filterUpdateInfo.name)) {
       console.log("Tried to update filter that couldn't be found");
       return;
     }
 
     _.set(
       newFilters,
-      `[${indexOfFilter}].currentValue`,
+      `${filterUpdateInfo.name}.currentValue`,
       filterUpdateInfo.newValue
     );
 
@@ -207,98 +183,104 @@ const Test1 = () => {
   };
 
   const clearFilters = () => {
-    setFilters(initialFilters);
+    setFilters(filterConfig);
   };
 
-  const makeFilterQuery = () => {
+  const createQueryString = () => {
     // console.log(filters);
 
-    const currentFilters = filters.filter(
+    const changedFiltersNameList = Object.keys(filters).filter(
       // deep comparison
-      (filter) => !_.isEqual(filter.defaultValue, filter.currentValue)
+      (name) => filters[name].currentValue !== null
     );
 
-    // console.log(currentFilters);
+    return (
+      changedFiltersNameList
+        // .map((name) => filters[name])
+        .map(
+          (name) =>
+            `${name}=${filters[name].prepareValueForQuery(
+              filters[name].currentValue
+            )}`
+        )
+        .join("&")
+    );
 
-    filterQuery = currentFilters
-      .map(
-        (filter) =>
-          `${filter.query}=${filter.prepareValueForQuery(filter.currentValue)}`
-      )
-      .join("");
-    
     // console.log(filterQuery);
   };
 
   return (
     <Fragment>
-    <div className="browseMain">
-      <section className="filterContainer">
-        <SliderRangeNew
-          name="score"
-          unit="Percent"
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        <SliderRangeNew
-          name="release"
-          unit="Years"
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        <CheckboxListNew
-          name="genre"
-          content={Constants.genres}
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        <SliderRangeNew
-          name="runtime"
-          unit="Minutes"
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        
-      </section>
-      <header className="header">
-        <h1>Movies</h1>
-        <div className="selectGroup">
-         
-          <p>Sort:</p>
-          <SelectMenu
-            width="12.5rem"
-            defaultDisplay="Popularity"
-            defaultIcon="whatshot"
-            content={Constants.sortOptions}
-            onSelect={(newSort) => {
-              setSort(newSort);
-            }}
+      <div className="browseMain">
+        <section className="filterContainer">
+          <SliderRangeNew
+            name="score"
+            unit="Percent"
+            min={0}
+            max={100}
+            currentFilters={filters}
+            updateFilters={updateFilters}
           />
-          <p>Direction:</p>
-          <SelectMenu
-            width="12.5rem"
-            defaultDisplay="Descending"
-            defaultIcon="keyboard_arrow_down"
-            content={Constants.sortDirectionOptions}
-            onSelect={(newSortDirection) => {
-              setSortDirection(newSortDirection);
-            }}
+          <SliderRangeNew
+            name="release"
+            unit="Years"
+            min={1896}
+            max={new Date().getFullYear() + 1}
+            currentFilters={filters}
+            updateFilters={updateFilters}
           />
-        </div>
-      </header>
+          <CheckboxListNew
+            name="genre"
+            content={Constants.genres}
+            currentFilters={filters}
+            updateFilters={updateFilters}
+          />
+          <SliderRangeNew
+            name="runtime"
+            unit="Minutes"
+            min={0}
+            max={300}
+            currentFilters={filters}
+            updateFilters={updateFilters}
+          />
+        </section>
+        <header className="header">
+          <h1>Movies</h1>
+          <div className="selectGroup">
+            <p>Sort:</p>
+            {/* <SelectMenu
+              width="12.5rem"
+              defaultDisplay="Popularity"
+              defaultIcon="whatshot"
+              content={Constants.sortOptions}
+              onSelect={(newSort) => {
+                setSort(newSort);
+              }}
+            />
+            <p>Direction:</p>
+            <SelectMenu
+              width="12.5rem"
+              defaultDisplay="Descending"
+              defaultIcon="keyboard_arrow_down"
+              content={Constants.sortDirectionOptions}
+              onSelect={(newSortDirection) => {
+                setSortDirection(newSortDirection);
+              }}
+            /> */}
+          </div>
+        </header>
         <main className="mainContent">
           {/* <button onClick={() => { pushHistory("/game/1942") }}>Push route /game/1942</button>
           <button onClick={() => { pushHistory("/game/11156") }}>Push route /game/11156</button> */}
-        <FilterChips
-          currentFilters={filters}
-          updateFilters={updateFilters}
-          clearFilters={clearFilters}
-        />
-      </main>
-      <aside className="adContainer">
-      </aside>
+          <FilterChipsNew
+            currentFilters={filters}
+            updateFilters={updateFilters}
+            clearFilters={clearFilters}
+          />
+        </main>
+        <aside className="adContainer"></aside>
       </div>
-      </Fragment>
+    </Fragment>
   );
 };
 

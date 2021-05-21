@@ -35,6 +35,26 @@
   position: relative;
 }
 
+.libraryScore {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-evenly;
+  /* width: calc(100% - 1rem); */
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  color: #fff;
+  background-color: rgb(20, 40, 40, 0.9);
+  /* background-color: #fff; */
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+
+  cursor: default;
+}
+
 .libraryButton {
   /* height: 50px;
   width: 50px; */
