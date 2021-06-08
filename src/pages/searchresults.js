@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import _ from "lodash";
+
 // assets
 import null_movie from "../assets/img/null_movie.png";
 
@@ -13,37 +15,47 @@ import MovieCard from "../components/MovieCard/MovieCard";
 // Styles
 import "./searchresults.css";
 
-const SearchResults = (props) => {
+const SearchResults = ({ match }) => {
   // TMDB
-  const APP_KEY = process.env.REACT_APP_TMDB_KEY;
+  // const APP_KEY = process.env.REACT_APP_TMDB_KEY;
 
   const [movies, setMovies] = useState([]);
   const [results, setResults] = useState(undefined);
 
-  const query = props.location.state.query;
+  // const query = props.location.state.query;
+  const searchtext = match.params.searchtext;
 
   const searchMovies = async () => {
-    const fetchCall = `https://api.themoviedb.org/3/search/movie?api_key=${APP_KEY}&query=${query}`;
+    // const fetchCall = `https://api.themoviedb.org/3/search/movie?api_key=${APP_KEY}&query=${query}`;
+    const serverCall = `http://localhost:5000/search/${searchtext}`;
     // console.log(`fetchLog: ${fetchLog}`);
-    const response = await fetch(fetchCall);
+    // const response = await fetch(fetchCall);
+    const response = await fetch(serverCall);
     const data = await response.json();
-    setMovies(data.results);
-    setResults(data.total_results);
 
+    // console.log(data);
     console.log(data);
-    console.log(data.results);
-    console.log(data.results.length);
+    console.log(data.length);
+
+    setMovies(_.take(data, 100));
+
+    if (data.length > 100) {
+      setResults("More than 100");
+    } else {
+      setResults(data.length);
+    }
   };
 
   useEffect(() => {
     searchMovies();
     // console.log(match);
-  }, [query]);
+  }, [searchtext]);
 
   return (
     <div className="searchresultsMain">
       <h3>
-        {results && `${results} movies where the title includes "${query}"`}
+        {results &&
+          `${results} movies where the title includes "${searchtext}"`}
       </h3>
 
       <Grid>

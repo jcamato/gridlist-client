@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 
 // assets
-import null_movie from "../assets/img/null_movie.png";
-import bannerPhoto from "../development/img/bannerPhoto.jpg";
+import null_movie from "../../assets/img/null_movie.png";
+import bannerPhoto from "../../development/img/bannerPhoto.jpg";
 
 // Constants
-import * as Constants from "../constants";
+import * as Constants from "../../constants";
 
 // Components
-import MovieCard from "../components/MovieCard/MovieCard";
-import Grid from "../components/Grid/Grid";
-import SelectMenu from "../components/SelectMenu/SelectMenu";
-import CategoryMenu from "../components/CategoryMenu/CategoryMenu";
+import MovieCard from "../../components/MovieCard/MovieCard";
+import Grid from "../../components/Grid/Grid";
+import SelectMenu from "../../components/SelectMenu/SelectMenu";
+import CategoryMenu from "../../components/CategoryMenu/CategoryMenu";
 
 // Libraries
 import _ from "lodash";
 
 // Styles
 import style from "./library.module.css";
-import "./browse/browse.css";
+import "../browse/browse.css";
 
-const Library = (props) => {
+const Library = () => {
   const [allMovies, setAllMovies] = useState([]);
   const [displayedMovies, setDisplayedMovies] = useState([]);
   const [catSelection, setCatSelection] = useState(0);
@@ -36,9 +36,10 @@ const Library = (props) => {
 
       setAllMovies(movies);
 
+      console.log(movies);
+
       if (catSelection === 0) {
         setDisplayedMovies(movies);
-        console.log(movies);
       } else {
         const catMovies = _.filter(movies, {
           library_category_id: catSelection,

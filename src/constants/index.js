@@ -16,10 +16,75 @@ export const viewOptions = [
   { value: "list", icon: "list", display: "List" },
 ];
 
+// export const sortOptionsNew = {
+//   score: {
+//     default: false,
+//     value: "vote_average",
+//     icon: "star",
+//     display: "Score",
+//   },
+//   release: {
+//     default: false,
+//     value: "release_date",
+//     icon: "date_range",
+//     display: "Release Date",
+//   },
+//   popularity: {
+//     default: true,
+//     value: "popularity",
+//     icon: "whatshot",
+//     display: "Popularity",
+//   },
+//   revenue: {
+//     default: false,
+//     value: "revenue",
+//     icon: "attach_money",
+//     display: "Revenue",
+//   },
+// };
+
+export const sortOptionsNew = [
+  { default: false, value: "score", icon: "star", display: "Score" },
+  {
+    default: false,
+    value: "release",
+    icon: "date_range",
+    display: "Release Date",
+  },
+  {
+    default: true,
+    value: "popularity",
+    icon: "whatshot",
+    display: "Popularity",
+  },
+  {
+    default: false,
+    value: "revenue",
+    icon: "attach_money",
+    display: "Revenue",
+  },
+];
+
+export const orderOptionsNew = [
+  {
+    default: true,
+    value: "desc",
+    icon: "keyboard_arrow_down",
+    display: "Descending",
+  },
+  {
+    default: false,
+    value: "asc",
+    icon: "keyboard_arrow_up",
+    display: "Ascending",
+  },
+];
+
 export const sortOptions = [
   { value: "vote_average", icon: "star", display: "Score" },
   { value: "release_date", icon: "date_range", display: "Release Date" },
   { value: "popularity", icon: "whatshot", display: "Popularity" },
+  // FIX: there is just no point in sorting by title ever?
   { value: "original_title", icon: "sort_by_alpha", display: "Title" },
   { value: "revenue", icon: "attach_money", display: "Revenue" },
 ];

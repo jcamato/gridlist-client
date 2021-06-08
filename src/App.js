@@ -16,7 +16,7 @@ import BrowseMovies from "./pages/browse/movies";
 import BrowseGames from "./pages/browse/games";
 import DetailMovie from "./pages/detail/movie";
 import DetailGame from "./pages/detail/game";
-import Library from "./pages/library";
+import LibraryMovies from "./pages/library/movies";
 import SearchResults from "./pages/searchresults";
 import About from "./pages/about";
 
@@ -44,14 +44,14 @@ function App() {
             <Route path="/movies" exact component={BrowseMovies} />
             <Route path="/games" exact component={BrowseGames} />
             <Route path="/movie/:id" component={DetailMovie} />
-             <Route path="/game/:id" component={DetailGame} />
-            <Route path="/library" exact component={Library} />
+            <Route path="/game/:id" component={DetailGame} />
+            <Route path="/library/movies" exact component={LibraryMovies} />
 
             <Route path="/test1" exact component={Test1} />
             <Route path="/test2" exact component={Test2} />
             <Route path="/test3" exact component={Test3} />
 
-            <Route path="/search" component={SearchResults} />
+            <Route path="/search/:searchtext" component={SearchResults} />
 
             <Route path="/about" component={About} />
 

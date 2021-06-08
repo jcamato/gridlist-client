@@ -11,41 +11,52 @@ import { default as queryString } from "query-string";
 import * as Constants from "../constants";
 
 // Components
-// import SelectMenu from "../components/SelectMenu/SelectMenu";
+import SelectMenuNew from "../components/SelectMenu/SelectMenuNew";
 import FilterChipsNew from "../components/FilterChips/FilterChipsNew";
 import CheckboxListNew from "../components/Filter/CheckboxListNew";
 // import SliderRange from "../components/Filter/SliderRange";
 import SliderRangeNew from "../components/Filter/SliderRangeNew";
 
+// Hooks
+// import useInfiniteScroll from "../hooks/useInfiniteScroll";
+
 // Styles
 import "./browse/browse.css";
+// import style from "./test1.module.css";
 
 // generateQueryString
 
+const sortConfig = {
+  sort: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value;
+    },
+    parseQuery: (query) => {
+      /// make this common helper functione for get range from query
+      if (query === "score" || query === "release" || query === "revenue") {
+        return query;
+      } else return null;
+    },
+  },
+  order: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value;
+    },
+    parseQuery: (query) => {
+      /// make this common helper functione for get range from query
+      if (query === "asc") {
+        return query;
+      } else return null;
+    },
+  },
+};
+
 // Change this to listConfig to change view and sort as well?
 const filterConfig = {
-  // sort: {
-  //   defaultValue: "popularity",
-  //   currentValue: "popularity",
-  //   prepareValueForQuery: (value) => {
-  //     if (!value) return null;
-  //     return value;
-  //   },
-  //   parseQuery: (value) => {
-  //     return value;
-  //   },
-  // },
-  // order: {
-  //   defaultValue: "desc",
-  //   currentValue: "desc",
-  //   prepareValueForQuery: (value) => {
-  //     if (!value) return null;
-  //     return value;
-  //   },
-  //   parseQuery: (value) => {
-  //     return value;
-  //   },
-  // },
   score: {
     // range: [0, 100],
     currentValue: null,
@@ -58,11 +69,19 @@ const filterConfig = {
     parseQuery: (query) => {
       /// make this common helper functione for get range from query
       const querySplit = query.split("..");
-      //const splitIsValid = querySplit.length === 2
-      // isNumber check??
-      // add safety to parse Int
-      // alert(querySplit);
-      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
+      if (querySplit.length === 2) {
+        const min = parseInt(querySplit[0]);
+        const max = parseInt(querySplit[1]);
+        if (
+          (min || min === 0) &&
+          (max || max === 0) &&
+          min <= max &&
+          min >= 0 &&
+          max <= 100
+        ) {
+          return [min, max];
+        } else return null;
+      }
     },
     prepareValueForChips: (value) => {
       if (!value) return null;
@@ -131,17 +150,52 @@ const Test1 = () => {
     console.log("Query String: ", currentQueryString);
 
     for (const parameterKey of Object.keys(currentQueryString)) {
-      // console.log(parameterKey);
+      console.log("parameterkey", parameterKey);
 
       // const matchingFilter = Object.values(filterConfig).find(
       //   (i) => i.name === parameterKey
       // );
-      updateFilters({
-        name: parameterKey, // used to replace the value where filter returns the name
-        newValue: filters[parameterKey].parseQuery(
-          currentQueryString[parameterKey]
-        ),
-      });
+
+      if (parameterKey === "page") {
+        const page = parseInt(currentQueryString[parameterKey]);
+        if (page > 1) {
+          setPage(page);
+        }
+      }
+
+      if (sort[parameterKey]) {
+        updateSort({
+          name: parameterKey, // used to replace the value where filter returns the name
+          newValue: sort[parameterKey].parseQuery(
+            currentQueryString[parameterKey]
+          ),
+        });
+      }
+
+      if (filters[parameterKey]) {
+        updateFilters({
+          name: parameterKey, // used to replace the value where filter returns the name
+          newValue: filters[parameterKey].parseQuery(
+            currentQueryString[parameterKey]
+          ),
+        });
+      }
+
+      // if (page[parameterKey]) {
+      //   updatepage({
+      //     name: parameterKey, // used to replace the value where filter returns the name
+      //     newValue: sort[parameterKey].parseQuery(
+      //       currentQueryString[parameterKey]
+      //     ),
+      //   });
+      // }
+
+      // updateSort({
+      //   name: parameterKey, // used to replace the value where filter returns the name
+      //   newValue: filters[parameterKey].parseQuery(
+      //     currentQueryString[parameterKey]
+      //   ),
+      // });
     }
   };
 
@@ -155,13 +209,15 @@ const Test1 = () => {
 
   // const initialFilters = queryDictionary;
 
+  const [sort, setSort] = useState(sortConfig);
   const [filters, setFilters] = useState(filterConfig);
+  const [page, setPage] = useState(1);
   // let filterQuery = "";
 
   useEffect(() => {
     handleHistory(createQueryString());
     // console.log(location.search);
-  }, [filters]);
+  }, [sort, filters, page]);
 
   // change this to instead update in bulk depending on if array is passed or not
   const updateFilters = (filterUpdateInfo) => {
@@ -186,25 +242,80 @@ const Test1 = () => {
     setFilters(filterConfig);
   };
 
+  const updateSort = (sortUpdateInfo) => {
+    console.log("sort updating", sortUpdateInfo);
+    const newSort = _.cloneDeep(sort);
+
+    if (!Object.keys(newSort).includes(sortUpdateInfo.name)) {
+      console.log("Tried to update sort that couldn't be found");
+      return;
+    }
+
+    _.set(
+      newSort,
+      `${sortUpdateInfo.name}.currentValue`,
+      sortUpdateInfo.newValue
+    );
+
+    setSort(newSort);
+  };
+
+  const incrementPage = () => {
+    setPage(page + 1);
+    // console.log(page);
+  };
+
+  const decrementPage = () => {
+    setPage(page - 1);
+    // console.log(page);
+  };
+
   const createQueryString = () => {
     // console.log(filters);
+
+    const changedSortNameList = Object.keys(sort).filter(
+      // deep comparison
+      (name) => sort[name].currentValue !== null
+    );
+
+    const changedSortString = changedSortNameList
+      // .map((name) => filters[name])
+      .map(
+        (name) =>
+          `${name}=${sort[name].prepareValueForQuery(sort[name].currentValue)}`
+      );
 
     const changedFiltersNameList = Object.keys(filters).filter(
       // deep comparison
       (name) => filters[name].currentValue !== null
     );
 
-    return (
-      changedFiltersNameList
-        // .map((name) => filters[name])
-        .map(
-          (name) =>
-            `${name}=${filters[name].prepareValueForQuery(
-              filters[name].currentValue
-            )}`
-        )
-        .join("&")
+    const changedFiltersString = changedFiltersNameList
+      // .map((name) => filters[name])
+      .map(
+        (name) =>
+          `${name}=${filters[name].prepareValueForQuery(
+            filters[name].currentValue
+          )}`
+      );
+
+    let changedPageString = [];
+
+    // FIX: if doing infinite scroll for page incrase, change from page to pages
+    if (page > 1) {
+      changedPageString = [`page=${page}`];
+    }
+
+    // console.log(changedFiltersString);
+
+    const changedList = changedSortString.concat(
+      changedFiltersString,
+      changedPageString
     );
+
+    // console.log(changedList);
+
+    return changedList.join("&");
 
     // console.log(filterQuery);
   };
@@ -248,17 +359,22 @@ const Test1 = () => {
           <h1>Movies</h1>
           <div className="selectGroup">
             <p>Sort:</p>
-            {/* <SelectMenu
+            <SelectMenuNew
+              name="sort"
               width="12.5rem"
-              defaultDisplay="Popularity"
-              defaultIcon="whatshot"
-              content={Constants.sortOptions}
-              onSelect={(newSort) => {
-                setSort(newSort);
-              }}
+              content={Constants.sortOptionsNew}
+              currentSelection={sort}
+              updateSelection={updateSort}
             />
-            <p>Direction:</p>
-            <SelectMenu
+            <SelectMenuNew
+              name="order"
+              width="12.5rem"
+              content={Constants.orderOptionsNew}
+              currentSelection={sort}
+              updateSelection={updateSort}
+            />
+            {/* <p>Direction:</p>
+            <SelectMenuNew
               width="12.5rem"
               defaultDisplay="Descending"
               defaultIcon="keyboard_arrow_down"
@@ -277,6 +393,9 @@ const Test1 = () => {
             updateFilters={updateFilters}
             clearFilters={clearFilters}
           />
+          {page > 1 && <button onClick={decrementPage}>Previous Page</button>}
+          <span>Page: {page}</span>
+          <button onClick={incrementPage}>Next Page</button>
         </main>
         <aside className="adContainer"></aside>
       </div>

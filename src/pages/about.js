@@ -8,8 +8,10 @@ function About() {
     <div className={style.aboutMain}>
       <nav className={style.sideNav}>
         <ul>
-          <li>Section 1</li>
-          <li>Section 2</li>
+          <li>TMDB</li>
+          Movies and TV Show data is sourced from The Movie Database (TMDb).
+          <li>IGDB</li>
+          Videogame data is sourced from Internet Game Database (IGDb).
           <li>
             Section 3
             <ul>

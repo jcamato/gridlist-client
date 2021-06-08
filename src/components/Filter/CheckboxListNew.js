@@ -31,10 +31,18 @@ const CheckboxListNew = (props) => {
       const removeItem = selectedItems.filter(
         (el) => el !== item.name.toLowerCase()
       );
-      props.updateFilters({
-        name: props.name,
-        newValue: removeItem,
-      });
+
+      if (removeItem.length === 0) {
+        props.updateFilters({
+          name: props.name,
+          newValue: null,
+        });
+      } else {
+        props.updateFilters({
+          name: props.name,
+          newValue: removeItem,
+        });
+      }
     }
   };
 

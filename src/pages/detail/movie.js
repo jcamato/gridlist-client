@@ -138,17 +138,21 @@ const DetailMovie = ({ match }) => {
           <div id="media" className="mediaSection">
             {/* <h1>Media</h1> */}
             <div className="video">
-              <iframe
-                title={movie.title}
-                src={movie.results && youtubeURL + movie.results[0].key}
-                // src={
-                //   movie.videos &&
-                //   movie.videos.results &&
-                //   youtubeURL + movie.videos.results[0].key
-                // }
-                frameBorder="0"
-                allowFullScreen
-              />
+              {movie.results && movie.results.length > 0 ? (
+                <iframe
+                  title={movie.title}
+                  src={youtubeURL + movie.results[0].key}
+                  // src={
+                  //   movie.videos &&
+                  //   movie.videos.results &&
+                  //   youtubeURL + movie.videos.results[0].key
+                  // }
+                  frameBorder="0"
+                  allowFullScreen
+                />
+              ) : (
+                <h2>No Video</h2>
+              )}
             </div>
             {/* FIX: Add picture gallery here */}
             {/* <div className="pictures"></div> */}

@@ -22,10 +22,15 @@ const Navbar = () => {
 
   const sendToSearch = (e) => {
     e.preventDefault();
+    // history.push({
+    //   pathname: "/search",
+    //   // search: "?query=abc",
+    //   state: { query: search },
+    // });
     history.push({
-      pathname: "/search",
+      pathname: `/search/${search}`,
       // search: "?query=abc",
-      state: { query: search },
+      // state: { query: search },
     });
     setSearch("");
   };
@@ -86,7 +91,7 @@ const Navbar = () => {
             <Link className={style.navlink} to="/games">
               <li>Games</li>
             </Link>
-            <Link className={style.navlink} to="/library">
+            <Link className={style.navlink} to="/library/movies">
               <li>Library</li>
             </Link>
             <div className={style.search}>
