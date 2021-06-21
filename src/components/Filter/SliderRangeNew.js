@@ -50,12 +50,15 @@ const SliderRangeNew = (props) => {
     // <div className={props.className}>
     <div className="disableSelect">
       <div className={style.sliderFilter}>
-        <div className={style.filterTitle}>{toTitleCase(props.name)}</div>
+        <div className={style.filterTitle}>
+          {toTitleCase(props.name.replace(/_/g, " "))}
+        </div>
         <div className={style.sliderContainer}>
           <Slider
             className={classes.root}
             min={props.min}
             max={props.max}
+            step={props.step}
             value={resolvedValue}
             onChange={handleChange}
             onChangeCommitted={handleCommittedChange}

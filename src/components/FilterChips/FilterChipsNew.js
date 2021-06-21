@@ -38,7 +38,7 @@ const FilterChipsNew = (props) => {
                 handleClick(name);
               }}
             >
-              {name}:{" "}
+              {name.replace(/_/g, " ")}:{" "}
               {props.currentFilters[name].prepareValueForChips(
                 props.currentFilters[name].currentValue
               )}

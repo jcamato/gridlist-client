@@ -116,9 +116,9 @@ const Navbar = () => {
             <Link className={style.navlink} to="/test2">
               <li>Test2</li>
             </Link>
-            <Link className={style.navlink} to="/test3">
+            {/* <Link className={style.navlink} to="/test3">
               <li>Test3</li>
-            </Link>
+            </Link> */}
             {!auth && (
               <Fragment>
                 <div className={style.navlink} onClick={toggleRegisterModal}>

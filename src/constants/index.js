@@ -49,7 +49,7 @@ export const sortOptionsNew = [
     default: false,
     value: "release",
     icon: "date_range",
-    display: "Release Date",
+    display: "Release",
   },
   {
     default: true,
@@ -101,7 +101,7 @@ export const movieCategoryOptions = [
   { value: 3, text: "done", icon: "done", display: "Watched" },
 ];
 
-// FIX: fetch from GET /genre/movie/list every 24 hours from server
+// FIX: fetch from GET /genre/movie/list regularly from server
 export const genres = [
   { id: 28, name: "Action" },
   { id: 12, name: "Adventure" },
@@ -123,6 +123,144 @@ export const genres = [
   { id: 10752, name: "War" },
   { id: 37, name: "Western" },
 ];
+
+// Filters
+export const sortConfig = {
+  sort: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value;
+    },
+    parseValueFromQuery: (query) => {
+      /// make this common helper functione for get range from query
+      if (query === "score" || query === "release" || query === "revenue") {
+        return query;
+      } else return null;
+    },
+  },
+  order: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value;
+    },
+    parseValueFromQuery: (query) => {
+      /// make this common helper functione for get range from query
+      if (query === "asc") {
+        return query;
+      } else return null;
+    },
+  },
+};
+
+export const filterConfig = {
+  score: {
+    currentValue: null,
+    // prepareValueForQuery takes whatever our value data structure is and turns it into a URL-safe string
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
+    },
+    // i recommend renaming to parseValueFromQuery -> takes whatever was in the URL, and very safely tries to unwind to a value
+    parseValueFromQuery: (query) => {
+      /// make this common helper functione for get range from query
+      const querySplit = query.split("..");
+      if (querySplit.length === 2) {
+        const min = parseInt(querySplit[0]);
+        const max = parseInt(querySplit[1]);
+        if (
+          (min || min === 0) &&
+          (max || max === 0) &&
+          min <= max &&
+          min >= 0 &&
+          max <= 100
+        ) {
+          return [min, max];
+        } else return null;
+      }
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]}`;
+    },
+  },
+  // score_count: {
+  //   currentValue: null,
+  //   // prepareValueForQuery takes whatever our value data structure is and turns it into a URL-safe string
+  //   prepareValueForQuery: (value) => {
+  //     if (!value) return null;
+  //     else return `${value[0]}..${value[1]}`;
+  //   },
+  //   // i recommend renaming to parseValueFromQuery -> takes whatever was in the URL, and very safely tries to unwind to a value
+  //   parseValueFromQuery: (query) => {
+  //     /// make this common helper functione for get range from query
+  //     const querySplit = query.split("..");
+  //     if (querySplit.length === 2) {
+  //       const min = parseInt(querySplit[0]);
+  //       const max = parseInt(querySplit[1]);
+  //       if (
+  //         (min || min === 0) &&
+  //         (max || max === 0) &&
+  //         min <= max &&
+  //         min >= 0 &&
+  //         max <= Number.MAX_VALUE
+  //       ) {
+  //         return [min, max];
+  //       } else return null;
+  //     }
+  //   },
+  //   prepareValueForChips: (value) => {
+  //     if (!value) return null;
+  //     else return `${value[0]}-${value[1]}`;
+  //   },
+  // },
+  release: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
+    },
+    parseValueFromQuery: (query) => {
+      const querySplit = query.split("..");
+      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]}`;
+    },
+  },
+  genre: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value.join(",");
+    },
+    parseValueFromQuery: (query) => {
+      // console.log("query split: ", query.split(","));
+      return query.split(",");
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return value.join(", ");
+    },
+  },
+  runtime: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
+    },
+    parseValueFromQuery: (query) => {
+      const querySplit = query.split("..");
+      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]} minutes`;
+    },
+  },
+};
 
 // Filters
 export const movieFilters = [

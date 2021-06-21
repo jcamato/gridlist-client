@@ -24,117 +24,6 @@ import SliderRangeNew from "../components/Filter/SliderRangeNew";
 import "./browse/browse.css";
 // import style from "./test1.module.css";
 
-// generateQueryString
-
-const sortConfig = {
-  sort: {
-    currentValue: null,
-    prepareValueForQuery: (value) => {
-      if (!value) return null;
-      else return value;
-    },
-    parseQuery: (query) => {
-      /// make this common helper functione for get range from query
-      if (query === "score" || query === "release" || query === "revenue") {
-        return query;
-      } else return null;
-    },
-  },
-  order: {
-    currentValue: null,
-    prepareValueForQuery: (value) => {
-      if (!value) return null;
-      else return value;
-    },
-    parseQuery: (query) => {
-      /// make this common helper functione for get range from query
-      if (query === "asc") {
-        return query;
-      } else return null;
-    },
-  },
-};
-
-// Change this to listConfig to change view and sort as well?
-const filterConfig = {
-  score: {
-    // range: [0, 100],
-    currentValue: null,
-    // prepareValueForQuery takes whatever our value data structure is and turns it into a URL-safe string
-    prepareValueForQuery: (value) => {
-      if (!value) return null;
-      else return `${value[0]}..${value[1]}`;
-    },
-    // i recommend renaming to parseValueFromQuery -> takes whatever was in the URL, and very safely tries to unwind to a value
-    parseQuery: (query) => {
-      /// make this common helper functione for get range from query
-      const querySplit = query.split("..");
-      if (querySplit.length === 2) {
-        const min = parseInt(querySplit[0]);
-        const max = parseInt(querySplit[1]);
-        if (
-          (min || min === 0) &&
-          (max || max === 0) &&
-          min <= max &&
-          min >= 0 &&
-          max <= 100
-        ) {
-          return [min, max];
-        } else return null;
-      }
-    },
-    prepareValueForChips: (value) => {
-      if (!value) return null;
-      else return `${value[0]}-${value[1]}`;
-    },
-  },
-  release: {
-    currentValue: null,
-    prepareValueForQuery: (value) => {
-      if (!value) return null;
-      else return `${value[0]}..${value[1]}`;
-    },
-    parseQuery: (query) => {
-      const querySplit = query.split("..");
-      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
-    },
-    prepareValueForChips: (value) => {
-      if (!value) return null;
-      else return `${value[0]}-${value[1]}`;
-    },
-  },
-  genre: {
-    currentValue: null,
-    prepareValueForQuery: (value) => {
-      if (!value) return null;
-      else return value.join(",");
-    },
-    parseQuery: (query) => {
-      // console.log("query split: ", query.split(","));
-      return query.split(",");
-    },
-    prepareValueForChips: (value) => {
-      if (!value) return null;
-      else return value.join(", ");
-    },
-  },
-  runtime: {
-    currentValue: null,
-    prepareValueForQuery: (value) => {
-      if (!value) return null;
-      else return `${value[0]}..${value[1]}`;
-    },
-    parseQuery: (query) => {
-      const querySplit = query.split("..");
-      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
-    },
-    prepareValueForChips: (value) => {
-      if (!value) return null;
-      else return `${value[0]}-${value[1]}`;
-    },
-  },
-};
-
 const Test1 = () => {
   useEffect(() => {
     getCurrentQueryString();
@@ -144,7 +33,7 @@ const Test1 = () => {
   let history = useHistory();
   let location = useLocation();
 
-  // TODO: This needs to use a new batchUpdate or something, instead of updateFiltering one by one as it parse thes
+  // TODO: This needs to use a new batchUpdate or something, instead of updateFiltering one by one as it parses
   const getCurrentQueryString = () => {
     const currentQueryString = queryString.parse(location.search);
     console.log("Query String: ", currentQueryString);
@@ -152,7 +41,7 @@ const Test1 = () => {
     for (const parameterKey of Object.keys(currentQueryString)) {
       console.log("parameterkey", parameterKey);
 
-      // const matchingFilter = Object.values(filterConfig).find(
+      // const matchingFilter = Object.values(Constants.filterConfig).find(
       //   (i) => i.name === parameterKey
       // );
 
@@ -166,7 +55,7 @@ const Test1 = () => {
       if (sort[parameterKey]) {
         updateSort({
           name: parameterKey, // used to replace the value where filter returns the name
-          newValue: sort[parameterKey].parseQuery(
+          newValue: sort[parameterKey].parseValueFromQuery(
             currentQueryString[parameterKey]
           ),
         });
@@ -175,27 +64,11 @@ const Test1 = () => {
       if (filters[parameterKey]) {
         updateFilters({
           name: parameterKey, // used to replace the value where filter returns the name
-          newValue: filters[parameterKey].parseQuery(
+          newValue: filters[parameterKey].parseValueFromQuery(
             currentQueryString[parameterKey]
           ),
         });
       }
-
-      // if (page[parameterKey]) {
-      //   updatepage({
-      //     name: parameterKey, // used to replace the value where filter returns the name
-      //     newValue: sort[parameterKey].parseQuery(
-      //       currentQueryString[parameterKey]
-      //     ),
-      //   });
-      // }
-
-      // updateSort({
-      //   name: parameterKey, // used to replace the value where filter returns the name
-      //   newValue: filters[parameterKey].parseQuery(
-      //     currentQueryString[parameterKey]
-      //   ),
-      // });
     }
   };
 
@@ -203,16 +76,9 @@ const Test1 = () => {
     history.push(`?${qs}`);
   };
 
-  // const [view, setView] = useState("grid");
-  // const [sort, setSort] = useState("popularity");
-  // const [sortDirection, setSortDirection] = useState("desc");
-
-  // const initialFilters = queryDictionary;
-
-  const [sort, setSort] = useState(sortConfig);
-  const [filters, setFilters] = useState(filterConfig);
+  const [sort, setSort] = useState(Constants.sortConfig);
+  const [filters, setFilters] = useState(Constants.filterConfig);
   const [page, setPage] = useState(1);
-  // let filterQuery = "";
 
   useEffect(() => {
     handleHistory(createQueryString());
@@ -239,7 +105,7 @@ const Test1 = () => {
   };
 
   const clearFilters = () => {
-    setFilters(filterConfig);
+    setFilters(Constants.filterConfig);
   };
 
   const updateSort = (sortUpdateInfo) => {
@@ -329,14 +195,25 @@ const Test1 = () => {
             unit="Percent"
             min={0}
             max={100}
+            step={1}
             currentFilters={filters}
             updateFilters={updateFilters}
           />
+          {/* <SliderRangeNew
+            name="score_count"
+            unit="count"
+            min={0}
+            max={50000}
+            step={100}
+            currentFilters={filters}
+            updateFilters={updateFilters}
+          /> */}
           <SliderRangeNew
             name="release"
             unit="Years"
             min={1896}
             max={new Date().getFullYear() + 1}
+            step={1}
             currentFilters={filters}
             updateFilters={updateFilters}
           />
@@ -351,6 +228,7 @@ const Test1 = () => {
             unit="Minutes"
             min={0}
             max={300}
+            step={1}
             currentFilters={filters}
             updateFilters={updateFilters}
           />
@@ -373,21 +251,9 @@ const Test1 = () => {
               currentSelection={sort}
               updateSelection={updateSort}
             />
-            {/* <p>Direction:</p>
-            <SelectMenuNew
-              width="12.5rem"
-              defaultDisplay="Descending"
-              defaultIcon="keyboard_arrow_down"
-              content={Constants.sortDirectionOptions}
-              onSelect={(newSortDirection) => {
-                setSortDirection(newSortDirection);
-              }}
-            /> */}
           </div>
         </header>
         <main className="mainContent">
-          {/* <button onClick={() => { pushHistory("/game/1942") }}>Push route /game/1942</button>
-          <button onClick={() => { pushHistory("/game/11156") }}>Push route /game/11156</button> */}
           <FilterChipsNew
             currentFilters={filters}
             updateFilters={updateFilters}
