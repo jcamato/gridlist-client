@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import _ from "lodash";
+import { default as queryString } from "query-string";
 
 // assets
 import null_movie from "../../assets/img/null_movie.png";
@@ -9,98 +11,114 @@ import * as Constants from "../../constants";
 
 // Components
 import Grid from "../../components/Grid/Grid";
-import List from "../../components/List/List";
+// import List from "../../components/List/List";
 import MovieCard from "../../components/MovieCard/MovieCard";
-import MovieRow from "../../components/MovieRow/MovieRow";
+// import MovieRow from "../../components/MovieRow/MovieRow";
 import SelectMenu from "../../components/SelectMenu/SelectMenu";
 import FilterChips from "../../components/FilterChips/FilterChips";
 import CheckboxList from "../../components/Filter/CheckboxList";
 import SliderRange from "../../components/Filter/SliderRange";
 
 // Hooks
-import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+// import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 // Styles
 import "./browse.css";
 
 const BrowseMovies = () => {
-  // TMDB
-  const APP_KEY = process.env.REACT_APP_TMDB_KEY;
+  useEffect(() => {
+    getCurrentQueryString();
+    // console.log(match);
+    // console.log(`http://localhost:5000/movies${location.search}`);
+  }, []);
+
+  let history = useHistory();
+  let location = useLocation();
+
+  // TODO: This needs to use a new batchUpdate or something, instead of updateFiltering one by one as it parses
+  const getCurrentQueryString = () => {
+    const currentQueryString = queryString.parse(location.search);
+    console.log("Query String: ", currentQueryString);
+
+    for (const parameterKey of Object.keys(currentQueryString)) {
+      console.log("parameterkey", parameterKey);
+
+      // const matchingFilter = Object.values(Constants.filterConfig).find(
+      //   (i) => i.name === parameterKey
+      // );
+
+      if (parameterKey === "page") {
+        const page = parseInt(currentQueryString[parameterKey]);
+        if (page > 1) {
+          setPage(page);
+        }
+      }
+
+      if (sort[parameterKey]) {
+        updateSort({
+          name: parameterKey, // used to replace the value where filter returns the name
+          newValue: sort[parameterKey].parseValueFromQuery(
+            currentQueryString[parameterKey]
+          ),
+        });
+      }
+
+      if (filters[parameterKey]) {
+        updateFilters({
+          name: parameterKey, // used to replace the value where filter returns the name
+          newValue: filters[parameterKey].parseValueFromQuery(
+            currentQueryString[parameterKey]
+          ),
+        });
+      }
+    }
+  };
+
+  const handleHistory = (qs) => {
+    history.push(`?${qs}`);
+  };
+
+  const getMovies = async () => {
+    if (createQueryString().length > 0) {
+      const response = await fetch(
+        `http://localhost:5000/movies?${createQueryString()}`
+      );
+      const data = await response.json();
+      setMovies(data);
+      console.log("resonse", data);
+    } else {
+      const response = await fetch(`http://localhost:5000/movies`);
+      const data = await response.json();
+      setMovies(data);
+      console.log("resonse", data);
+    }
+  };
 
   const [movies, setMovies] = useState([]);
 
-  const [view, setView] = useState("grid");
-  const [sort, setSort] = useState("popularity");
-  const [sortDirection, setSortDirection] = useState("desc");
-
-  const initialNextPage = 2;
-  const [nextPage, setNextPage] = useState(initialNextPage);
-
-  const initialFilters = Constants.movieFilters;
-
-  const [filters, setFilters] = useState(initialFilters);
-  let filterQuery = "";
-
-  // For now use vote_count.gte until I can weigh the scores myself
-  // const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
+  const [sort, setSort] = useState(Constants.sortConfig);
+  const [filters, setFilters] = useState(Constants.filterConfig);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    makeFilterQuery();
-    resetNextPage();
+    handleHistory(createQueryString());
+    // console.log(location.search);
     getMovies();
-  }, [sort, sortDirection, filters]);
+  }, [sort, filters, page]);
 
-  const resetNextPage = () => {
-    setNextPage(initialNextPage);
-  };
-
-  // FIX:
-  // - Refactor these two fetches into one function
-  // - Add progress indicator at bottom during fetch loads
-  // - Filters are not preserved across additional pages
-  // - Filters need to display the associated text
-  // - Coming back to page resets filters, sort, etc.
-  const getMovies = async () => {
-    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    // const serverCall = `http://localhost:5000/movies?&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    console.log(`filterQuery: ${filterQuery}`);
-    console.log(`fetchLog: ${fetchLog}`);
-    const response = await fetch(fetchCall);
-    const data = await response.json();
-    setMovies(data.results);
-    console.log(data.results);
-  };
-
-  const getMoreMovies = async () => {
-    const fetchCall = `https://api.themoviedb.org/3/discover/movie?api_key=${APP_KEY}&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    const fetchLog = `&without_keywords=210024&include_adult=false&vote_count.gte=250&sort_by=${sort}.${sortDirection}${filterQuery}`;
-    console.log(`filterQuery: ${filterQuery}`);
-    const nextFetchCall = `${fetchCall}&page=${nextPage}`;
-    const nextFetchLog = `${fetchLog}&page=${nextPage}`;
-    console.log(`nextFetchLog: ${nextFetchLog}`);
-    const response = await fetch(nextFetchCall);
-    const data = await response.json();
-    console.log(data.results);
-    setMovies((prevMovies) => [...prevMovies, ...data.results]);
-    setIsFetching(false);
-    setNextPage((prevPage) => prevPage + 1);
-  };
-
+  // change this to instead update in bulk depending on if array is passed or not
   const updateFilters = (filterUpdateInfo) => {
+    console.log("filter updating", filterUpdateInfo);
     const newFilters = _.cloneDeep(filters);
-    const indexOfFilter = newFilters.findIndex(
-      (f) => f.name === filterUpdateInfo.name
-    );
 
-    if (indexOfFilter < 0) {
+    if (!Object.keys(newFilters).includes(filterUpdateInfo.name)) {
       console.log("Tried to update filter that couldn't be found");
       return;
     }
 
     _.set(
       newFilters,
-      `[${indexOfFilter}].currentValue`,
+      `${filterUpdateInfo.name}.currentValue`,
       filterUpdateInfo.newValue
     );
 
@@ -108,116 +126,174 @@ const BrowseMovies = () => {
   };
 
   const clearFilters = () => {
-    setFilters(initialFilters);
+    setFilters(Constants.filterConfig);
   };
 
-  const makeFilterQuery = () => {
-    console.log(filters);
+  const updateSort = (sortUpdateInfo) => {
+    console.log("sort updating", sortUpdateInfo);
+    const newSort = _.cloneDeep(sort);
 
-    const currentFilters = filters.filter(
-      // deep comparison
-      (filter) => !_.isEqual(filter.defaultValue, filter.currentValue)
+    if (!Object.keys(newSort).includes(sortUpdateInfo.name)) {
+      console.log("Tried to update sort that couldn't be found");
+      return;
+    }
+
+    _.set(
+      newSort,
+      `${sortUpdateInfo.name}.currentValue`,
+      sortUpdateInfo.newValue
     );
 
-    console.log(currentFilters);
-
-    filterQuery = currentFilters
-      .map(
-        (filter) =>
-          `${filter.query}=${filter.prepareValueForQuery(filter.currentValue)}`
-      )
-      .join("");
+    setSort(newSort);
   };
 
-  const [isFetching, setIsFetching] = useInfiniteScroll(getMoreMovies);
+  const incrementPage = () => {
+    setPage(page + 1);
+    // console.log(page);
+  };
+
+  const decrementPage = () => {
+    setPage(page - 1);
+    // console.log(page);
+  };
+
+  const createQueryString = () => {
+    // console.log(filters);
+
+    const changedSortNameList = Object.keys(sort).filter(
+      // deep comparison
+      (name) => sort[name].currentValue !== null
+    );
+
+    const changedSortString = changedSortNameList
+      // .map((name) => filters[name])
+      .map(
+        (name) =>
+          `${name}=${sort[name].prepareValueForQuery(sort[name].currentValue)}`
+      );
+
+    const changedFiltersNameList = Object.keys(filters).filter(
+      // deep comparison
+      (name) => filters[name].currentValue !== null
+    );
+
+    const changedFiltersString = changedFiltersNameList
+      // .map((name) => filters[name])
+      .map(
+        (name) =>
+          `${name}=${filters[name].prepareValueForQuery(
+            filters[name].currentValue
+          )}`
+      );
+
+    let changedPageString = [];
+
+    // FIX: if doing infinite scroll for page incrase, change from page to pages
+    if (page > 1) {
+      changedPageString = [`page=${page}`];
+    }
+
+    // console.log(changedFiltersString);
+
+    const changedList = changedSortString.concat(
+      changedFiltersString,
+      changedPageString
+    );
+
+    // console.log(changedList);
+
+    return changedList.join("&");
+
+    // console.log(filterQuery);
+  };
 
   return (
-    <div className="browseMain">
-      <section className="filterContainer">
-        <SliderRange
-          title="Score"
-          unit="Percent"
-          lowerName="Score GTE"
-          upperName="Score LTE"
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        <SliderRange
-          title="Release"
-          unit="Years"
-          lowerName="Release GTE"
-          upperName="Release LTE"
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        <CheckboxList
-          title="Genre"
-          name="Genre"
-          content={Constants.genres}
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        <SliderRange
-          title="Runtime"
-          unit="Minutes"
-          lowerName="Runtime GTE"
-          upperName="Runtime LTE"
-          currentFilters={filters}
-          updateFilters={updateFilters}
-        />
-        {/* <div className="filterWidget"></div>
-        <div className="filterWidget"></div>
-        <div className="filterWidget"></div>
-        <div className="filterWidget"></div>
-        <div className="filterWidget"></div>
-        <div className="filterWidget"></div> */}
-      </section>
-      <header className="header">
-        <h1>Movies</h1>
-        <div className="selectGroup">
-          <p>View:</p>
-          <SelectMenu
-            width="9rem"
-            defaultDisplay="Grid"
-            defaultIcon="view_module"
-            content={Constants.viewOptions}
-            onSelect={(newView) => {
-              if (newView === "list") {
-                getMoreMovies();
-              }
-              setView(newView);
-            }}
+    <Fragment>
+      <div className="browseMain">
+        <section className="filterContainer">
+          <SliderRange
+            name="score"
+            unit="Percent"
+            min={0}
+            max={100}
+            step={1}
+            currentFilters={filters}
+            updateFilters={updateFilters}
           />
-          <p>Sort:</p>
-          <SelectMenu
-            width="12.5rem"
-            defaultDisplay="Popularity"
-            defaultIcon="whatshot"
-            content={Constants.sortOptions}
-            onSelect={(newSort) => {
-              setSort(newSort);
-            }}
+          {/* <SliderRange
+            name="score_count"
+            unit="count"
+            min={0}
+            max={50000}
+            step={100}
+            currentFilters={filters}
+            updateFilters={updateFilters}
+          /> */}
+          <SliderRange
+            name="release"
+            unit="Years"
+            min={1874}
+            max={new Date().getFullYear() + 1}
+            step={1}
+            currentFilters={filters}
+            updateFilters={updateFilters}
           />
-          <p>Direction:</p>
-          <SelectMenu
-            width="12.5rem"
-            defaultDisplay="Descending"
-            defaultIcon="keyboard_arrow_down"
-            content={Constants.sortDirectionOptions}
-            onSelect={(newSortDirection) => {
-              setSortDirection(newSortDirection);
-            }}
+          <CheckboxList
+            name="genre"
+            content={Constants.genres}
+            currentFilters={filters}
+            updateFilters={updateFilters}
           />
-        </div>
-      </header>
-      <main className="mainContent">
-        <FilterChips
-          currentFilters={filters}
-          updateFilters={updateFilters}
-          clearFilters={clearFilters}
-        />
-
-        {view === "grid" ? (
+          <SliderRange
+            name="runtime"
+            unit="Minutes"
+            min={0}
+            max={300}
+            step={1}
+            currentFilters={filters}
+            updateFilters={updateFilters}
+          />
+        </section>
+        <header className="header">
+          <h1>Movies</h1>
+          <div className="selectGroup">
+            {/* <p>View:</p>
+            <SelectMenu
+              width="9rem"
+              defaultDisplay="Grid"
+              defaultIcon="view_module"
+              content={Constants.viewOptions}
+              onSelect={(newView) => {
+                if (newView === "list") {
+                  getMoreMovies();
+                }
+                setView(newView);
+              }}
+            /> */}
+            <p>Sort:</p>
+            <SelectMenu
+              name="sort"
+              width="12.5rem"
+              content={Constants.sortOptions}
+              currentSelection={sort}
+              updateSelection={updateSort}
+            />
+            <SelectMenu
+              name="order"
+              width="12.5rem"
+              content={Constants.orderOptions}
+              currentSelection={sort}
+              updateSelection={updateSort}
+            />
+          </div>
+        </header>
+        <main className="mainContent">
+          <FilterChips
+            currentFilters={filters}
+            updateFilters={updateFilters}
+            clearFilters={clearFilters}
+          />
+          {/* {view === "grid" ? ( */}
           <Grid>
             {movies.map((movie) => {
               return (
@@ -241,7 +317,7 @@ const BrowseMovies = () => {
               );
             })}
           </Grid>
-        ) : (
+          {/* ) : (
           <List>
             {movies.map((movie, index) => {
               return (
@@ -258,23 +334,12 @@ const BrowseMovies = () => {
               );
             })}
           </List>
-        )}
-
-        {isFetching && "Fetching more movies..."}
-      </main>
-      <aside className="adContainer">
-        {/* <div>
-          Movie data powered by{" "}
-          <a
-            href="https://www.themoviedb.org/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            TMDb
-          </a>
-        </div> */}
-      </aside>
-    </div>
+          )} */}
+          {/* {isFetching && "Fetching more movies..."} */}
+        </main>
+        <aside className="adContainer"></aside>
+      </div>
+    </Fragment>
   );
 };
 

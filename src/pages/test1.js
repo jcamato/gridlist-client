@@ -5,17 +5,15 @@ import { default as queryString } from "query-string";
 
 // assets
 
-// FIX: create query builder here
-
 // Constants
 import * as Constants from "../constants";
 
 // Components
-import SelectMenuNew from "../components/SelectMenu/SelectMenuNew";
-import FilterChipsNew from "../components/FilterChips/FilterChipsNew";
-import CheckboxListNew from "../components/Filter/CheckboxListNew";
+import SelectMenu from "../components/SelectMenu/SelectMenu";
+import FilterChips from "../components/FilterChips/FilterChips";
+import CheckboxList from "../components/Filter/CheckboxList";
 // import SliderRange from "../components/Filter/SliderRange";
-import SliderRangeNew from "../components/Filter/SliderRangeNew";
+import SliderRange from "../components/Filter/SliderRange";
 
 // Hooks
 // import useInfiniteScroll from "../hooks/useInfiniteScroll";
@@ -33,7 +31,7 @@ const Test1 = () => {
   let history = useHistory();
   let location = useLocation();
 
-  // TODO: This needs to use a new batchUpdate or something, instead of updateFiltering one by one as it parses
+  // TODO: This needs to use a  batchUpdate or something, instead of updateFiltering one by one as it parses
   const getCurrentQueryString = () => {
     const currentQueryString = queryString.parse(location.search);
     console.log("Query String: ", currentQueryString);
@@ -74,6 +72,7 @@ const Test1 = () => {
 
   const handleHistory = (qs) => {
     history.push(`?${qs}`);
+    // console.log("full url", window.location.href);
   };
 
   const [sort, setSort] = useState(Constants.sortConfig);
@@ -190,7 +189,7 @@ const Test1 = () => {
     <Fragment>
       <div className="browseMain">
         <section className="filterContainer">
-          <SliderRangeNew
+          <SliderRange
             name="score"
             unit="Percent"
             min={0}
@@ -199,7 +198,7 @@ const Test1 = () => {
             currentFilters={filters}
             updateFilters={updateFilters}
           />
-          {/* <SliderRangeNew
+          {/* <SliderRange
             name="score_count"
             unit="count"
             min={0}
@@ -208,22 +207,22 @@ const Test1 = () => {
             currentFilters={filters}
             updateFilters={updateFilters}
           /> */}
-          <SliderRangeNew
+          <SliderRange
             name="release"
             unit="Years"
-            min={1896}
+            min={1874}
             max={new Date().getFullYear() + 1}
             step={1}
             currentFilters={filters}
             updateFilters={updateFilters}
           />
-          <CheckboxListNew
+          <CheckboxList
             name="genre"
             content={Constants.genres}
             currentFilters={filters}
             updateFilters={updateFilters}
           />
-          <SliderRangeNew
+          <SliderRange
             name="runtime"
             unit="Minutes"
             min={0}
@@ -237,24 +236,24 @@ const Test1 = () => {
           <h1>Movies</h1>
           <div className="selectGroup">
             <p>Sort:</p>
-            <SelectMenuNew
+            <SelectMenu
               name="sort"
               width="12.5rem"
-              content={Constants.sortOptionsNew}
+              content={Constants.sortOptions}
               currentSelection={sort}
               updateSelection={updateSort}
             />
-            <SelectMenuNew
+            <SelectMenu
               name="order"
               width="12.5rem"
-              content={Constants.orderOptionsNew}
+              content={Constants.orderOptions}
               currentSelection={sort}
               updateSelection={updateSort}
             />
           </div>
         </header>
         <main className="mainContent">
-          <FilterChipsNew
+          <FilterChips
             currentFilters={filters}
             updateFilters={updateFilters}
             clearFilters={clearFilters}
@@ -262,6 +261,29 @@ const Test1 = () => {
           {page > 1 && <button onClick={decrementPage}>Previous Page</button>}
           <span>Page: {page}</span>
           <button onClick={incrementPage}>Next Page</button>
+          {/* <div className="pages">
+            {
+              <button disabled={!(page > 1)} onClick={decrementPage}>
+                Previous Page
+              </button>
+            }
+            <span>
+              Page: {page} of{" "}
+              {movies[0] &&
+                movies[0].total_results &&
+                Math.ceil(movies[0].total_results / 20)}
+            </span>
+            <button
+              disabled={
+                movies[0] &&
+                movies[0].total_results &&
+                page === Math.ceil(movies[0].total_results / 20)
+              }
+              onClick={incrementPage}
+            >
+              Next Page
+            </button>
+          </div> */}
         </main>
         <aside className="adContainer"></aside>
       </div>

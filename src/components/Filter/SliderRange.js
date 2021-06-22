@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import style from "./sliderrange.module.css";
+import _ from "lodash";
+import { toTitleCase } from "../../utils";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
@@ -11,62 +13,53 @@ const useStyles = makeStyles({
 });
 
 const SliderRange = (props) => {
-  // MUI's implementation for this prop
+  const [draftBounds, setDraftBounds] = useState(null);
+
   function valuetext(value) {
-    return `${props.title} ${value} ${props.unit}`;
+    return `${props.name} ${value} ${props.unit}`;
   }
 
   const classes = useStyles();
 
-  const min = props.currentFilters.find((f) => f.name === props.lowerName)
-    .defaultValue;
-  const max = props.currentFilters.find((f) => f.name === props.upperName)
-    .defaultValue;
+  let resolvedValue;
+  if (draftBounds) {
+    resolvedValue = draftBounds;
+  } else if (props.currentFilters[props.name].currentValue) {
+    resolvedValue = props.currentFilters[props.name].currentValue;
+  } else {
+    resolvedValue = [props.min, props.max];
+  }
 
-  const lowerBound = props.currentFilters.find(
-    (f) => f.name === props.lowerName
-  ).currentValue;
-  const upperBound = props.currentFilters.find(
-    (f) => f.name === props.upperName
-  ).currentValue;
-
-  // FIX: Lift state up to fix slider not updating with chips?
-  const [bounds, setBounds] = useState([min, max]);
-
-  const handleChange = (event, newValue) => {
-    setBounds(newValue);
-    // console.log(newValue);
+  const handleChange = (event, sliderValue) => {
+    setDraftBounds(sliderValue);
   };
 
-  const handleCommittedChange = (event, newValue) => {
-    // console.log(bounds);
-    // console.log(valuetext(newValue));
-
-    // send back to update filter if one of the bounds changes
-    if (lowerBound !== bounds[0]) {
-      props.updateFilters({
-        name: props.lowerName, // used to replace the value where filter returns the name
-        newValue: bounds[0],
-      });
-    } else if (upperBound !== bounds[1]) {
-      props.updateFilters({
-        name: props.upperName, // used to replace the value where filter returns the name
-        newValue: bounds[1],
-      });
-    }
+  const handleCommittedChange = (event, sliderValue) => {
+    // set committed value to null if it equals min and max of slider
+    const committedValue = _.isEqual(sliderValue, [props.min, props.max])
+      ? null
+      : sliderValue;
+    props.updateFilters({
+      name: props.name,
+      newValue: committedValue,
+    });
+    setDraftBounds(null);
   };
 
   return (
     // <div className={props.className}>
     <div className="disableSelect">
       <div className={style.sliderFilter}>
-        <div className={style.filterTitle}>{props.title}</div>
+        <div className={style.filterTitle}>
+          {toTitleCase(props.name.replace(/_/g, " "))}
+        </div>
         <div className={style.sliderContainer}>
           <Slider
             className={classes.root}
-            min={min}
-            max={max}
-            value={bounds}
+            min={props.min}
+            max={props.max}
+            step={props.step}
+            value={resolvedValue}
             onChange={handleChange}
             onChangeCommitted={handleCommittedChange}
             valueLabelDisplay="off"
@@ -75,8 +68,8 @@ const SliderRange = (props) => {
           />
         </div>
         <div className={style.valuesContainer}>
-          <div className={style.values}>{bounds[0]}</div>
-          <div className={style.values}>{bounds[1]}</div>
+          <div className={style.values}>{resolvedValue[0]}</div>
+          <div className={style.values}>{resolvedValue[1]}</div>
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ export const viewOptions = [
 //   },
 // };
 
-export const sortOptionsNew = [
+export const sortOptions = [
   { default: false, value: "score", icon: "star", display: "Score" },
   {
     default: false,
@@ -63,9 +63,15 @@ export const sortOptionsNew = [
     icon: "attach_money",
     display: "Revenue",
   },
+  {
+    default: false,
+    value: "budget",
+    icon: "attach_money",
+    display: "Budget",
+  },
 ];
 
-export const orderOptionsNew = [
+export const orderOptions = [
   {
     default: true,
     value: "desc",
@@ -80,19 +86,19 @@ export const orderOptionsNew = [
   },
 ];
 
-export const sortOptions = [
-  { value: "vote_average", icon: "star", display: "Score" },
-  { value: "release_date", icon: "date_range", display: "Release Date" },
-  { value: "popularity", icon: "whatshot", display: "Popularity" },
-  // FIX: there is just no point in sorting by title ever?
-  { value: "original_title", icon: "sort_by_alpha", display: "Title" },
-  { value: "revenue", icon: "attach_money", display: "Revenue" },
-];
+// export const sortOptions = [
+//   { value: "vote_average", icon: "star", display: "Score" },
+//   { value: "release_date", icon: "date_range", display: "Release Date" },
+//   { value: "popularity", icon: "whatshot", display: "Popularity" },
+//   // FIX: there is just no point in sorting by title ever?
+//   { value: "original_title", icon: "sort_by_alpha", display: "Title" },
+//   { value: "revenue", icon: "attach_money", display: "Revenue" },
+// ];
 
-export const sortDirectionOptions = [
-  { value: "desc", icon: "keyboard_arrow_down", display: "Descending" },
-  { value: "asc", icon: "keyboard_arrow_up", display: "Ascending" },
-];
+// export const sortDirectionOptions = [
+//   { value: "desc", icon: "keyboard_arrow_down", display: "Descending" },
+//   { value: "asc", icon: "keyboard_arrow_up", display: "Ascending" },
+// ];
 
 // Category Menus
 export const movieCategoryOptions = [
@@ -294,8 +300,8 @@ export const movieFilters = [
   {
     name: "Release GTE",
     query: "&primary_release_date.gte",
-    defaultValue: 1896,
-    currentValue: 1896,
+    defaultValue: 1874,
+    currentValue: 1874,
     prepareValueForQuery: (value) => {
       return `${value}-01-01`;
     },

@@ -1,48 +1,55 @@
 import React from "react";
 import style from "./checkboxlist.module.css";
+import { toTitleCase } from "../../utils";
 
 const CheckboxList = (props) => {
   const list = props.content;
-  const defaultState = props.currentFilters.find((f) => f.name === props.name)
-    .defaultValue;
-  const selectedItems = props.currentFilters.find((f) => f.name === props.name)
-    .currentValue;
+  const currentValue = props.currentFilters[props.name].currentValue;
+  const selectedItems = currentValue === null ? [] : currentValue;
 
-  console.log(props);
+  // one source of truth
+  const isAny = selectedItems.length === 0;
+
   // Clear genres when empty Any is selected
   const onAnyClickHandler = () => {
     props.updateFilters({
       name: props.name,
-      newValue: defaultState,
+      newValue: null,
     });
   };
 
   const onClickHandler = (item) => {
     // if selectedItems doesn't have ID then add it
-    if (!selectedItems.some((el) => el === item.id)) {
-      const addItem = [...selectedItems, item.id];
+    if (!selectedItems.some((el) => el === item.name.toLowerCase())) {
+      const addItem = [...selectedItems, item.name.toLowerCase()];
       props.updateFilters({
         name: props.name,
         newValue: addItem,
       });
     } else {
       // remove id
-      const removeItem = selectedItems.filter((el) => el !== item.id);
-      props.updateFilters({
-        name: props.name,
-        newValue: removeItem,
-      });
-    }
-    // console.log(selectedItems);
-  };
+      const removeItem = selectedItems.filter(
+        (el) => el !== item.name.toLowerCase()
+      );
 
-  // one source of truth
-  const isAny = selectedItems.length === 0;
+      if (removeItem.length === 0) {
+        props.updateFilters({
+          name: props.name,
+          newValue: null,
+        });
+      } else {
+        props.updateFilters({
+          name: props.name,
+          newValue: removeItem,
+        });
+      }
+    }
+  };
 
   return (
     <div className={[props.className, "disableSelect"].join(" ")}>
       <div className={style.checkboxlist}>
-        <div className={style.filtertitle}>{props.title}</div>
+        <div className={style.filtertitle}>{toTitleCase(props.name)}</div>
         <ul>
           <li>
             <div>
@@ -69,7 +76,7 @@ const CheckboxList = (props) => {
                       onClickHandler(item);
                     }}
                   >
-                    {selectedItems.some((el) => el === item.id)
+                    {selectedItems.some((el) => el === item.name.toLowerCase())
                       ? "check_box"
                       : "check_box_outline_blank"}
                   </i>

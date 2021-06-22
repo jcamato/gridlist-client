@@ -1,52 +1,42 @@
 import React from "react";
 import style from "./filterchips.module.css";
-import _ from "lodash";
 
 const FilterChips = (props) => {
-  const currentFilters = props.currentFilters.filter(
+  const changedFiltersNameList = Object.keys(props.currentFilters).filter(
     // deep comparison
-    (filter) => !_.isEqual(filter.defaultValue, filter.currentValue)
+    (name) => props.currentFilters[name].currentValue !== null
   );
 
-  const isFiltered = currentFilters.length === 0;
+  const isFiltered = changedFiltersNameList.length !== 0;
 
-  // const makeFilterChip = filter => {
-  //   // take currentFilters and create formatted string
-  // };
-
-  const handleClick = (filter) => {
+  const handleClick = (name) => {
     props.updateFilters({
-      name: filter.name,
-      newValue: filter.defaultValue,
+      name: name,
+      newValue: null,
     });
   };
 
   return (
     <div className={props.className}>
       <div className={style.filterChips}>
-        {currentFilters.map((filter) => {
+        {changedFiltersNameList.map((name) => {
           return (
             <div
-              key={filter.name}
+              key={name}
               className={style.filterChip}
               onClick={() => {
-                handleClick(filter);
+                handleClick(name);
               }}
             >
-              {filter.name}: {filter.prepareValueForQuery(filter.currentValue)}
+              {name.replace(/_/g, " ")}:{" "}
+              {props.currentFilters[name].prepareValueForChips(
+                props.currentFilters[name].currentValue
+              )}
             </div>
           );
         })}
 
-        {/* <div className={style.filterChip}>Score: 85-100</div>
-        <div className={style.filterChip}>Release: 1980-2010</div>
-        <div className={style.filterChip}>Genre: Action & Comedy & Fantasy</div>
-        <div className={style.filterChip}>Runtime: 0-120</div> */}
-        {/* add any applicable widgets that can be accessed by discover call */}
-        {/* <div className={style.filterChip}>Cast: Tom Hanks | Jack Nicholson</div>
-        <div className={style.filterChip}>Crew: David Fincher</div> */}
-
-        {!isFiltered && (
+        {isFiltered && (
           <div
             className={style.clearChip}
             onClick={() => {

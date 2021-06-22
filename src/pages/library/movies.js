@@ -82,39 +82,34 @@ const Library = () => {
       <header className={style.header}>
         <h1>Movies</h1>
         <div className={style.selectGroup}>
-          <p>View:</p>
+          {/* <p>View:</p>
+            <SelectMenu
+              width="9rem"
+              defaultDisplay="Grid"
+              defaultIcon="view_module"
+              content={Constants.viewOptions}
+              onSelect={(newView) => {
+                if (newView === "list") {
+                  getMoreMovies();
+                }
+                setView(newView);
+              }}
+            /> */}
+          {/* <p>Sort:</p>
           <SelectMenu
-            width="9rem"
-            defaultDisplay="Grid"
-            defaultIcon="view_module"
-            content={Constants.viewOptions}
-            // onSelect={(newView) => {
-            //   if (newView === "list") {
-            //     getMoreMovies();
-            //   }
-            //   setView(newView);
-            // }}
-          />
-          <p>Sort:</p>
-          <SelectMenu
+            name="sort"
             width="12.5rem"
-            defaultDisplay="Popularity"
-            defaultIcon="whatshot"
-            // content={Constants.sortOptions}
-            // onSelect={(newSort) => {
-            //   setSort(newSort);
-            // }}
+            content={Constants.sortOptions}
+            currentSelection={sort}
+            updateSelection={updateSort}
           />
-          <p>Direction:</p>
           <SelectMenu
+            name="order"
             width="12.5rem"
-            defaultDisplay="Descending"
-            defaultIcon="keyboard_arrow_down"
-            // content={Constants.sortDirectionOptions}
-            // onSelect={(newSortDirection) => {
-            //   setSortDirection(newSortDirection);
-            // }}
-          />
+            content={Constants.orderOptions}
+            currentSelection={sort}
+            updateSelection={updateSort}
+          /> */}
         </div>
       </header>
 
