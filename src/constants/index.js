@@ -10,38 +10,29 @@ export const baseIGDBbackdropURL =
 
 export const youtubeURL = "https://www.youtube.com/embed/";
 
+export const mediaOptions = [
+  {
+    link: "/movies",
+    icon: "theaters",
+    display: "Movies",
+  },
+  {
+    link: "/tv",
+    icon: "tv",
+    display: "TV",
+  },
+  {
+    link: "/games",
+    icon: "games",
+    display: "Games",
+  },
+];
+
 // Select Menus
 export const viewOptions = [
   { value: "grid", icon: "view_module", display: "Grid" },
   { value: "list", icon: "list", display: "List" },
 ];
-
-// export const sortOptionsNew = {
-//   score: {
-//     default: false,
-//     value: "vote_average",
-//     icon: "star",
-//     display: "Score",
-//   },
-//   release: {
-//     default: false,
-//     value: "release_date",
-//     icon: "date_range",
-//     display: "Release Date",
-//   },
-//   popularity: {
-//     default: true,
-//     value: "popularity",
-//     icon: "whatshot",
-//     display: "Popularity",
-//   },
-//   revenue: {
-//     default: false,
-//     value: "revenue",
-//     icon: "attach_money",
-//     display: "Revenue",
-//   },
-// };
 
 export const sortOptions = [
   { default: false, value: "score", icon: "star", display: "Score" },
@@ -85,20 +76,6 @@ export const orderOptions = [
     display: "Ascending",
   },
 ];
-
-// export const sortOptions = [
-//   { value: "vote_average", icon: "star", display: "Score" },
-//   { value: "release_date", icon: "date_range", display: "Release Date" },
-//   { value: "popularity", icon: "whatshot", display: "Popularity" },
-//   // FIX: there is just no point in sorting by title ever?
-//   { value: "original_title", icon: "sort_by_alpha", display: "Title" },
-//   { value: "revenue", icon: "attach_money", display: "Revenue" },
-// ];
-
-// export const sortDirectionOptions = [
-//   { value: "desc", icon: "keyboard_arrow_down", display: "Descending" },
-//   { value: "asc", icon: "keyboard_arrow_up", display: "Ascending" },
-// ];
 
 // Category Menus
 export const movieCategoryOptions = [
@@ -267,79 +244,3 @@ export const filterConfig = {
     },
   },
 };
-
-// Filters
-export const movieFilters = [
-  {
-    name: "Genre",
-    query: "&with_genres",
-    defaultValue: [],
-    currentValue: [],
-    prepareValueForQuery: (value) => {
-      return value;
-    },
-  },
-  {
-    name: "Score GTE",
-    query: "&vote_average.gte",
-    defaultValue: 0,
-    currentValue: 0,
-    prepareValueForQuery: (value) => {
-      return value / 10;
-    },
-  },
-  {
-    name: "Score LTE",
-    query: "&vote_average.lte",
-    defaultValue: 100,
-    currentValue: 100,
-    prepareValueForQuery: (value) => {
-      return value / 10;
-    },
-  },
-  {
-    name: "Release GTE",
-    query: "&primary_release_date.gte",
-    defaultValue: 1874,
-    currentValue: 1874,
-    prepareValueForQuery: (value) => {
-      return `${value}-01-01`;
-    },
-  },
-  {
-    name: "Release LTE",
-    query: "&primary_release_date.lte",
-    defaultValue: 2021,
-    currentValue: 2021,
-    prepareValueForQuery: (value) => {
-      return `${value}-12-31`;
-    },
-  },
-  {
-    name: "Runtime GTE",
-    query: "&with_runtime.gte",
-    defaultValue: 0,
-    currentValue: 0,
-    prepareValueForQuery: (value) => {
-      return value;
-    },
-  },
-  {
-    name: "Runtime LTE",
-    query: "&with_runtime.lte",
-    defaultValue: 240,
-    currentValue: 240,
-    prepareValueForQuery: (value) => {
-      return value;
-    },
-  },
-  {
-    name: "Cast & Crew",
-    query: "&with_people",
-    defaultValue: [],
-    currentValue: [],
-    prepareValueForQuery: (value) => {
-      return value;
-    },
-  },
-];

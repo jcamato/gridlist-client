@@ -98,6 +98,7 @@ const LibraryEntryModal = (props) => {
               name="score"
               value={score}
               onChange={(e) => onChange(e)}
+              placeholder="1-100"
               min="1"
               max="100"
               step="1"

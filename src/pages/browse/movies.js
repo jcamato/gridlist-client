@@ -35,7 +35,7 @@ const BrowseMovies = () => {
   let history = useHistory();
   let location = useLocation();
 
-  // TODO: This needs to use a new batchUpdate or something, instead of updateFiltering one by one as it parses
+  // FIX: TODO, This needs to use a new batchUpdate or something, instead of updateFiltering one by one as it parses
   const getCurrentQueryString = () => {
     const currentQueryString = queryString.parse(location.search);
     console.log("Query String: ", currentQueryString);
@@ -253,6 +253,7 @@ const BrowseMovies = () => {
             currentFilters={filters}
             updateFilters={updateFilters}
           />
+          {/* FIX: add cast / crew searching */}
         </section>
         <header className="header">
           <h1>Movies</h1>

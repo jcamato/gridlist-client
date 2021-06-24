@@ -8,6 +8,10 @@ import RegisterModal from "../Modal/Auth/RegisterModal";
 import LoginModal from "../Modal/Auth/LoginModal";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { UserContext } from "../../contexts/UserContext";
+import SimpleMenu from "../SimpleMenu/SimpleMenu";
+
+// Constants
+import * as Constants from "../../constants";
 
 const Navbar = () => {
   const history = useHistory();
@@ -38,6 +42,9 @@ const Navbar = () => {
   const [registerModalActive, setRegisterModalActive] = useState(false);
   const [loginModalActive, setLoginModalActive] = useState(false);
 
+  const [browseMenuActive, setBrowseMenuActive] = useState(false);
+  const [libraryMenuActive, setlibraryMenuActive] = useState(false);
+
   const refRegister = useRef();
   const refLogin = useRef();
 
@@ -64,6 +71,10 @@ const Navbar = () => {
     setLoginModalActive((prevActive) => !prevActive);
   };
 
+  const toggleBrowseMenu = () => {
+    setBrowseMenuActive((prevActive) => !prevActive);
+  };
+
   const logout = async (e) => {
     e.preventDefault();
     try {
@@ -85,12 +96,20 @@ const Navbar = () => {
                 <img src={Logo} alt="" />
               </li>
             </Link>
-            <Link className={style.navlink} to="/movies">
-              <li>Movies</li>
-            </Link>
-            <Link className={style.navlink} to="/games">
+            {/* <Link className={style.navlink} to="/movies"> */}
+            <li className={style.navlink} onClick={toggleBrowseMenu}>
+              Browse
+            </li>
+            {browseMenuActive && (
+              <SimpleMenu
+                toggleMenu={toggleBrowseMenu}
+                content={Constants.mediaOptions}
+              />
+            )}
+            {/* </Link> */}
+            {/* <Link className={style.navlink} to="/games">
               <li>Games</li>
-            </Link>
+            </Link> */}
             <Link className={style.navlink} to="/library/movies">
               <li>Library</li>
             </Link>

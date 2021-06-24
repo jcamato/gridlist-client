@@ -86,8 +86,12 @@ const MovieCard = (props) => {
           onMouseLeave={handleHover}
         >
           {props.location === "library" && (
-            <div className={style.libraryScore}>
-              {props.libraryScore ? props.libraryScore : "-"}
+            <div
+              className={
+                props.libraryScore ? style.libraryScore : "displayNone"
+              }
+            >
+              {props.libraryScore}
             </div>
           )}
           {displayOverlay && auth && (
