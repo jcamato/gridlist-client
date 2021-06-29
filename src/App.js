@@ -13,9 +13,9 @@ import ScrollToTop from "./utils/ScrollToTop";
 // Pages
 import Home from "./pages/home";
 import BrowseMovies from "./pages/browse/movies";
-import BrowseGames from "./pages/browse/games";
+// import BrowseGames from "./pages/browse/games";
 import DetailMovie from "./pages/detail/movie";
-import DetailGame from "./pages/detail/game";
+// import DetailGame from "./pages/detail/game";
 import LibraryMovies from "./pages/library/movies";
 import SearchResults from "./pages/searchresults";
 import About from "./pages/about";
@@ -44,7 +44,7 @@ function App() {
             <Route path="/movies" exact component={BrowseMovies} />
             {/* <Route path="/games" exact component={BrowseGames} /> */}
             <Route path="/movie/:id" component={DetailMovie} />
-            <Route path="/game/:id" component={DetailGame} />
+            {/* <Route path="/game/:id" component={DetailGame} /> */}
             <Route path="/library/movies" exact component={LibraryMovies} />
 
             <Route path="/test1" exact component={Test1} />

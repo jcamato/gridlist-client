@@ -23,7 +23,7 @@ import SliderRange from "../../components/Filter/SliderRange";
 // import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 // Styles
-import "./browse.css";
+import style from "./browsemovies.module.css";
 
 const BrowseMovies = () => {
   useEffect(() => {
@@ -106,7 +106,7 @@ const BrowseMovies = () => {
     getMovies();
   }, [sort, filters, page]);
 
-  // change this to instead update in bulk depending on if array is passed or not
+  // FIX: change this to instead update in bulk depending on if array is passed or not
   const updateFilters = (filterUpdateInfo) => {
     console.log("filter updating", filterUpdateInfo);
     const newFilters = _.cloneDeep(filters);
@@ -209,8 +209,8 @@ const BrowseMovies = () => {
 
   return (
     <Fragment>
-      <div className="browseMain">
-        <section className="filterContainer">
+      <div className={style.main}>
+        <section className={style.filterContainer}>
           <SliderRange
             name="score"
             unit="Percent"
@@ -255,9 +255,9 @@ const BrowseMovies = () => {
           />
           {/* FIX: add cast / crew searching */}
         </section>
-        <header className="header">
+        <header className={style.header}>
           <h1>Movies</h1>
-          <div className="selectGroup">
+          <div className={style.selectGroup}>
             {/* <p>View:</p>
             <SelectMenu
               width="9rem"
@@ -288,7 +288,7 @@ const BrowseMovies = () => {
             />
           </div>
         </header>
-        <main className="mainContent">
+        <main className={style.mainContent}>
           <FilterChips
             currentFilters={filters}
             updateFilters={updateFilters}
@@ -338,7 +338,7 @@ const BrowseMovies = () => {
           )} */}
           {/* {isFetching && "Fetching more movies..."} */}
         </main>
-        <aside className="adContainer"></aside>
+        <aside className={style.adContainer}></aside>
       </div>
     </Fragment>
   );

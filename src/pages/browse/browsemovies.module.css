@@ -1,4 +1,4 @@
-.browseMain {
+.main {
   display: grid;
   grid-template-columns: 224px 6fr 1fr;
   grid-template-rows: 85px auto;

@@ -17,8 +17,7 @@ import CategoryMenu from "../../components/CategoryMenu/CategoryMenu";
 import _ from "lodash";
 
 // Styles
-import style from "./library.module.css";
-import "../browse/browse.css";
+import style from "./librarymovies.module.css";
 
 const Library = () => {
   const [allMovies, setAllMovies] = useState([]);

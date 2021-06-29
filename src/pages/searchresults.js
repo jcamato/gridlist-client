@@ -13,7 +13,7 @@ import Grid from "../components/Grid/Grid";
 import MovieCard from "../components/MovieCard/MovieCard";
 
 // Styles
-import "./searchresults.css";
+import style from "./searchresults.module.css";
 
 const SearchResults = ({ match }) => {
   // TMDB
@@ -52,7 +52,7 @@ const SearchResults = ({ match }) => {
   }, [searchtext]);
 
   return (
-    <div className="searchresultsMain">
+    <div className={style.searchresultsMain}>
       <h3>
         {results &&
           `${results} movies where the title includes "${searchtext}"`}

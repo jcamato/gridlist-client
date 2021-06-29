@@ -12,7 +12,7 @@ import * as Constants from "../constants";
 // import SimpleMenu from "../components/SimpleMenu/SimpleMenu";
 
 // Styles
-import "./browse/browse.css";
+// import "./browse/browse.css";
 // import style from "./test1.module.css";
 
 const Test1 = () => {

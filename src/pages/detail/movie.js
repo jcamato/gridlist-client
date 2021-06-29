@@ -12,7 +12,7 @@ import MemberCard from "../../components/MemberCard/MemberCard";
 import Footer from "../../components/Footer/Footer";
 
 // Styles
-import "./detailmovie.css";
+import style from "./detailmovie.module.css";
 
 const DetailMovie = ({ match }) => {
   const basePImageURL = "http://image.tmdb.org/t/p/w500";
@@ -57,25 +57,25 @@ const DetailMovie = ({ match }) => {
 
   return (
     <Fragment>
-      <div className="detailmovieMain">
-        <div className="bg">
+      <div className={style.detailmovieMain}>
+        <div className={style.bg}>
           <img
-            className="backdrop"
+            className={style.backdrop}
             src={baseBDImageURL + movie.backdrop_path}
             alt=""
           />
         </div>
-        <div className="titleContainer">
-          <div className="title">
+        <div className={style.titleContainer}>
+          <div className={style.title}>
             <h1>{movie.title}</h1>
             <h3>{movie.release_date && movie.release_date.substr(0, 4)}</h3>
           </div>
         </div>
 
-        <div className="side">
-          <div className="stick">
+        <div className={style.side}>
+          <div className={style.stick}>
             <img
-              className="poster"
+              className={style.poster}
               src={
                 movie.poster_path
                   ? basePImageURL + movie.poster_path
@@ -83,14 +83,14 @@ const DetailMovie = ({ match }) => {
               }
               alt=""
             />
-            <div className="sideNav">
-              <div className="libButton">Library button</div>
+            <div className={style.sideNav}>
+              <div className={style.libButton}>Library button</div>
               {/* FIX: HashLinks do not work when sharing the link */}
               <HashLink
                 smooth
                 to="#overview"
                 scroll={(el) => scrollWithOffset(el)}
-                className="hashLink"
+                className={style.hashLink}
               >
                 <h3>Overview</h3>
               </HashLink>
@@ -98,7 +98,7 @@ const DetailMovie = ({ match }) => {
                 smooth
                 to="#media"
                 scroll={(el) => scrollWithOffset(el)}
-                className="hashLink"
+                className={style.hashLink}
               >
                 <h3>Media</h3>
               </HashLink>
@@ -106,7 +106,7 @@ const DetailMovie = ({ match }) => {
                 smooth
                 to="#cast"
                 scroll={(el) => scrollWithOffset(el)}
-                className="hashLink"
+                className={style.hashLink}
               >
                 <h3>Cast</h3>
               </HashLink>
@@ -114,7 +114,7 @@ const DetailMovie = ({ match }) => {
                 smooth
                 to="#crew"
                 scroll={(el) => scrollWithOffset(el)}
-                className="hashLink"
+                className={style.hashLink}
               >
                 <h3>Crew</h3>
               </HashLink>
@@ -123,21 +123,21 @@ const DetailMovie = ({ match }) => {
             </div>
           </div>
         </div>
-        <div className="detailHeader">
-          <h3 className="first">Info</h3>
+        <div className={style.detailHeader}>
+          <h3 className={style.first}>Info</h3>
           <h3>Cast</h3>
           <h3>Crew</h3>
           <h3>Series</h3>
           <h3>Reviews</h3>
         </div>
-        <div className="main">
-          <div id="overview">
+        <div className={style.main}>
+          <div id={style.overview}>
             {/* <h1>Overview</h1> */}
             <p>{movie.overview}</p>
           </div>
-          <div id="media" className="mediaSection">
+          <div id={style.media} className={style.mediaSection}>
             {/* <h1>Media</h1> */}
-            <div className="video">
+            <div className={style.video}>
               {movie.results && movie.results.length > 0 ? (
                 <iframe
                   title={movie.title}
@@ -155,11 +155,11 @@ const DetailMovie = ({ match }) => {
               )}
             </div>
             {/* FIX: Add picture gallery here */}
-            {/* <div className="pictures"></div> */}
+            {/* <div className={style.pictures}></div> */}
           </div>
-          <div id="cast" className="cast">
+          <div id={style.cast} className={style.cast}>
             <h1>Cast</h1>
-            <div className="memberGrid">
+            <div className={style.memberGrid}>
               {/* {movie.credits &&
           movie.credits.cast &&
           movie.credits.cast.map((member) => { */}
@@ -180,9 +180,9 @@ const DetailMovie = ({ match }) => {
                 })}
             </div>
           </div>
-          <div id="crew" className="crew">
+          <div id={style.crew} className={style.crew}>
             <h1>Crew</h1>
-            <div className="memberGrid">
+            <div className={style.memberGrid}>
               {/* {movie.credits &&
           movie.credits.crew &&
           movie.credits.crew.map((member) => { */}
@@ -204,40 +204,40 @@ const DetailMovie = ({ match }) => {
             </div>
           </div>
         </div>
-        <div className="info">
-          <div className="infobar">
-            <div className="side_score">
+        <div className={style.info}>
+          <div className={style.infobar}>
+            <div className={style.side_score}>
               <h4>Score:</h4>
               <p>{String(movie.vote_average * 10)}</p>
             </div>
-            <div className="release_date">
+            <div className={style.release_date}>
               <h4>Release Date:</h4>
               <p>{movie.release_date}</p>
             </div>
-            <div className="runtime">
+            <div className={style.runtime}>
               <h4>Runtime:</h4>
               <p>{movie.runtime} minutes</p>
             </div>
-            <div className="budget">
+            <div className={style.budget}>
               <h4>Budget:</h4>
               <p>${movie.budget}</p>
             </div>
-            <div className="revenue">
+            <div className={style.revenue}>
               <h4>Revenue:</h4>
               <p>${movie.revenue}</p>
             </div>
-            <div className="genres">
+            <div className={style.genres}>
               <h4>Genres:</h4>
-              <p className="link">
+              <p className={style.link}>
                 {movie.genres && movie.genres.map((e) => e.name).join(", ")}
               </p>
               {/* {tempGenres.map((genre) => {
               return <p>{genre.name}</p>;
             })} */}
             </div>
-            <div className="companies">
+            <div className={style.companies}>
               <h4>Companies:</h4>
-              <p className="link">
+              <p className={style.link}>
                 {movie.production_companies &&
                   movie.production_companies.map((e) => e.name).join(", ")}
               </p>
