@@ -1,22 +1,30 @@
 import React, { Fragment, useState, useRef, useContext } from "react";
-import style from "./navbar.module.css";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-// import Logo from "../../assets/img/logo.png";
+// styles
+import style from "./navbar.module.css";
+// assets
 import Logo from "../../assets/img/logo.svg";
+// import Logo from "../../assets/img/logo.png";
+// components
 import RegisterModal from "../Modal/Auth/RegisterModal";
 import LoginModal from "../Modal/Auth/LoginModal";
-import useOutsideClick from "../../hooks/useOutsideClick";
-import { UserContext } from "../../contexts/UserContext";
 import SimpleMenu from "../SimpleMenu/SimpleMenu";
-
+// hooks
+import useOutsideClick from "../../hooks/useOutsideClick";
+// contexts
+import { UserContext } from "../../contexts/UserContext";
 // Constants
 import * as Constants from "../../constants";
 
 const Navbar = () => {
   const history = useHistory();
 
-  const [auth, setAuth] = useContext(UserContext);
+  // const [auth, setAuth] = useContext(UserContext);
+
+  const { authProvider, authUserProvider } = useContext(UserContext);
+  const [auth, setAuth] = authProvider;
+  const [authUser, setAuthUser] = authUserProvider;
 
   const [search, setSearch] = useState("");
 
@@ -43,7 +51,7 @@ const Navbar = () => {
   const [loginModalActive, setLoginModalActive] = useState(false);
 
   const [browseMenuActive, setBrowseMenuActive] = useState(false);
-  const [libraryMenuActive, setlibraryMenuActive] = useState(false);
+  // const [libraryMenuActive, setlibraryMenuActive] = useState(false);
 
   const refRegister = useRef();
   const refLogin = useRef();
@@ -80,6 +88,7 @@ const Navbar = () => {
     try {
       localStorage.removeItem("token");
       setAuth(false);
+      setAuthUser(null);
       toast.success("Logged out successfully");
     } catch (err) {
       console.error(err.message);
@@ -106,11 +115,12 @@ const Navbar = () => {
                 content={Constants.mediaOptions}
               />
             )}
-            {/* </Link> */}
-            {/* <Link className={style.navlink} to="/games">
-              <li>Games</li>
-            </Link> */}
-            <Link className={style.navlink} to="/library/movies">
+
+            {/* FIX: have to reload before clicking on library if recently logged in or out */}
+            <Link
+              className={style.navlink}
+              to={`/user/${authUser}/library/movies`}
+            >
               <li>Library</li>
             </Link>
             <div className={style.search}>
@@ -135,9 +145,7 @@ const Navbar = () => {
             <Link className={style.navlink} to="/test2">
               <li>Test2</li>
             </Link>
-            {/* <Link className={style.navlink} to="/test3">
-              <li>Test3</li>
-            </Link> */}
+
             {!auth && (
               <Fragment>
                 <div className={style.navlink} onClick={toggleRegisterModal}>
@@ -151,7 +159,7 @@ const Navbar = () => {
             {auth && (
               <Fragment>
                 <div className={style.navlink}>
-                  <li>Profile</li>
+                  <li>{authUser} (My Profile)</li>
                 </div>
                 <div className={style.navlink} onClick={logout}>
                   <li>Logout</li>

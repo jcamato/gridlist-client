@@ -1,0 +1,52 @@
+.radiolist {
+  padding: 20px;
+  white-space: nowrap;
+  color: #fff;
+  background-color: #274046;
+  padding-bottom: 20px;
+  margin-bottom: 2px;
+}
+
+.filtertitle {
+  font-weight: bold;
+  font-size: 1rem;
+  padding-bottom: 10px;
+}
+
+.radiolist ul {
+  max-height: 220px;
+  overflow-y: scroll;
+  /* width: 95%; */
+}
+
+.radiolist li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: default;
+  padding: 10px;
+  padding: 10px 0px;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.radiolist li div {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.radiolist i {
+  cursor: pointer;
+  color: #34b9e0;
+}
+
+.radiolist ul::-webkit-scrollbar {
+  width: 10px;
+  -webkit-appearance: none;
+}
+
+.radiolist ul::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #34b9e0;
+}

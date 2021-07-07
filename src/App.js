@@ -45,7 +45,12 @@ function App() {
             {/* <Route path="/games" exact component={BrowseGames} /> */}
             <Route path="/movie/:id" component={DetailMovie} />
             {/* <Route path="/game/:id" component={DetailGame} /> */}
-            <Route path="/library/movies" exact component={LibraryMovies} />
+            {/* <Route path="/library/movies" exact component={LibraryMovies} /> */}
+
+            <Route
+              path="/user/:username/library/movies"
+              component={LibraryMovies}
+            />
 
             <Route path="/test1" exact component={Test1} />
             <Route path="/test2" exact component={Test2} />

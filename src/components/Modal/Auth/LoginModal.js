@@ -21,12 +21,13 @@ const LoginModal = ({ setAuth }) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
       const body = { email, password };
       const response = await fetch("http://localhost:5000/auth/login", {
         method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
+        headers: myHeaders,
         body: JSON.stringify(body),
       });
 

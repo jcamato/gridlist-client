@@ -19,17 +19,27 @@ import _ from "lodash";
 // Styles
 import style from "./librarymovies.module.css";
 
-const Library = () => {
+const LibraryMovies = ({ match }) => {
   const [allMovies, setAllMovies] = useState([]);
   const [displayedMovies, setDisplayedMovies] = useState([]);
   const [catSelection, setCatSelection] = useState(0);
 
   const getLibrary = async () => {
     try {
-      const response = await fetch("http://localhost:5000/library/movie", {
-        method: "GET",
-        headers: { jwt_token: localStorage.token },
-      });
+      const myHeaders = new Headers();
+
+      myHeaders.append("Content-Type", "application/json");
+      if (localStorage.token) {
+        myHeaders.append("jwt_token", localStorage.token);
+      }
+
+      const response = await fetch(
+        `http://localhost:5000/user/${match.params.username}/library/movies`,
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
+      );
 
       const movies = await response.json();
 
@@ -40,11 +50,11 @@ const Library = () => {
       if (catSelection === 0) {
         setDisplayedMovies(movies);
       } else {
-        const catMovies = _.filter(movies, {
-          library_category_id: catSelection,
-        });
-        setDisplayedMovies(catMovies);
-        console.log(catMovies);
+        // const catMovies = _.filter(movies, {
+        //   library_category_id: catSelection,
+        // });
+        // setDisplayedMovies(catMovies);
+        // console.log(catMovies);
       }
     } catch (err) {
       console.error(err.message);
@@ -58,8 +68,12 @@ const Library = () => {
 
   const counts = {};
   counts.all = allMovies.length;
-  counts.want = _.filter(allMovies, { library_category_id: 1 }).length;
-  counts.done = _.filter(allMovies, { library_category_id: 3 }).length;
+  // counts.want = _.filter(allMovies, { library_category_id: 1 }).length;
+  // counts.done = _.filter(allMovies, { library_category_id: 3 }).length;
+
+  counts.all = allMovies.length;
+  counts.want = 99;
+  counts.done = 99;
 
   // console.log(counts);
 
@@ -118,9 +132,9 @@ const Library = () => {
             {displayedMovies.map((movie) => {
               return (
                 <MovieCard
-                  key={movie.tmdb_movie_id}
+                  key={movie.id}
                   // Card props
-                  tmdb_movie_id={movie.tmdb_movie_id}
+                  tmdb_movie_id={movie.id}
                   location="library"
                   poster={
                     movie.poster_path
@@ -128,11 +142,13 @@ const Library = () => {
                       : null_movie
                   }
                   // Library props
-                  libraryCategory={movie.library_category_id}
-                  libraryScore={movie.score}
-                  watchDate={movie.watch_date}
-                  watchCount={movie.watch_count}
-                  secret={movie.private}
+                  libraryCategory={
+                    movie.libraryUserLibraryData.library_category_id
+                  }
+                  libraryScore={movie.libraryUserLibraryData.score}
+                  watchDate={movie.libraryUserLibraryData.watch_date}
+                  watchCount={movie.libraryUserLibraryData.watch_count}
+                  secret={movie.libraryUserLibraryData.private}
                   // Overlay props
                   title={movie.title}
                   score={movie.vote_average * 10}
@@ -161,4 +177,4 @@ const Library = () => {
   );
 };
 
-export default Library;
+export default LibraryMovies;

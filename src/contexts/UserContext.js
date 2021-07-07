@@ -4,12 +4,19 @@ export const UserContext = createContext();
 
 export const UserProvider = (props) => {
   const [auth, setAuth] = useState(false);
+  const [authUsername, setAuthUsername] = useState(null);
 
   const checkAuth = async () => {
     try {
+      const myHeaders = new Headers();
+
+      if (localStorage.token) {
+        myHeaders.append("jwt_token", localStorage.token);
+      }
+
       const res = await fetch("http://localhost:5000/auth/verify", {
         method: "GET",
-        headers: { jwt_token: localStorage.token },
+        headers: myHeaders,
       });
 
       const parseRes = await res.json();
@@ -20,12 +27,48 @@ export const UserProvider = (props) => {
     }
   };
 
+  const getAuthenticatedUsername = async () => {
+    try {
+      // set headers for GET request
+      const myHeaders = new Headers();
+
+      myHeaders.append("Content-Type", "application/json");
+      if (localStorage.token) {
+        myHeaders.append("jwt_token", localStorage.token);
+      }
+
+      const response = await fetch(
+        "http://localhost:5000/user/getAuthenticatedUsername",
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
+      );
+
+      const parseRes = await response.json();
+
+      if (parseRes) {
+        setAuthUsername(parseRes.username);
+      }
+
+      // return parseRes;
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     checkAuth();
+    getAuthenticatedUsername();
   }, []);
 
   return (
-    <UserContext.Provider value={[auth, setAuth]}>
+    <UserContext.Provider
+      value={{
+        authProvider: [auth, setAuth],
+        authUserProvider: [authUsername, setAuthUsername],
+      }}
+    >
       {props.children}
     </UserContext.Provider>
   );

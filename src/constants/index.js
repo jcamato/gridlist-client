@@ -244,3 +244,101 @@ export const filterConfig = {
     },
   },
 };
+
+export const filterConfigTest = {
+  libcat: {
+    display: "Library Category",
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value;
+    },
+    parseValueFromQuery: (query) => {
+      return parseInt(query);
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return value;
+    },
+  },
+  score: {
+    currentValue: null,
+    // prepareValueForQuery takes whatever our value data structure is and turns it into a URL-safe string
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
+    },
+    // i recommend renaming to parseValueFromQuery -> takes whatever was in the URL, and very safely tries to unwind to a value
+    parseValueFromQuery: (query) => {
+      /// make this common helper functione for get range from query
+      const querySplit = query.split("..");
+      if (querySplit.length === 2) {
+        const min = parseInt(querySplit[0]);
+        const max = parseInt(querySplit[1]);
+        if (
+          (min || min === 0) &&
+          (max || max === 0) &&
+          min <= max &&
+          min >= 0 &&
+          max <= 100
+        ) {
+          return [min, max];
+        } else return null;
+      }
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]}`;
+    },
+  },
+  release: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
+    },
+    parseValueFromQuery: (query) => {
+      const querySplit = query.split("..");
+      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]}`;
+    },
+  },
+  genre: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return value.join(",");
+    },
+    parseValueFromQuery: (query) => {
+      // console.log("query split: ", query.split(","));
+      return query.split(",");
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return value.join(", ");
+    },
+  },
+  runtime: {
+    currentValue: null,
+    prepareValueForQuery: (value) => {
+      if (!value) return null;
+      else return `${value[0]}..${value[1]}`;
+    },
+    parseValueFromQuery: (query) => {
+      const querySplit = query.split("..");
+      return [parseInt(querySplit[0]), parseInt(querySplit[1])];
+    },
+    prepareValueForChips: (value) => {
+      if (!value) return null;
+      else return `${value[0]}-${value[1]} minutes`;
+    },
+  },
+};
+
+export const libmoviecat = [
+  { id: 1, name: "Want to Watch" },
+  { id: 3, name: "Watched" },
+];

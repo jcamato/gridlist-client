@@ -78,16 +78,31 @@ const BrowseMovies = () => {
     history.push(`?${qs}`);
   };
 
+  // set headers for GET request
+  const myHeaders = new Headers();
+
+  myHeaders.append("Content-Type", "application/json");
+  if (localStorage.token) {
+    myHeaders.append("jwt_token", localStorage.token);
+  }
+
   const getMovies = async () => {
     if (createQueryString().length > 0) {
       const response = await fetch(
-        `http://localhost:5000/movies?${createQueryString()}`
+        `http://localhost:5000/browse/movies?${createQueryString()}`,
+        {
+          method: "GET",
+          headers: myHeaders,
+        }
       );
       const data = await response.json();
       setMovies(data);
       console.log("resonse", data);
     } else {
-      const response = await fetch(`http://localhost:5000/movies`);
+      const response = await fetch(`http://localhost:5000/browse/movies`, {
+        method: "GET",
+        headers: myHeaders,
+      });
       const data = await response.json();
       setMovies(data);
       console.log("resonse", data);
@@ -308,6 +323,14 @@ const BrowseMovies = () => {
                       ? Constants.basePImageURL + movie.poster_path
                       : null_movie
                   }
+                  // Library props
+                  libraryCategory={
+                    movie.authenticatedUserLibraryData.library_category_id
+                  }
+                  libraryScore={movie.authenticatedUserLibraryData.score}
+                  watchDate={movie.authenticatedUserLibraryData.watch_date}
+                  watchCount={movie.authenticatedUserLibraryData.watch_count}
+                  secret={movie.authenticatedUserLibraryData.private}
                   // Overlay props
                   title={movie.title}
                   score={movie.vote_average * 10}

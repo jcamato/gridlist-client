@@ -7,7 +7,7 @@
     "nav nav nav"
     "filters header header"
     "filters items side";
-  min-height: 100vh;
+  min-height: 100vh - 50px; /* subtract navbar height */
   /* color: #303030; */
   min-width: 70vw;
   /* background-color: green; */

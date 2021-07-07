@@ -8,10 +8,10 @@ const CheckboxList = (props) => {
   const selectedItems = currentValue === null ? [] : currentValue;
 
   // one source of truth
-  const isAny = selectedItems.length === 0;
+  const isAll = selectedItems.length === 0;
 
-  // Clear genres when empty Any is selected
-  const onAnyClickHandler = () => {
+  // Clear genres when empty All is selected
+  const onAllClickHandler = () => {
     props.updateFilters({
       name: props.name,
       newValue: null,
@@ -56,15 +56,15 @@ const CheckboxList = (props) => {
               <i
                 className="material-icons"
                 onClick={() => {
-                  if (!isAny) {
-                    onAnyClickHandler();
+                  if (!isAll) {
+                    onAllClickHandler();
                   }
                 }}
               >
-                {isAny ? "check_box" : "check_box_outline_blank"}
+                {isAll ? "check_box" : "check_box_outline_blank"}
               </i>
             </div>
-            <div>Any</div>
+            <div>All</div>
           </li>
           {list.map((item) => {
             return (

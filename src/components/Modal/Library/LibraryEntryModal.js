@@ -7,7 +7,7 @@ import { LightTooltip } from "../../External/material-ui";
 const LibraryEntryModal = (props) => {
   useLockBodyScroll();
 
-  // FIX: database doesn't like these empty strings, but component doesn't like null props. catch 22. I think the database should process the empty strings. Also, setting to "watched" should change watchCount to 1
+  // FIX: database doesn't like these empty strings, but component doesn't like null props. catch 22. I think the database should process the empty strings. Also, setting to "watched" should change watchCount to 1. Setting to 'want to watch' should change watchCount to 0. Changing date watched should changed cat to 'watched' and watchCount to 1 if not already or at 0. other rules?
 
   const [inputs, setInputs] = useState({
     library_category_id: props.libraryCategory,
@@ -30,7 +30,9 @@ const LibraryEntryModal = (props) => {
       const myHeaders = new Headers();
 
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("jwt_token", localStorage.token);
+      if (localStorage.token) {
+        myHeaders.append("jwt_token", localStorage.token);
+      }
 
       const body = {
         tmdb_movie_id,

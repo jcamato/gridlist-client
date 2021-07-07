@@ -11,7 +11,10 @@ import LibraryEntryModal from "../Modal/Library/LibraryEntryModal";
 
 // MovieCard + Hover Overlay
 const MovieCard = (props) => {
-  const [auth] = useContext(UserContext);
+  // const [auth] = useContext(UserContext);
+  const { authProvider } = useContext(UserContext);
+  const [auth] = authProvider;
+
   const [displayOverlay, setDisplayOverlay] = useState(false);
   // const [status, setStatus] = useState(0);
 
@@ -55,7 +58,9 @@ const MovieCard = (props) => {
       const myHeaders = new Headers();
 
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("jwt_token", localStorage.token);
+      if (localStorage.token) {
+        myHeaders.append("jwt_token", localStorage.token);
+      }
 
       const body = { tmdb_movie_id, library_category_id, secret };
       const response = await fetch("http://localhost:5000/library/movie", {

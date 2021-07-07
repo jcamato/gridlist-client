@@ -6,7 +6,7 @@
   /* display: grid;
   grid-template-columns: 20rem 1fr;
   grid-template-areas: "side content"; */
-  min-height: 100vh;
+  min-height: 100vh - 50px; /* subtract navbar height */
   width: 100vw;
 }
 
@@ -16,7 +16,6 @@
 
   /* grid-area: side;
   width: 20rem;
-  min-height: 100vh;
   position: fixed;
   top: 0;
   left: 0; */

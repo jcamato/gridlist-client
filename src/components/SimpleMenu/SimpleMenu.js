@@ -19,8 +19,12 @@ const SimpleMenu = (props) => {
       <ul>
         {props.content.map((option) => {
           return (
-            <Link className={style.navlink} to={option.link}>
-              <li key={option.display}>
+            <Link
+              key={option.display}
+              className={style.navlink}
+              to={option.link}
+            >
+              <li>
                 <div>
                   <i className="material-icons">{option.icon}</i>
                 </div>
