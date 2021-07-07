@@ -38,17 +38,17 @@ export const UserProvider = (props) => {
       }
 
       const response = await fetch(
-        "http://localhost:5000/user/getAuthenticatedUsername",
+        "http://localhost:5000/user/getAuthenticatedUser",
         {
           method: "GET",
           headers: myHeaders,
         }
       );
 
-      const parseRes = await response.json();
+      const user = await response.json();
 
-      if (parseRes) {
-        setAuthUsername(parseRes.username);
+      if (user) {
+        setAuthUsername(user.username);
       }
 
       // return parseRes;

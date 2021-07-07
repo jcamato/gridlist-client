@@ -62,6 +62,31 @@ const LibraryEntryModal = (props) => {
     }
   };
 
+  const handleDelete = async (tmdb_movie_id) => {
+    // e.preventDefault();
+    try {
+      const myHeaders = new Headers();
+
+      myHeaders.append("Content-Type", "application/json");
+      if (localStorage.token) {
+        myHeaders.append("jwt_token", localStorage.token);
+      }
+
+      const response = await fetch(
+        `http://localhost:5000/user/library/movie/${tmdb_movie_id}`,
+        {
+          method: "DELETE",
+          headers: myHeaders,
+        }
+      );
+
+      const parseResponse = await response.json();
+      console.log(parseResponse);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return (
     <Fragment>
       <form
@@ -143,9 +168,13 @@ const LibraryEntryModal = (props) => {
         </div>
         <button className={style.submitBtn}>Save</button>
         <div className={style.delete}>
-          {/* FIX: tooltip needs to be above everything else */}
           <LightTooltip title="Delete from Library" placement="top" arrow>
-            <i className="material-icons">delete</i>
+            <i
+              onClick={() => handleDelete(props.tmdb_movie_id)}
+              className="material-icons"
+            >
+              delete
+            </i>
           </LightTooltip>
         </div>
       </form>
